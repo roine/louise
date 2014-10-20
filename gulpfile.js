@@ -31,5 +31,6 @@ gulp.task('sass', function(){
 
 gulp.task('default', function () {
     gulp.watch(opt.JSX_SOURCE, ['jsx']);
+    gulp.watch(opt.SASS_SOURCE, ['sass']);
 });
 
