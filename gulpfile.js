@@ -1,6 +1,9 @@
 var gulp = require('gulp'),
     react = require('gulp-react'),
-    sass = require('gulp-sass');
+    sass = require('gulp-sass'),
+    jshint = require('gulp-jshint'),
+    uglify = require('gulp-uglify'),
+    concat = require('gulp-concat');
 
 
 var opt = {
@@ -14,7 +17,7 @@ var opt = {
     CSS_SOURCE: 'assets/css/*.css',
     CSS_DEST: 'assets/css',
 
-    BUILD: 'dist'
+    BUILD: 'build'
 };
 
 gulp.task('jsx', function () {
@@ -23,10 +26,28 @@ gulp.task('jsx', function () {
         .pipe(gulp.dest(opt.JS_DEST));
 });
 
-gulp.task('sass', function(){
+gulp.task('sass', function () {
     return gulp.src(opt.SASS_SOURCE)
         .pipe(sass())
         .pipe(gulp.dest(opt.CSS_DEST));
+});
+
+gulp.task('build', function () {
+    gulp.src(opt.JS_SOURCE)
+        .pipe(jshint())
+        .pipe(jshint.reporter('jshint-stylish'))
+        .pipe(jshint.reporter('fail'))
+        .pipe(uglify())
+        .pipe(concat('app.js'))
+        .pipe(gulp.dest(opt.BUILD));
+
+});
+
+gulp.task('lint', function () {
+    gulp.src(opt.JS_SOURCE)
+        .pipe(jshint())
+        .pipe(jshint.reporter('jshint-stylish'));
+
 });
 
 gulp.task('default', function () {
