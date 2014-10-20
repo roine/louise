@@ -3,11 +3,18 @@ var gulp = require('gulp'),
     sass = require('gulp-sass'),
     jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
-    concat = require('gulp-concat');
+    concat = require('gulp-concat'),
+
+    reactify = require('reactify'),
+    browserify = require('browserify'),
+    source = require('vinyl-source-stream'),
+    watchify = require('watchify'),
+
+    gutil = require('gulp-util');
 
 
 var opt = {
-    JSX_SOURCE: 'assets/jsx/*.jsx',
+    JSX_SOURCE: 'assets/jsx/*.js',
 
     SASS_SOURCE: 'assets/sass/*.scss',
 
@@ -17,7 +24,9 @@ var opt = {
     CSS_SOURCE: 'assets/css/*.css',
     CSS_DEST: 'assets/css',
 
-    BUILD: 'build'
+    BUILD: 'build',
+    BUILD_JS: 'app.js',
+    BUILD_CSS: 'style.css'
 };
 
 gulp.task('jsx', function () {
@@ -38,7 +47,7 @@ gulp.task('build', function () {
         .pipe(jshint.reporter('jshint-stylish'))
         .pipe(jshint.reporter('fail'))
         .pipe(uglify())
-        .pipe(concat('app.js'))
+        .pipe(concat(opt.BUILD_JS))
         .pipe(gulp.dest(opt.BUILD));
 
 });
@@ -54,4 +63,3 @@ gulp.task('default', function () {
     gulp.watch(opt.JSX_SOURCE, ['jsx']);
     gulp.watch(opt.SASS_SOURCE, ['sass']);
 });
-
