@@ -1,0 +1,29 @@
+{
+  "name": "louise",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://jonnn@bitbucket.org/jonnn/louise-de-m..git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "devDependencies": {
+    "gulp": "~3.8.9",
+    "gulp-concat": "~2.4.1",
+    "gulp-sass": "~1.2.1",
+    "yargs": "~1.3.2",
+    "gulp-angular-templatecache": "~1.4.2"
+  },
+  "dependencies": {
+    "browserify": "~6.2.0",
+    "gulp-browserify": "~0.5.0",
+    "angular": "~1.3.0",
+    "jquery": "~2.1.1",
+    "angular-route": "~1.3.0"
+  }
+}
