@@ -13,6 +13,7 @@
     "tests"
   ],
   "dependencies": {
-    "react": "~0.11.2"
+    "react": "~0.11.2",
+    "foundation": "~5.4.6"
   }
 }

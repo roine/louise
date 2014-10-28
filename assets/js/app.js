@@ -1,4 +1,5 @@
+/** @jsx React.DOM */
 React.renderComponent(
-    <h1>Hello, world19!!!!</h1>,
+    React.DOM.h1(null, "Hello, world!"),
     document.getElementById('example')
 );

@@ -3,18 +3,11 @@ var gulp = require('gulp'),
     sass = require('gulp-sass'),
     jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
-    concat = require('gulp-concat'),
-
-    reactify = require('reactify'),
-    browserify = require('browserify'),
-    source = require('vinyl-source-stream'),
-    watchify = require('watchify'),
-
-    gutil = require('gulp-util');
+    concat = require('gulp-concat');
 
 
 var opt = {
-    JSX_SOURCE: 'assets/jsx/*.js',
+    JSX_SOURCE: 'assets/jsx/*.jsx',
 
     SASS_SOURCE: 'assets/sass/*.scss',
 
@@ -30,7 +23,7 @@ var opt = {
 };
 
 gulp.task('jsx', function () {
-    return gulp.src(opt.JSX_SOURCE)
+    gulp.src(opt.JSX_SOURCE)
         .pipe(react())
         .pipe(gulp.dest(opt.JS_DEST));
 });
