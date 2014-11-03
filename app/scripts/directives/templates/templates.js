@@ -1,0 +1,1 @@
+angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("templates/fixedMenu.html","fixedMenu");}]);

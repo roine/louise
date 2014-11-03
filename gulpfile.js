@@ -13,8 +13,11 @@ var opt = {
     JS_SOURCE: './app/scripts/**/*.js',
     JS_DIST: './dist/js',
 
-    TEMPLATE_SOURCE: './app/scripts/views/**/*.html',
-    TEMPLATE_DIST: './app/scripts/views',
+    VIEW_SOURCE: './app/scripts/views/**/*.html',
+    VIEW_DIST: './app/scripts/views',
+
+    TEMPLATE_SOURCE: './app/scripts/directives/templates/**/*.html',
+    TEMPLATE_DIST: './app/scripts/directives/templates',
 
     MAIN_JS_SOURCE: './app/scripts/main.js',
 
@@ -22,7 +25,6 @@ var opt = {
 };
 
 gulp.task('browserify', function () {
-    var production = argv.production || false;
 
     // Single point of entry (make sure not to src ALL your files, browserify will figure it out for you)
     gulp.src(opt.MAIN_JS_SOURCE)
@@ -48,17 +50,25 @@ gulp.task('copy:foundation', function () {
 });
 
 gulp.task('templateCache', function () {
+    gulp.src(opt.VIEW_SOURCE)
+        .pipe(templateCache({
+            // set the module name for the template file
+            module: opt.MODULE_NAME,
+            root: 'views'
+        }))
+        .pipe(gulp.dest(opt.VIEW_DIST));
+
     gulp.src(opt.TEMPLATE_SOURCE)
         .pipe(templateCache({
             module: opt.MODULE_NAME,
-            root: 'views'
+            root: 'templates'
         }))
         .pipe(gulp.dest(opt.TEMPLATE_DIST));
 });
 
 gulp.task('default', function () {
-    gulp.watch(opt.TEMPLATE_SOURCE, ['templateCache']);
+    gulp.watch([opt.VIEW_SOURCE, opt.TEMPLATE_SOURCE], ['templateCache']);
     gulp.watch(opt.JS_SOURCE, ['browserify']);
     gulp.watch(opt.SASS_SOURCE, ['sass']);
 
-})
+});
