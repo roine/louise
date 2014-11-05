@@ -7,24 +7,51 @@ module.exports = function ($q) {
 
     };
 
+    function query(className) {
+        var Collection = Parse.Collection.extend({model: className});
+        return new Collection();
+    }
+
     _public.getOptions = function () {
         var defer = $q.defer();
-
-        var options = Parse.Object.extend("options");
-        var query = new Parse.Query(options);
-        query.find({
-            success: function (options) {
-                var cleanOptions = {};
-                angular.forEach(options, function (option, key) {
-                    cleanOptions[option.get('key')] = option.get('value');
+        query('options').fetch({
+            success: function (response) {
+                var cleanObj = {};
+                angular.forEach(response, function (obj, key) {
+                    cleanObj[obj.get('key')] = obj.get('value');
                 });
-                defer.resolve(cleanOptions);
+                defer.resolve(cleanObj);
             },
             error: function (errors) {
                 defer.reject(errors);
             }
         });
+        return defer.promise;
+    };
 
+    _public.getProjects = function () {
+        var defer = $q.defer();
+        query('Projects').fetch({
+            success: function (response) {
+                var cleanArr = [];
+                angular.forEach(response, function (obj, key) {
+                    var cleanObj = {
+                        title: obj.get('title'),
+                        summary: obj.get('summary'),
+                        description: obj.get('description'),
+                        information: obj.get('information'),
+                        collaborators: obj.get('collaborators'),
+                        id: key + 1
+                    };
+                    cleanArr.push(cleanObj);
+                });
+
+                defer.resolve(cleanArr);
+            },
+            error: function (errors) {
+                defer.reject(errors);
+            }
+        });
         return defer.promise;
     };
 

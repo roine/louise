@@ -1,8 +1,14 @@
-module.exports = function ($routeProvider) {
+module.exports = function ($routeProvider, $locationProvider) {
+    $locationProvider.hashPrefix('!');
+
     $routeProvider
-        .when('/home', {
+        .when('/', {
             templateUrl: 'views/home.html',
             controller: 'HomeCtrl'
         })
-        .otherwise('/home');
+        .when('/projet/:projectId', {
+            templateUrl: 'views/project.html',
+            controller: 'ProjectCtrl'
+        })
+        .otherwise('/');
 };

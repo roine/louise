@@ -1,11 +1,18 @@
 require('angular');
 
-module.exports = function () {
+module.exports = function (parse) {
     return {
         restrict: 'E',
         templateUrl: 'templates/fixedMenu.html',
-        link: function(){
-
+        replace: true,
+        link: function (scope) {
+            parse.getOptions().then(function (options) {
+                scope.options = options;
+            });
+            parse.getProjects().then(function (projects) {
+               scope.projects = projects;
+                console.log(projects)
+            });
         }
     };
 };

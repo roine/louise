@@ -1,1 +1,11 @@
-fixedMenu
+<div class="fixed-menu">
+	<h3>{{options.firstname}} {{options.lastname}}</h3>
+	<ol ng-repeat="project in projects">
+		<li>
+			<a ng-href="#/projet/{{project.id}}">
+				<div class="title">{{project.title}}</div>
+				{{project.summary}}
+			</a>
+		</li>
+	</ol>
+</div>
