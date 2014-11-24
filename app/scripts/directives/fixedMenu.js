@@ -11,7 +11,7 @@ module.exports = function (parse) {
             });
             parse.getProjects().then(function (projects) {
                scope.projects = projects;
-                console.log(projects)
+                console.log(projects);
             });
         }
     };

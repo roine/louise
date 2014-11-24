@@ -6,7 +6,7 @@ module.exports = function ($routeProvider, $locationProvider) {
             templateUrl: 'views/home.html',
             controller: 'HomeCtrl'
         })
-        .when('/projet/:projectId', {
+        .when('/projet/:projectSlug', {
             templateUrl: 'views/project.html',
             controller: 'ProjectCtrl'
         })
