@@ -1,2 +1,2 @@
-angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("views/home.html","<fixed-menu>\n</fixed-menu>");
-$templateCache.put("views/project.html","project id");}]);
+angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("views/home.html","<div class=\"fixed-menu\">\n	<h3>{{options.firstname}} {{options.lastname}}</h3>\n	<ol>\n		<li ng-repeat=\"project in projects\">\n			<a ng-href=\"#!/projet/{{project.slug}}\">\n				<div class=\"title\">{{project.title}}</div>\n				{{project.summary}}\n			</a>\n		</li>\n	</ol>\n</div>\n");
+$templateCache.put("views/project.html","{{project.title}}");}]);

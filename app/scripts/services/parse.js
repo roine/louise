@@ -1,3 +1,6 @@
+var Parse = require('parse-browserify');
+var angular = require('angular');
+
 module.exports = function ($q, $cacheFactory, $exceptionHandler) {
     'use strict';
     var _public = {};
@@ -11,7 +14,6 @@ module.exports = function ($q, $cacheFactory, $exceptionHandler) {
     function init() {
         Parse.initialize("qPxiJXr2GBwaJUKNGRG6ndAYBUg8VDLa5Rz2wxwl", "Pd7AG4zeX4hrB3TOuWIO9KloXaxq0ta115GPRlwa");
         cacheRequests = $cacheFactory('requests');
-
     }
 
     /**
