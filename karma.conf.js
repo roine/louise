@@ -16,7 +16,6 @@ module.exports = function (config) {
         // list of files / patterns to load in the browser
         files: [
             'app/**/*Spec.js',
-            'http//www.parsecdn.com/js/parse-1.3.1.min.js'
         ],
 
 

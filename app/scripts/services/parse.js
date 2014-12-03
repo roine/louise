@@ -1,10 +1,10 @@
 var Parse = require('parse-browserify');
-var angular = require('angular');
+require('angular');
 
-module.exports = function ($q, $cacheFactory, $exceptionHandler) {
+
+module.exports = function ($q, $cacheFactory, requestsCache) {
     'use strict';
     var _public = {};
-    var cacheRequests;
 
     _public.projects = [];
 
@@ -13,12 +13,11 @@ module.exports = function ($q, $cacheFactory, $exceptionHandler) {
      */
     function init() {
         Parse.initialize("qPxiJXr2GBwaJUKNGRG6ndAYBUg8VDLa5Rz2wxwl", "Pd7AG4zeX4hrB3TOuWIO9KloXaxq0ta115GPRlwa");
-        cacheRequests = $cacheFactory('requests');
     }
 
     /**
      * Initialise the Parse query
-     * @param className
+     * @param {string} className - prepare the query
      * @returns {Collection}
      */
     function query(className) {
@@ -28,28 +27,39 @@ module.exports = function ($q, $cacheFactory, $exceptionHandler) {
 
     /**
      * Get the options and settings
-     * @returns {*}
+     * @returns {Promise}
      */
     _public.getOptions = function () {
         var defer = $q.defer();
-        query('options').fetch({
-            success: function (response) {
-                var cleanObj = {};
-                angular.forEach(response, function (obj, key) {
-                    cleanObj[obj.get('key')] = obj.get('value');
-                });
-                defer.resolve(cleanObj);
-            },
-            error: function (errors) {
-                defer.reject(errors);
-            }
-        });
+        var cachedOptions = requestsCache.get('options');
+
+        // if cached get locally...
+        if (cachedOptions) {
+            defer.resolve(cachedOptions);
+        }
+        // else get on server
+        else {
+            query('options').fetch({
+                success: function (response) {
+                    var cleanObj = {};
+                    angular.forEach(response, function (obj, key) {
+                        cleanObj[obj.get('key')] = obj.get('value');
+                    });
+                    requestsCache.put('options', cleanObj);
+                    defer.resolve(cleanObj);
+                },
+                error: function (errors) {
+                    defer.reject(errors);
+                }
+            });
+        }
+
         return defer.promise;
     };
 
     /**
      * Get the projects
-     * @returns {*}
+     * @returns {Promise}
      */
     _public.getProjects = function () {
         var defer = $q.defer();
@@ -67,7 +77,7 @@ module.exports = function ($q, $cacheFactory, $exceptionHandler) {
                     };
                     _public.projects.push(cleanObj);
                 });
-                cacheRequests.put('Projects', _public.projects);
+                requestsCache.put('Projects', _public.projects);
                 defer.resolve(_public.projects);
             },
             error: function (errors) {
@@ -78,7 +88,7 @@ module.exports = function ($q, $cacheFactory, $exceptionHandler) {
     };
 
     /**
-     * @param obj of params
+     * @param {object} params
      */
     _public.getProject = function (params) {
         var defer = $q.defer(),
@@ -113,9 +123,9 @@ module.exports = function ($q, $cacheFactory, $exceptionHandler) {
 
     /**
      * Find a project
-     * @param type
-     * @param where
-     * @returns {*}
+     * @param {string} type - the column in which to search
+     * @param {string} where - the value to find
+     * @returns {Promise}
      */
     _public.findBy = function (type, where) {
         var defer = $q.defer();
@@ -123,7 +133,7 @@ module.exports = function ($q, $cacheFactory, $exceptionHandler) {
             return false;
         }
 
-        var projects = cacheRequests.get('Projects');
+        var projects = requestsCache.get('Projects');
 
         // if no project already fetched then fetch this specific project
         if (!projects) {
@@ -131,20 +141,21 @@ module.exports = function ($q, $cacheFactory, $exceptionHandler) {
             project[type] = where;
             return _public.getProject(project);
         }
-
-        angular.forEach(projects, function (project) {
-            if (project[type] === where) {
-                defer.resolve(project);
-                return false;
-            }
-        });
+        else{
+            angular.forEach(projects, function (project) {
+                if (project[type] === where) {
+                    defer.resolve(project);
+                    return false;
+                }
+            });
+        }
 
         return defer.promise;
     };
 
     /**
      * Alias for findBy with a pre defined param
-     * @param slug
+     * @param {string} slug
      */
     _public.findBySlug = function (slug) {
         return _public.findBy('slug', slug);
