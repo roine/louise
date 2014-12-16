@@ -36,23 +36,23 @@ module.exports = function ($q, $cacheFactory, requestsCache) {
         // if cached get locally...
         if (cachedOptions) {
             defer.resolve(cachedOptions);
+            return defer.promise;
         }
         // else get on server
-        else {
-            query('options').fetch({
-                success: function (response) {
-                    var cleanObj = {};
-                    angular.forEach(response, function (obj, key) {
-                        cleanObj[obj.get('key')] = obj.get('value');
-                    });
-                    requestsCache.put('options', cleanObj);
-                    defer.resolve(cleanObj);
-                },
-                error: function (errors) {
-                    defer.reject(errors);
-                }
-            });
-        }
+        query('options').fetch({
+            success: function (response) {
+                var cleanObj = {};
+                angular.forEach(response, function (obj, key) {
+                    cleanObj[obj.get('key')] = obj.get('value');
+                });
+                requestsCache.put('options', cleanObj);
+                defer.resolve(cleanObj);
+            },
+            error: function (errors) {
+                defer.reject(errors);
+            }
+        });
+
 
         return defer.promise;
     };
@@ -63,6 +63,13 @@ module.exports = function ($q, $cacheFactory, requestsCache) {
      */
     _public.getProjects = function () {
         var defer = $q.defer();
+        var cachedProjects = requestsCache.get('Projects');
+
+        // if cached get locally...
+        if (cachedProjects) {
+            defer.resolve(cachedProjects);
+            return defer.promise;
+        }
         query('Projects').fetch({
             success: function (response) {
                 angular.forEach(response, function (obj, key) {
@@ -141,7 +148,7 @@ module.exports = function ($q, $cacheFactory, requestsCache) {
             project[type] = where;
             return _public.getProject(project);
         }
-        else{
+        else {
             angular.forEach(projects, function (project) {
                 if (project[type] === where) {
                     defer.resolve(project);

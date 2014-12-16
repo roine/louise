@@ -6,6 +6,6 @@ module.exports = function ($scope, parse) {
     });
     parse.getProjects().then(function (projects) {
         $scope.projects = projects;
-        console.log(projects);
+        console.log('projects', projects);
     });
 };

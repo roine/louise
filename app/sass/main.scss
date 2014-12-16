@@ -1,4 +1,9 @@
-$color-main: #2f2f2f;
+@import "settings";
+
+body{
+  font-family: 'Roboto Slab', serif;
+}
+
 .fixed-menu {
   border-right: 1px solid red;
   height: 100%;
@@ -17,14 +22,15 @@ $color-main: #2f2f2f;
 }
 
 .project-list {
-  columns: 6 200px;
-  margin-top: 100px;
+  columns: 6 auto;
+  margin-top: 90px;
   /* Head takes 153px, adding 20px for bottom spacing */
   height: calc(100% - 200px);
 }
 
 .project {
-  margin-bottom: 10px;
+  column-rule-width: 200px;
+  margin-bottom: 5px;
   break-inside: avoid-column;
   a {
     color: $color-main;
