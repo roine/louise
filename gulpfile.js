@@ -1,11 +1,20 @@
 var gulp = require('gulp'),
-    browserify = require('gulp-browserify'),
+
+    browserify = require('browserify'),
+    transform = require('vinyl-transform'),
+    source = require('vinyl-source-stream'),
+    buffer = require('vinyl-buffer'),
+    browserifyAnnotate = require('browserify-ngannotate'),
+    uglifyify = require('uglifyify'),
+    streamify = require('gulp-streamify'),
+
     concat = require('gulp-concat'),
     sass = require('gulp-sass'),
     argv = require('yargs').argv,
     templateCache = require('gulp-angular-templatecache'),
-    autoprefixer = require('gulp-autoprefixer');
-
+    autoprefixer = require('gulp-autoprefixer'),
+    uglify = require('gulp-uglify'),
+    ngAnnotate = require('gulp-ng-annotate');
 
 var opt = {
     SASS_SOURCE: './app/sass/**/*.scss',
@@ -27,16 +36,18 @@ var opt = {
 
 gulp.task('browserify', function () {
 
-    // Single point of entry (make sure not to src ALL your files, browserify will figure it out for you)
+    var browserified = transform(function (filename) {
+        var b = browserify(filename);
+        b.transform(browserifyAnnotate)
+
+        return b.bundle();
+    });
+
     gulp.src(opt.MAIN_JS_SOURCE)
-        .pipe(browserify({
-            insertGlobals: true,
-            debug: true
-        }))
-        // Bundle to a single file
+        .pipe(browserified)
+        .pipe(uglify())
         .pipe(concat('bundle.js'))
-        // Output it to our dist folder
-        .pipe(gulp.dest('dist/js'));
+        .pipe(gulp.dest('./dist/js'));
 });
 
 gulp.task('sass', function () {

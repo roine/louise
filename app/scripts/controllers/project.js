@@ -1,6 +1,6 @@
 require('angular');
 
-module.exports = function ($scope, $routeParams, parse) {
+module.exports = /*@ngInject*/ function ($scope, $routeParams, parse) {
     parse.findBySlug($routeParams.projectSlug).then(function (result) {
         console.log(result)
         $scope.project = result;

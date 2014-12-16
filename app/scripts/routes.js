@@ -1,4 +1,4 @@
-module.exports = function ($routeProvider, $locationProvider) {
+module.exports = /*@ngInject*/ function ($routeProvider, $locationProvider) {
     $locationProvider.hashPrefix('!');
 
     $routeProvider

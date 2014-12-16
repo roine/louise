@@ -2,7 +2,7 @@ var Parse = require('parse-browserify');
 require('angular');
 
 /** @module parse */
-module.exports = function ($q, $cacheFactory, requestsCache) {
+module.exports =  /*@ngInject*/ function ($q, $cacheFactory, requestsCache) {
     'use strict';
     var _public = {};
 

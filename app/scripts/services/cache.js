@@ -1,3 +1,3 @@
-module.exports.requests = function($cacheFactory){
+module.exports.requests = /*@ngInject*/ function($cacheFactory){
     return $cacheFactory('requests');
 };

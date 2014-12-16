@@ -1,6 +1,6 @@
 require('angular');
 
-module.exports = function ($scope, parse) {
+module.exports = /*@ngInject*/ function ($scope, parse) {
     parse.getOptions().then(function (options) {
         $scope.options = options;
     });
