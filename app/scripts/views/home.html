@@ -1,11 +1,18 @@
 <div class="fixed-menu">
-	<h3>{{options.firstname}} {{options.lastname}}</h3>
-	<ol>
-		<li ng-repeat="project in projects">
+	<div class="head">
+		<h3 class="title">{{options.firstname}} {{options.lastname}}</h3>
+
+		<div class="job">{{options.job}}</div>
+		<div class="phone">{{options.phone}}</div>
+		<div class="email"><a ng-href="mailto:{{options.email}}" ng-show="options.email">e-mail</a></div>
+		<div class="about">&agrave; propos</div>
+	</div>
+	<div class="project-list" set-height>
+		<div ng-repeat="project in projects" class="project">
 			<a ng-href="#!/projet/{{project.slug}}">
-				<div class="title">{{project.title}}</div>
-				{{project.summary}}
+				<div class="project-title">{{project.title}}</div>
+				<div class="project-summary">{{project.summary}}</div>
 			</a>
-		</li>
-	</ol>
+		</div>
+	</div>
 </div>

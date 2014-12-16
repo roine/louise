@@ -2,5 +2,30 @@
   border-right: 1px solid red;
   height: 100%;
   position: fixed;
-  padding: 40px;
+  padding: 50px 60px;
   width: 100%; }
+  .fixed-menu .head {
+    font-weight: bold; }
+  .fixed-menu h3.title {
+    margin-bottom: 25px; }
+  .fixed-menu .about {
+    margin-top: 20px; }
+
+.project-list {
+  -webkit-columns: 6 200px;
+     -moz-columns: 6 200px;
+          columns: 6 200px;
+  margin-top: 100px;
+  /* Head takes 153px, adding 20px for bottom spacing */
+  height: calc(100% - 200px); }
+
+.project {
+  margin-bottom: 10px;
+  -webkit-column-break-inside: avoid;
+     page-break-inside: avoid;
+          break-inside: avoid-column; }
+  .project a {
+    color: #2f2f2f; }
+
+.project-title {
+  font-weight: bold; }

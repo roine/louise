@@ -3,7 +3,8 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     sass = require('gulp-sass'),
     argv = require('yargs').argv,
-    templateCache = require('gulp-angular-templatecache');
+    templateCache = require('gulp-angular-templatecache'),
+    autoprefixer = require('gulp-autoprefixer');
 
 
 var opt = {
@@ -41,6 +42,7 @@ gulp.task('browserify', function () {
 gulp.task('sass', function () {
     return gulp.src(opt.SASS_SOURCE)
         .pipe(sass())
+        .pipe(autoprefixer())
         .pipe(gulp.dest(opt.SASS_DIST));
 });
 
