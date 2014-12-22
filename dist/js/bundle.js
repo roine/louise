@@ -26,7 +26,10 @@ module.exports = /*@ngInject*/ ["$scope", "$routeParams", "parse", "imageLoader"
         $scope.project = result;
     });
 
-    imageLoader.init($routeParams.projectSlug);
+    imageLoader.init($routeParams.projectSlug).then(function (images) {
+        $scope.images = images;
+        console.log(images);
+    })
 
 }]
 },{"angular":17}],4:[function(require,module,exports){
@@ -43,7 +46,7 @@ module.exports = /*@ngInject*/ function () {
     return {
         restrict: 'AE',
         scope: {
-            project: "="
+            images: "="
         },
         templateUrl: 'templates/slick-carousel.html',
         link: function (scope, element, attr) {
@@ -52,7 +55,7 @@ module.exports = /*@ngInject*/ function () {
 };
 },{"angular":17,"slick-carousel":44}],6:[function(require,module,exports){
 angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("templates/fixedMenu.html","<div class=\"fixed-menu\">\n	<h3>{{options.firstname}} {{options.lastname}}</h3>\n	<ol>\n		<li ng-repeat=\"project in projects\">\n			<a ng-href=\"#!/projet/{{project.slug}}\">\n				<div class=\"title\">{{project.title}}</div>\n				{{project.summary}}\n			</a>\n		</li>\n	</ol>\n</div>\n");
-$templateCache.put("templates/slick-carousel.html","hello");}]);
+$templateCache.put("templates/slick-carousel.html","<div class=\"project-slider\">\n	<div ng-repeat=\"image in images\">\n		<img ng-src=\"{{image}}\" alt=\"\"/>\n	</div>\n</div>");}]);
 },{}],7:[function(require,module,exports){
 require('angular');
 
@@ -125,11 +128,12 @@ module.exports = function () {
         maxImages = max;
     }
 
-    function ImageLoader() {
+    function ImageLoader($q) {
         this.images = [];
 
         // Imorove the following
         this.init = function (project) {
+            var defer = $q.defer();
             var self = this;
             var error = false;
             var imagePaths = [];
@@ -139,28 +143,74 @@ module.exports = function () {
                 imagePaths.push('images/' + project + '/' + i + '.png');
             }
 
-            this.loader(imagePaths, 0);
+            asyncLoop(maxImages, function (loop) {
+                self.loader(imagePaths, loop.iteration()).then(function () {
+                    loop.next();
+                }, function () {
+                    loop.break();
+                });
+            }, function () {
+                defer.resolve(self.images);
+                return self.images;
+            });
+
+            return defer.promise;
+
         }
 
         this.loader = function (paths, i) {
+            var defer = $q.defer();
             var self = this,
-            img = new Image();
-
+                img = new Image();
             img.src = paths[i];
 
             img.onload = function () {
-                i++;
                 self.images.push(paths[i]);
-                self.loader(paths, i);
+                defer.resolve();
             }
+
+            img.onerror = function () {
+                defer.reject();
+            }
+            return defer.promise;
         }
 
+        function asyncLoop(iterations, func, callback) {
+            var index = 0;
+            var done = false;
+            var loop = {
+                next: function () {
+                    if (done) {
+                        return;
+                    }
 
+                    if (index < iterations) {
+                        index++;
+                        func(loop);
+
+                    } else {
+                        done = true;
+                        callback();
+                    }
+                },
+
+                iteration: function () {
+                    return index - 1;
+                },
+
+                break: function () {
+                    done = true;
+                    callback();
+                }
+            };
+            loop.next();
+            return loop;
+        }
     }
 
-    this.$get = function () {
-        return new ImageLoader();
-    }
+    this.$get = /*@ngInject*/ ["$q", function ($q) {
+        return new ImageLoader($q);
+    }]
 }
 },{"angular":17}],13:[function(require,module,exports){
 require('angular');
@@ -347,7 +397,7 @@ module.exports =  /*@ngInject*/ ["$q", "$cacheFactory", "requestsCache", functio
 }];
 },{"angular":17,"parse-browserify":43}],15:[function(require,module,exports){
 angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("views/home.html","<div class=\"fixed-menu\">\n	<div class=\"head\">\n		<h3 class=\"title\">{{options.firstname}} {{options.lastname}}</h3>\n\n		<div class=\"job\">{{options.job}}</div>\n		<div class=\"phone\">{{options.phone}}</div>\n		<div class=\"email\"><a ng-href=\"mailto:{{options.email}}\" ng-show=\"options.email\">e-mail</a></div>\n		<div class=\"about\">&agrave; propos</div>\n	</div>\n	<div class=\"project-list\" set-height>\n		<div ng-repeat=\"project in projects\" class=\"project\">\n			<a ng-href=\"#!/projet/{{project.slug}}\">\n				<div class=\"project-title\">{{project.title}}</div>\n				<div class=\"project-summary\">{{project.summary}}</div>\n			</a>\n		</div>\n	</div>\n</div>\n");
-$templateCache.put("views/project.html","{{project.title}}\n\n<slick-carousel project=\"project.slug\"></slick-carousel>\n<a href=\"#!/\">home</a>");}]);
+$templateCache.put("views/project.html","{{project.title}}\n\n<slick-carousel images=\"images\"></slick-carousel>\n<a href=\"#!/\">home</a>");}]);
 },{}],16:[function(require,module,exports){
 /**
  * @license AngularJS v1.3.0

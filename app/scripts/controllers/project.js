@@ -6,6 +6,9 @@ module.exports = /*@ngInject*/ function ($scope, $routeParams, parse, imageLoade
         $scope.project = result;
     });
 
-    imageLoader.init($routeParams.projectSlug);
+    imageLoader.init($routeParams.projectSlug).then(function (images) {
+        $scope.images = images;
+        console.log(images);
+    })
 
 }
