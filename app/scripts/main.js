@@ -6,7 +6,6 @@ require('angular-route');
 require('jquery');
 
 
-
 angular.module('app', ['ngRoute']);
 
 // Load all my files in index.js

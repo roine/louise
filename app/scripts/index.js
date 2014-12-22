@@ -11,4 +11,6 @@ require('./directives/templates/templates');
 
 var app = angular.module('app');
 app.config(require('./routes'));
+app.config(require('./provider-settings'));
+
 

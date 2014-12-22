@@ -1,3 +1,4 @@
 require('angular');
-angular.module('app');
+angular.module('app')
+    .directive('slickCarousel', require('./slick-carousel'));
 

@@ -45,7 +45,7 @@ gulp.task('browserify', function () {
 
     gulp.src(opt.MAIN_JS_SOURCE)
         .pipe(browserified)
-        .pipe(uglify())
+        //.pipe(uglify())
         .pipe(concat('bundle.js'))
         .pipe(gulp.dest('./dist/js'));
 });
