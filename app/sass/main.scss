@@ -1,11 +1,11 @@
 @import "settings";
+@import "slick";
 
 body{
   font-family: 'Roboto Slab', serif;
 }
 
 .fixed-menu {
-  border-right: 1px solid red;
   height: 100%;
   position: fixed;
   padding: 50px 60px;

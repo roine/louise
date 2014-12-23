@@ -31,6 +31,10 @@ var opt = {
 
     MAIN_JS_SOURCE: './app/scripts/main.js',
 
+    IMAGES_DIST: './dist/images',
+
+    ROOT_DIST: './dist/',
+
     MODULE_NAME: 'app'
 };
 
@@ -52,7 +56,7 @@ gulp.task('browserify', function () {
 
 gulp.task('sass', function () {
     return gulp.src(opt.SASS_SOURCE)
-        .pipe(sass())
+        .pipe(sass({includePaths: ['./node_modules/slick-carousel/slick']}))
         .pipe(autoprefixer())
         .pipe(gulp.dest(opt.SASS_DIST));
 });
@@ -60,6 +64,11 @@ gulp.task('sass', function () {
 gulp.task('copy:foundation', function () {
     return gulp.src('bower_components/foundation/css/foundation.css')
         .pipe(gulp.dest(opt.SASS_DIST));
+});
+
+gulp.task('copy:slickLoader', function () {
+    return gulp.src('./node_modules/slick-carousel/slick/ajax-loader.gif')
+        .pipe(gulp.dest(opt.ROOT_DIST));
 });
 
 gulp.task('templateCache', function () {

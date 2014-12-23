@@ -14,3 +14,6 @@ relance la command gulp.
  - Utiliser la technique chargement par tatonement pour les images
 - Ecrire quelque tests?
 - Peaufiner le reste avec Louise
+
+##Bug
+- Les images du slideshow ne changent pas au chargement d'un nouveau projet

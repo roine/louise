@@ -22,14 +22,12 @@ require('angular');
 
 module.exports = /*@ngInject*/ ["$scope", "$routeParams", "parse", "imageLoader", function ($scope, $routeParams, parse, imageLoader) {
     parse.findBySlug($routeParams.projectSlug).then(function (result) {
-        console.log(result)
         $scope.project = result;
     });
 
     imageLoader.init($routeParams.projectSlug).then(function (images) {
         $scope.images = images;
-        console.log(images);
-    })
+    });
 
 }]
 },{"angular":17}],4:[function(require,module,exports){
@@ -41,21 +39,39 @@ angular.module('app')
 },{"./slick-carousel":5,"angular":17}],5:[function(require,module,exports){
 require('angular');
 require('slick-carousel');
+var $ = require('jquery')
 
-module.exports = /*@ngInject*/ function () {
+module.exports = /*@ngInject*/ ["$timeout", function ($timeout) {
     return {
         restrict: 'AE',
         scope: {
             images: "="
         },
+        replace: true,
         templateUrl: 'templates/slick-carousel.html',
         link: function (scope, element, attr) {
+            var initialized = false;
+
+            function initialize(){
+                $timeout(function(){
+                    $(element).slick();
+                });
+            };
+            if(!initialized){
+                scope.$watch('images', function(newVal, oldVal){
+                    if(angular.isDefined(newVal) && !initialized){
+                        console.log('init')
+                        initialize();
+                        initialized = true;
+                    }
+                })
+            }
+
         }
     };
-};
-},{"angular":17,"slick-carousel":44}],6:[function(require,module,exports){
-angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("templates/fixedMenu.html","<div class=\"fixed-menu\">\n	<h3>{{options.firstname}} {{options.lastname}}</h3>\n	<ol>\n		<li ng-repeat=\"project in projects\">\n			<a ng-href=\"#!/projet/{{project.slug}}\">\n				<div class=\"title\">{{project.title}}</div>\n				{{project.summary}}\n			</a>\n		</li>\n	</ol>\n</div>\n");
-$templateCache.put("templates/slick-carousel.html","<div class=\"project-slider\">\n	<div ng-repeat=\"image in images\">\n		<img ng-src=\"{{image}}\" alt=\"\"/>\n	</div>\n</div>");}]);
+}];
+},{"angular":17,"jquery":19,"slick-carousel":44}],6:[function(require,module,exports){
+angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("templates/slick-carousel.html","<div id=\"project-slider\">\n	<div ng-repeat=\"image in images\">\n		<img ng-src=\"{{image}}\" alt=\"\"/>\n	</div>\n</div>");}]);
 },{}],7:[function(require,module,exports){
 require('angular');
 
@@ -397,7 +413,7 @@ module.exports =  /*@ngInject*/ ["$q", "$cacheFactory", "requestsCache", functio
 }];
 },{"angular":17,"parse-browserify":43}],15:[function(require,module,exports){
 angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("views/home.html","<div class=\"fixed-menu\">\n	<div class=\"head\">\n		<h3 class=\"title\">{{options.firstname}} {{options.lastname}}</h3>\n\n		<div class=\"job\">{{options.job}}</div>\n		<div class=\"phone\">{{options.phone}}</div>\n		<div class=\"email\"><a ng-href=\"mailto:{{options.email}}\" ng-show=\"options.email\">e-mail</a></div>\n		<div class=\"about\">&agrave; propos</div>\n	</div>\n	<div class=\"project-list\" set-height>\n		<div ng-repeat=\"project in projects\" class=\"project\">\n			<a ng-href=\"#!/projet/{{project.slug}}\">\n				<div class=\"project-title\">{{project.title}}</div>\n				<div class=\"project-summary\">{{project.summary}}</div>\n			</a>\n		</div>\n	</div>\n</div>\n");
-$templateCache.put("views/project.html","{{project.title}}\n\n<slick-carousel images=\"images\"></slick-carousel>\n<a href=\"#!/\">home</a>");}]);
+$templateCache.put("views/project.html","<div class=\"row\">\n	<div class=\"large-12 columns\">\n		{{project.title}}\n\n		<slick-carousel images=\"images\"></slick-carousel>\n		<a href=\"#!/\">home</a>\n	</div>\n</div>");}]);
 },{}],16:[function(require,module,exports){
 /**
  * @license AngularJS v1.3.0
