@@ -145,15 +145,24 @@ module.exports = function () {
     }
 
     function ImageLoader($q) {
-        this.images = [];
+        this.images = {};
+        this.project = '';
 
-        // Imorove the following
         this.init = function (project) {
+
             var defer = $q.defer();
             var self = this;
-            var error = false;
             var imagePaths = [];
-            var loaded = 0;
+
+            this.project = project;
+
+            // if the images are already loaded, return the cached images
+            if(self.images[project]){
+                defer.resolve(self.images[project]);
+                return defer.promise;
+            }
+
+            self.images[project] = [];
 
             for (var i = 1; i <= maxImages; i++) {
                 imagePaths.push('images/' + project + '/' + i + '.png');
@@ -166,8 +175,8 @@ module.exports = function () {
                     loop.break();
                 });
             }, function () {
-                defer.resolve(self.images);
-                return self.images;
+                defer.resolve(self.images[project]);
+                return self.images[project];
             });
 
             return defer.promise;
@@ -181,7 +190,7 @@ module.exports = function () {
             img.src = paths[i];
 
             img.onload = function () {
-                self.images.push(paths[i]);
+                self.images[self.project].push(paths[i])
                 defer.resolve();
             }
 
