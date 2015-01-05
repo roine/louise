@@ -8,12 +8,10 @@ relance la command gulp.
 ##todo
 - Ajouter un tache gulp pour optimizer les images
 - Changer le column layout vers flexbox
-- Animer l'apparition des donnees sur la homepage et project page
 - Ajouter les liens en bas a droite (voir avec louise, sur la homepage les projets pourraient s'afficher au dessus du menu)
-- Ajouter le slideshow sur chaque page de projet
- - Utiliser la technique chargement par tatonement pour les images
 - Ecrire quelque tests?
+- Ajouter des commandes pour les slideshow (arrows?, control?)
+- Charger la premiere image sur la page pendant que tatonnement ou attendre la fin du tatotenment avant de charger la page projet
 - Peaufiner le reste avec Louise
 
-##Bug
-- Les images du slideshow ne changent pas au chargement d'un nouveau projet
+
