@@ -1,4 +1,10 @@
+@import "normalize";
 @import "settings";
+
+@import "animations";
+
+// Libraries
+@import "foundation";
 @import "slick";
 
 body{

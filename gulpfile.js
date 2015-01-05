@@ -17,21 +17,23 @@ var gulp = require('gulp'),
     ngAnnotate = require('gulp-ng-annotate');
 
 var opt = {
+    SASS_FOLDER: './app/sass/',
     SASS_SOURCE: './app/sass/**/*.scss',
-    SASS_DIST: './dist/style',
+    SASS_DIST: './dist/style/',
+
 
     JS_SOURCE: './app/scripts/**/*.js',
-    JS_DIST: './dist/js',
+    JS_DIST: './dist/js/',
 
     VIEW_SOURCE: './app/scripts/views/**/*.html',
-    VIEW_DIST: './app/scripts/views',
+    VIEW_DIST: './app/scripts/views/',
 
     TEMPLATE_SOURCE: './app/scripts/directives/templates/**/*.html',
-    TEMPLATE_DIST: './app/scripts/directives/templates',
+    TEMPLATE_DIST: './app/scripts/directives/templates/',
 
     MAIN_JS_SOURCE: './app/scripts/main.js',
 
-    IMAGES_DIST: './dist/images',
+    IMAGES_DIST: './dist/images/',
 
     ROOT_DIST: './dist/',
 
@@ -55,9 +57,10 @@ gulp.task('browserify', function () {
 });
 
 gulp.task('sass', function () {
-    return gulp.src(opt.SASS_SOURCE)
-        .pipe(sass({includePaths: ['./node_modules/slick-carousel/slick']}))
+    return gulp.src(opt.SASS_FOLDER + 'main.scss')
+        .pipe(sass())
         .pipe(autoprefixer())
+        //.pipe(concat('main.css'))
         .pipe(gulp.dest(opt.SASS_DIST));
 });
 
@@ -70,6 +73,22 @@ gulp.task('copy:slickLoader', function () {
     return gulp.src('./node_modules/slick-carousel/slick/ajax-loader.gif')
         .pipe(gulp.dest(opt.ROOT_DIST));
 });
+
+gulp.task('init', function () {
+    // move foundation
+    gulp.src('./bower_components/foundation/scss/**/*.scss', {base: './bower_components/foundation/scss'})
+        .pipe(gulp.dest(opt.SASS_FOLDER));
+
+    // move slick
+    gulp.src('./node_modules/slick-carousel/slick/slick.scss')
+        .pipe(gulp.dest(opt.SASS_FOLDER));
+    gulp.src('./node_modules/slick-carousel/slick/fonts/*', {base: './node_modules/slick-carousel/slick/'})
+        .pipe(gulp.dest(opt.SASS_DIST));
+
+    // move animate
+    gulp.src('./bower_components/animate.css/animate.css')
+        .pipe(gulp.dest(opt.SASS_DIST));
+})
 
 gulp.task('templateCache', function () {
     gulp.src(opt.VIEW_SOURCE)
