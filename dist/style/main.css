@@ -322,8 +322,8 @@ td, th {
           animation: fadeInLeft 1s; }
 
 .project-list.ng-hide-remove {
-  -webkit-animation: bounceInUp 1.2s;
-          animation: bounceInUp 1.2s; }
+  -webkit-animation: fadeInUp 1.2s;
+          animation: fadeInUp 1.2s; }
 
 meta.foundation-version {
   font-family: "/5.4.7/"; }
