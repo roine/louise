@@ -1,4 +1,12 @@
 # Louise de Montalembert project
+
+## Getting Started
+**Ce paragraph ne concerne que les developers.**
+
+    $ npm install
+    $ bower install
+    $ gulp init (pas indispensable mais permet de mettre a jour les fichiers)
+
 ##info
 
 Le dossier app sert au developement de l'application et le dossier dist contient tout les fichiers pret a etre heberge 

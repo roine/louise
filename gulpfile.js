@@ -68,16 +68,6 @@ gulp.task('sass', function () {
         .pipe(gulp.dest(opt.SASS_DIST));
 });
 
-gulp.task('copy:foundation', function () {
-    return gulp.src('bower_components/foundation/css/foundation.css')
-        .pipe(gulp.dest(opt.SASS_DIST));
-});
-
-gulp.task('copy:slickLoader', function () {
-    return gulp.src('./node_modules/slick-carousel/slick/ajax-loader.gif')
-        .pipe(gulp.dest(opt.ROOT_DIST));
-});
-
 gulp.task('init', function () {
     // move foundation
     gulp.src('./bower_components/foundation/scss/**/*.scss', {base: './bower_components/foundation/scss'})
