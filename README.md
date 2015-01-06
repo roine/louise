@@ -36,6 +36,7 @@ height: calc(100% - 300px); v
 - ajouter les liens vers magneto, portfolio, source et F.O.R.G.E en bas à gauche en fixe. 
 
 PAGE PROJET : 
+
 - garder le header colonne de gauche (mon nom + prénom + à propos etc)
 - positionner la légende comme sur la maquette / en colonne 
 - recalculer la hauteur des images de manière à ce qu'il n'y ait jamais de scrawl dans la hauteur de la page. 
