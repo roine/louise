@@ -14,7 +14,8 @@ var gulp = require('gulp'),
     templateCache = require('gulp-angular-templatecache'),
     autoprefixer = require('gulp-autoprefixer'),
     uglify = require('gulp-uglify'),
-    ngAnnotate = require('gulp-ng-annotate');
+    ngAnnotate = require('gulp-ng-annotate'),
+    imagemin = require('gulp-imagemin');
 
 var opt = {
     SASS_FOLDER: './app/sass/',
@@ -33,7 +34,10 @@ var opt = {
 
     MAIN_JS_SOURCE: './app/scripts/main.js',
 
+    IMAGES_SOURCE: './dist/images/*',
     IMAGES_DIST: './dist/images/',
+    IMAGES_PROJECTS: './dist/images/projects/**/*',
+    IMAGES_PROJECTS_OPTIM: './dist/images/projects-optim/',
 
     ROOT_DIST: './dist/',
 
@@ -106,6 +110,12 @@ gulp.task('templateCache', function () {
         }))
         .pipe(gulp.dest(opt.TEMPLATE_DIST));
 });
+
+gulp.task('imageopt', function () {
+    gulp.src(opt.IMAGES_PROJECTS)
+        .pipe(imagemin())
+        .pipe(gulp.dest(opt.IMAGES_PROJECTS_OPTIM));
+})
 
 gulp.task('default', function () {
     gulp.watch([opt.VIEW_SOURCE, opt.TEMPLATE_SOURCE], ['templateCache']);

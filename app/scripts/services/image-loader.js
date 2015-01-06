@@ -1,21 +1,30 @@
 require('angular');
 
 module.exports = function () {
-    var maxImages = 10;
+    var maxImages = 10,
+    // whether to use the optimized image
+        useOptim = false;
 
     this.maxImage = function (max) {
         if (!angular.isNumber(max)) {
             return;
         }
         maxImages = max;
-    }
+    };
+
+    this.useOptim = function (bool) {
+        useOptim = bool;
+    };
 
     function ImageLoader($q) {
         this.images = {};
         this.project = '';
 
         this.init = function (project) {
-
+            var path = 'images/projects/' + project + '/';
+            if (useOptim) {
+                path = 'images/projects-optim/' + project + '/';
+            }
             var defer = $q.defer();
             var self = this;
             var imagePaths = [];
@@ -23,7 +32,7 @@ module.exports = function () {
             this.project = project;
 
             // if the images are already loaded, return the cached images
-            if(self.images[project]){
+            if (self.images[project]) {
                 defer.resolve(self.images[project]);
                 return defer.promise;
             }
@@ -31,7 +40,7 @@ module.exports = function () {
             self.images[project] = [];
 
             for (var i = 1; i <= maxImages; i++) {
-                imagePaths.push('images/' + project + '/' + i + '.png');
+                imagePaths.push(path + i + '.png');
             }
 
             asyncLoop(maxImages, function (loop) {
