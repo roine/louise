@@ -18,6 +18,7 @@ relance la command gulp.
 ## Note Louise
 
 HOME PAGE :
+
 - pour la typo, tout passer en helvetica sans serif ; v
 - passer la typo de : graphiste et directeur artistique, mon numéro, à propos, à 14 px ; v
 - baisser le corps de la typo des légendes à 11px ; o
