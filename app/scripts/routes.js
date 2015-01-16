@@ -1,6 +1,8 @@
+require('angular');
+require('./services');
+
 module.exports = /*@ngInject*/ function ($routeProvider, $locationProvider) {
     $locationProvider.hashPrefix('!');
-
     $routeProvider
         .when('/', {
             templateUrl: 'views/home.html',
@@ -8,7 +10,12 @@ module.exports = /*@ngInject*/ function ($routeProvider, $locationProvider) {
         })
         .when('/projet/:projectSlug', {
             templateUrl: 'views/project.html',
-            controller: 'ProjectCtrl'
+            controller: 'ProjectCtrl',
+            resolve: {
+                images: function (imageLoader, $route) {
+                    return imageLoader.init($route.current.params.projectSlug)
+                }
+            }
         })
         .otherwise('/');
 };

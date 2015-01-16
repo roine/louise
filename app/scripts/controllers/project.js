@@ -1,6 +1,6 @@
 require('angular');
 
-module.exports = /*@ngInject*/ function ($scope, $routeParams, parse, imageLoader) {
+module.exports = /*@ngInject*/ function ($scope, $routeParams, parse, imageLoader, images) {
     parse.findBySlug($routeParams.projectSlug).then(function (result) {
         $scope.project = result;
     });
@@ -8,5 +8,7 @@ module.exports = /*@ngInject*/ function ($scope, $routeParams, parse, imageLoade
     imageLoader.init($routeParams.projectSlug).then(function (images) {
         $scope.images = images;
     });
+
+    console.log(images);
 
 }

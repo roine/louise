@@ -5,7 +5,12 @@
 @import "foundation";
 @import "slick";
 
+body, html {
+  height: 100%;
+}
+
 .fixed-menu {
+  display: table;
   height: 100%;
   position: fixed;
   padding: 50px 60px;
@@ -60,3 +65,6 @@
   }
 }
 
+.show {
+  border: 1px solid red;
+}

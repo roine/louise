@@ -20,7 +20,7 @@ angular.module('app')
 },{"./home":1,"./project":3,"angular":18}],3:[function(require,module,exports){
 require('angular');
 
-module.exports = /*@ngInject*/ ["$scope", "$routeParams", "parse", "imageLoader", function ($scope, $routeParams, parse, imageLoader) {
+module.exports = /*@ngInject*/ ["$scope", "$routeParams", "parse", "imageLoader", "images", function ($scope, $routeParams, parse, imageLoader, images) {
     parse.findBySlug($routeParams.projectSlug).then(function (result) {
         $scope.project = result;
     });
@@ -28,6 +28,8 @@ module.exports = /*@ngInject*/ ["$scope", "$routeParams", "parse", "imageLoader"
     imageLoader.init($routeParams.projectSlug).then(function (images) {
         $scope.images = images;
     });
+
+    console.log(images);
 
 }]
 },{"angular":18}],4:[function(require,module,exports){
@@ -74,7 +76,7 @@ module.exports = /*@ngInject*/ ["$timeout", function ($timeout) {
 angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("templates/slick-carousel.html","<div id=\"project-slider\">\n	<div ng-repeat=\"image in images\">\n		<img ng-src=\"{{image}}\" alt=\"\"/>\n	</div>\n</div>");}]);
 },{}],7:[function(require,module,exports){
 require('angular');
-
+var app = angular.module('app');
 require('./views/templates');
 
 require('./services');
@@ -84,9 +86,9 @@ require('./controllers');
 require('./directives');
 require('./directives/templates/templates');
 
-var app = angular.module('app');
-app.config(require('./routes'));
+
 app.config(require('./provider-settings'));
+app.config(require('./routes'));
 
 
 
@@ -115,9 +117,11 @@ module.exports = function(imageLoaderProvider){
     imageLoaderProvider.useOptim(true);
 }
 },{}],10:[function(require,module,exports){
+require('angular');
+require('./services');
+
 module.exports = /*@ngInject*/ ["$routeProvider", "$locationProvider", function ($routeProvider, $locationProvider) {
     $locationProvider.hashPrefix('!');
-
     $routeProvider
         .when('/', {
             templateUrl: 'views/home.html',
@@ -125,11 +129,16 @@ module.exports = /*@ngInject*/ ["$routeProvider", "$locationProvider", function 
         })
         .when('/projet/:projectSlug', {
             templateUrl: 'views/project.html',
-            controller: 'ProjectCtrl'
+            controller: 'ProjectCtrl',
+            resolve: {
+                images: ["imageLoader", "$route", function (imageLoader, $route) {
+                    return imageLoader.init($route.current.params.projectSlug)
+                }]
+            }
         })
         .otherwise('/');
 }];
-},{}],11:[function(require,module,exports){
+},{"./services":13,"angular":18}],11:[function(require,module,exports){
 module.exports.requests = /*@ngInject*/ ["$cacheFactory", function($cacheFactory){
     return $cacheFactory('requests');
 }];
