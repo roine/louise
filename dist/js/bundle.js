@@ -10,14 +10,14 @@ module.exports = /*@ngInject*/ ["$scope", "parse", function ($scope, parse) {
         console.log('projects', projects);
     });
 }];
-},{"angular":18}],2:[function(require,module,exports){
+},{"angular":19}],2:[function(require,module,exports){
 require('angular');
 angular.module('app')
     .controller('HomeCtrl',require('./home'))
     .controller('ProjectCtrl', require('./project'));
 
 
-},{"./home":1,"./project":3,"angular":18}],3:[function(require,module,exports){
+},{"./home":1,"./project":3,"angular":19}],3:[function(require,module,exports){
 require('angular');
 
 module.exports = /*@ngInject*/ ["$scope", "$routeParams", "parse", "imageLoader", "images", function ($scope, $routeParams, parse, imageLoader, images) {
@@ -32,13 +32,35 @@ module.exports = /*@ngInject*/ ["$scope", "$routeParams", "parse", "imageLoader"
     console.log(images);
 
 }]
-},{"angular":18}],4:[function(require,module,exports){
+},{"angular":19}],4:[function(require,module,exports){
 require('angular');
 angular.module('app')
-    .directive('slickCarousel', require('./slick-carousel'));
+    .directive('slickCarousel', require('./slick-carousel'))
+    .directive('loadingIndicator', require('./loading-indicator'));
 
 
-},{"./slick-carousel":5,"angular":18}],5:[function(require,module,exports){
+},{"./loading-indicator":5,"./slick-carousel":6,"angular":19}],5:[function(require,module,exports){
+module.exports = /*@ngInject*/ ["$rootScope", function ($rootScope) {
+    return {
+        restrict: 'E',
+        template: '<div class="loading" ng-show="loading"><div class="loading-content" ng-transclude></div></div>',
+        replace: true,
+        transclude: true,
+        link: function (scope, elem, attr) {
+
+            scope.loading = false;
+
+            $rootScope.$on('$routeChangeStart', function () {
+                scope.loading = true;
+            });
+
+            $rootScope.$on('$routeChangeSuccess', function () {
+                scope.loading = false;
+            });
+        }
+    }
+}]
+},{}],6:[function(require,module,exports){
 require('angular');
 require('slick-carousel');
 var $ = require('jquery')
@@ -72,9 +94,9 @@ module.exports = /*@ngInject*/ ["$timeout", function ($timeout) {
         }
     };
 }];
-},{"angular":18,"jquery":20,"slick-carousel":45}],6:[function(require,module,exports){
+},{"angular":19,"jquery":21,"slick-carousel":46}],7:[function(require,module,exports){
 angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("templates/slick-carousel.html","<div id=\"project-slider\">\n	<div ng-repeat=\"image in images\">\n		<img ng-src=\"{{image}}\" alt=\"\"/>\n	</div>\n</div>");}]);
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 require('angular');
 var app = angular.module('app');
 require('./views/templates');
@@ -92,7 +114,7 @@ app.config(require('./routes'));
 
 
 
-},{"./controllers":2,"./directives":4,"./directives/templates/templates":6,"./provider-settings":9,"./routes":10,"./services":13,"./views/templates":15,"angular":18}],8:[function(require,module,exports){
+},{"./controllers":2,"./directives":4,"./directives/templates/templates":7,"./provider-settings":10,"./routes":11,"./services":14,"./views/templates":16,"angular":19}],9:[function(require,module,exports){
 'use strict';
 
 // Libraries
@@ -111,12 +133,12 @@ angular.bootstrap(document, ['app']);
 
 
 
-},{"./":7,"angular":18,"angular-animate":16,"angular-route":17,"jquery":20}],9:[function(require,module,exports){
+},{"./":8,"angular":19,"angular-animate":17,"angular-route":18,"jquery":21}],10:[function(require,module,exports){
 module.exports = function(imageLoaderProvider){
     imageLoaderProvider.maxImage(25);
     imageLoaderProvider.useOptim(true);
 }
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 require('angular');
 require('./services');
 
@@ -138,11 +160,11 @@ module.exports = /*@ngInject*/ ["$routeProvider", "$locationProvider", function 
         })
         .otherwise('/');
 }];
-},{"./services":13,"angular":18}],11:[function(require,module,exports){
+},{"./services":14,"angular":19}],12:[function(require,module,exports){
 module.exports.requests = /*@ngInject*/ ["$cacheFactory", function($cacheFactory){
     return $cacheFactory('requests');
 }];
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 require('angular');
 
 module.exports = function () {
@@ -257,7 +279,7 @@ module.exports = function () {
         return new ImageLoader($q);
     }]
 }
-},{"angular":18}],13:[function(require,module,exports){
+},{"angular":19}],14:[function(require,module,exports){
 require('angular');
 angular.module('app')
     .factory('parse', require('./parse'))
@@ -265,7 +287,7 @@ angular.module('app')
     .provider('imageLoader', require('./image-loader'));
 
 
-},{"./cache":11,"./image-loader":12,"./parse":14,"angular":18}],14:[function(require,module,exports){
+},{"./cache":12,"./image-loader":13,"./parse":15,"angular":19}],15:[function(require,module,exports){
 var Parse = require('parse-browserify');
 require('angular');
 
@@ -440,10 +462,10 @@ module.exports =  /*@ngInject*/ ["$q", "$cacheFactory", "requestsCache", functio
 
     return _public;
 }];
-},{"angular":18,"parse-browserify":44}],15:[function(require,module,exports){
+},{"angular":19,"parse-browserify":45}],16:[function(require,module,exports){
 angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("views/home.html","<div class=\"fixed-menu\">\n	<div class=\"head\" ng-show=\"options\">\n		<h3 class=\"head-title\">{{options.firstname}} {{options.lastname}}</h3>\n		<div class=\"head-job\">{{options.job}}</div>\n		<div class=\"head-phone\">{{options.phone}}</div>\n		<div class=\"head-email\"><a ng-href=\"mailto:{{options.email}}\" ng-show=\"options.email\">e-mail</a></div>\n		<div class=\"head-about\">&agrave; propos</div>\n	</div>\n	<div class=\"project-list\" ng-show=\"projects\">\n		<div ng-repeat=\"project in projects\" class=\"project\">\n			<a ng-href=\"#!/projet/{{project.slug}}\">\n				<div class=\"project-title\">{{project.title}}</div>\n				<div class=\"project-summary\">{{project.summary}}</div>\n			</a>\n		</div>\n	</div>\n</div>\n");
 $templateCache.put("views/project.html","<div class=\"row\">\n	<div class=\"large-12 columns\">\n		{{project.title}}\n\n		<slick-carousel images=\"images\"></slick-carousel>\n		<a href=\"#!/\">home</a>\n	</div>\n</div>");}]);
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /**
  * @license AngularJS v1.3.8
  * (c) 2010-2014 Google, Inc. http://angularjs.org
@@ -2583,7 +2605,7 @@ angular.module('ngAnimate', ['ng'])
 
 })(window, window.angular);
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /**
  * @license AngularJS v1.3.0
  * (c) 2010-2014 Google, Inc. http://angularjs.org
@@ -3563,7 +3585,7 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /**
  * @license AngularJS v1.3.8
  * (c) 2010-2014 Google, Inc. http://angularjs.org
@@ -29634,7 +29656,7 @@ var styleDirective = valueFn({
 })(window, document);
 
 !window.angular.$$csp() && window.angular.element(document).find('head').prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}</style>');
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -29722,7 +29744,7 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.1
  * http://jquery.com/
@@ -38914,7 +38936,7 @@ return jQuery;
 
 }));
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 /*!
  * Parse JavaScript SDK
  * Version: 1.2.18*
@@ -38973,7 +38995,7 @@ require('./history');
 require('./router');
 require('./cloud');
 require('./push');
-},{"./acl":22,"./analytics":23,"./cloud":24,"./collection":25,"./coreAPI":26,"./error":27,"./events":28,"./facebook":29,"./file":30,"./geopoint":31,"./history":32,"./object":33,"./op":34,"./promise":35,"./push":36,"./query":37,"./relation":38,"./role":39,"./router":40,"./user":41,"./view":42,"underscore":43}],22:[function(require,module,exports){
+},{"./acl":23,"./analytics":24,"./cloud":25,"./collection":26,"./coreAPI":27,"./error":28,"./events":29,"./facebook":30,"./file":31,"./geopoint":32,"./history":33,"./object":34,"./op":35,"./promise":36,"./push":37,"./query":38,"./relation":39,"./role":40,"./router":41,"./user":42,"./view":43,"underscore":44}],23:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -39231,7 +39253,7 @@ require('./push');
     }
     throw "role must be a Parse.Role or a String";
   };
-},{"./Parse":21}],23:[function(require,module,exports){
+},{"./Parse":22}],24:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -39294,7 +39316,7 @@ require('./push');
     }
   });
 
-},{"./Parse":21}],24:[function(require,module,exports){
+},{"./Parse":22}],25:[function(require,module,exports){
 
 
  var Parse = require('./Parse').Parse;
@@ -39340,7 +39362,7 @@ require('./push');
   });
 
 
-},{"./Parse":21}],25:[function(require,module,exports){
+},{"./Parse":22}],26:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -39802,7 +39824,7 @@ require('./push');
   Parse.Collection.extend = Parse._extend;
 
 
-},{"./Parse":21}],26:[function(require,module,exports){
+},{"./Parse":22}],27:[function(require,module,exports){
 (function (process){
   /**
    * Contains all Parse API classes and functions.
@@ -40426,7 +40448,7 @@ var Parse = require('./Parse').Parse;
   };
 
 }).call(this,require('_process'))
-},{"./Parse":21,"_process":19}],27:[function(require,module,exports){
+},{"./Parse":22,"_process":20}],28:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -40785,7 +40807,7 @@ var Parse = require('./Parse').Parse;
     X_DOMAIN_REQUEST: 602
   });
 
-},{"./Parse":21}],28:[function(require,module,exports){
+},{"./Parse":22}],29:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var eventSplitter = /\s+/;
@@ -40939,7 +40961,7 @@ var Parse = require('./Parse').Parse;
    */
   Parse.Events.unbind = Parse.Events.off;
 
-},{"./Parse":21}],29:[function(require,module,exports){
+},{"./Parse":22}],30:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -41131,7 +41153,7 @@ var Parse = require('./Parse').Parse;
     }
   };
   
-},{"./Parse":21}],30:[function(require,module,exports){
+},{"./Parse":22}],31:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -41533,7 +41555,7 @@ var Parse = require('./Parse').Parse;
     }
   };
 
-},{"./Parse":21}],31:[function(require,module,exports){
+},{"./Parse":22}],32:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -41705,7 +41727,7 @@ var Parse = require('./Parse').Parse;
       return this.radiansTo(point) * 3958.8;
     }
   };
-},{"./Parse":21}],32:[function(require,module,exports){
+},{"./Parse":22}],33:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -41964,7 +41986,7 @@ var Parse = require('./Parse').Parse;
       }
     }
   });
-},{"./Parse":21}],33:[function(require,module,exports){
+},{"./Parse":22}],34:[function(require,module,exports){
 // Parse.Object is analogous to the Java ParseObject.
 // It also implements the same interface as a Backbone model.
 
@@ -43739,7 +43761,7 @@ var Parse = require('./Parse').Parse;
       return object;
     });
   };
-},{"./Parse":21}],34:[function(require,module,exports){
+},{"./Parse":22}],35:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -44268,7 +44290,7 @@ var Parse = require('./Parse').Parse;
     return new Parse.Op.Relation([], Parse._decode(undefined, json.objects));
   });
 
-},{"./Parse":21}],35:[function(require,module,exports){
+},{"./Parse":22}],36:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -44623,7 +44645,7 @@ var Parse = require('./Parse').Parse;
 
   });
 
-},{"./Parse":21}],36:[function(require,module,exports){
+},{"./Parse":22}],37:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   
@@ -44683,7 +44705,7 @@ var Parse = require('./Parse').Parse;
     return request._thenRunCallbacks(options);
   };
 
-},{"./Parse":21}],37:[function(require,module,exports){
+},{"./Parse":22}],38:[function(require,module,exports){
 // Parse.Query is a way to create a list of Parse.Objects.
 
   var Parse = require('./Parse').Parse;
@@ -45561,7 +45583,7 @@ var Parse = require('./Parse').Parse;
     }
   };
 
-},{"./Parse":21}],38:[function(require,module,exports){
+},{"./Parse":22}],39:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -45660,7 +45682,7 @@ var Parse = require('./Parse').Parse;
       return query;
     }
   };
-},{"./Parse":21}],39:[function(require,module,exports){
+},{"./Parse":22}],40:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -45787,7 +45809,7 @@ var Parse = require('./Parse').Parse;
   });
 
 
-},{"./Parse":21}],40:[function(require,module,exports){
+},{"./Parse":22}],41:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -45908,7 +45930,7 @@ var Parse = require('./Parse').Parse;
    */
   Parse.Router.extend = Parse._extend;
 
-},{"./Parse":21}],41:[function(require,module,exports){
+},{"./Parse":22}],42:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -46565,7 +46587,7 @@ var Parse = require('./Parse').Parse;
 
   });
 
-},{"./Parse":21}],42:[function(require,module,exports){
+},{"./Parse":22}],43:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -46769,7 +46791,7 @@ var Parse = require('./Parse').Parse;
    */
   Parse.View.extend = Parse._extend;
 
-},{"./Parse":21}],43:[function(require,module,exports){
+},{"./Parse":22}],44:[function(require,module,exports){
 //     Underscore.js 1.7.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -48186,11 +48208,11 @@ var Parse = require('./Parse').Parse;
   }
 }.call(this));
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 module.exports = require('./lib/Parse').Parse;
 
 
-},{"./lib/Parse":21}],45:[function(require,module,exports){
+},{"./lib/Parse":22}],46:[function(require,module,exports){
 /*
      _ _      _       _
  ___| (_) ___| | __  (_)___
@@ -50309,4 +50331,4 @@ module.exports = require('./lib/Parse').Parse;
 
 }));
 
-},{"jquery":20}]},{},[8]);
+},{"jquery":21}]},{},[9]);

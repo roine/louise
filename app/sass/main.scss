@@ -68,3 +68,18 @@ body, html {
 .show {
   border: 1px solid red;
 }
+
+.loading {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  opacity: .8;
+  background: #bdc3c7;
+  .loading-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 120%;
+  }
+}
