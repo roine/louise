@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="style/main.css"/>
 </head>
 <body>
-<section class="container" ng-view>
+<section class="container" ng-view ng-class="{isLoading:showLoading && loading}">
 </section>
 <loading-indicator ng-cloak>
 	Chargement

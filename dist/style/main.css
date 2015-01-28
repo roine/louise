@@ -326,8 +326,8 @@ td, th {
           animation: fadeInUp 1.2s; }
 
 .loading.ng-hide-remove {
-  -webkit-animation: fadeInDownR 0.3s;
-          animation: fadeInDownR 0.3s; }
+  -webkit-animation: fadeInDownR 0.4s;
+          animation: fadeInDownR 0.4s; }
 
 .loading.ng-hide-add {
   -webkit-animation: fadeOutUpR 0.3s;
@@ -6534,6 +6534,10 @@ th.hide-for-touch {
 body, html {
   height: 100%; }
 
+.container.isLoading {
+  -webkit-filter: blur(3px);
+          filter: blur(3px); }
+
 .head {
   font-weight: bold; }
   .head .head-title {
@@ -6554,7 +6558,7 @@ body, html {
   height: 100%;
   width: 100%;
   opacity: 0.8;
-  background: #bdc3c7; }
+  background: #d4ebf2; }
   .loading .loading-content {
     position: absolute;
     top: 50%;
@@ -6562,4 +6566,8 @@ body, html {
     -webkit-transform: translate(-50%, -50%);
         -ms-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
-    font-size: 120%; }
+    font-size: 150%;
+    color: #2e7e99;
+    text-transform: uppercase;
+    font-weight: 100;
+    letter-spacing: 5px; }

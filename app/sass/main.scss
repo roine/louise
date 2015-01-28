@@ -12,6 +12,10 @@ body, html {
   height: 100%;
 }
 
+.container.isLoading {
+  filter: blur(3px);
+}
+
 .head {
   font-weight: bold;
   .head-title {
@@ -41,12 +45,16 @@ body, html {
   height: 100%;
   width: 100%;
   opacity: .8;
-  background: #bdc3c7;
+  background: lighten(#add8e6, 10%);
   .loading-content {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 120%;
+    font-size: 150%;
+    color: darken(#add8e6, 40%);
+    text-transform: uppercase;
+    font-weight: 100;
+    letter-spacing: 5px;
   }
 }
