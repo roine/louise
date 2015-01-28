@@ -2,19 +2,14 @@
 @import "settings";
 @import "animations";
 // Libraries
-@import "foundation";
-@import "slick";
+@import "foundation",
+"slick";
+// Pages
+@import "home",
+"projects";
 
 body, html {
   height: 100%;
-}
-
-.fixed-menu {
-  display: table;
-  height: 100%;
-  position: fixed;
-  padding: 50px 60px;
-  width: 100%;
 }
 
 .head {
@@ -34,34 +29,6 @@ body, html {
   .head-about {
     margin-top: 20px;
 
-  }
-}
-
-.project-list {
-  columns: 6 auto;
-  margin-top: 150px;
-  height: calc(100% - 300px);
-  counter-reset: enum;
-}
-
-.project {
-  column-rule-width: 200px;
-  margin-bottom: 10px;
-  break-inside: avoid-column;
-  position: relative;
-  a {
-    color: inherit;
-  }
-  .project-title {
-    font-weight: bold;
-  }
-
-  &:before {
-    content: counter(enum) " ]";
-    counter-increment: enum;
-    position: relative;
-    float: left;
-    padding-right: 5px;
   }
 }
 

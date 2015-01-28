@@ -1,0 +1,45 @@
+.fixed-menu {
+  display: table;
+  height: 100%;
+  position: fixed;
+  padding: 50px 60px;
+  width: 100%;
+}
+
+.project-list {
+  columns: 6 auto;
+  margin-top: 150px;
+  height: calc(100% - 300px);
+  counter-reset: enum;
+}
+
+.project {
+  column-rule-width: 200px;
+  margin-bottom: 10px;
+  break-inside: avoid-column;
+  position: relative;
+  a {
+    color: inherit;
+  }
+  .project-title {
+    font-weight: bold;
+  }
+
+  &:before {
+    content: counter(enum) " ]";
+    counter-increment: enum;
+    position: relative;
+    float: left;
+    padding-right: 5px;
+  }
+}
+
+.etc {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-weight: bold;
+  li{
+    list-style: none;
+  }
+}

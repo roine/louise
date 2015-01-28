@@ -5,3 +5,30 @@
 .project-list.ng-hide-remove {
   animation: fadeInUp 1.2s;
 }
+
+.loading.ng-hide-remove {
+  animation: fadeInDownR .3s;
+}
+
+.loading.ng-hide-add {
+  animation: fadeOutUpR .3s;
+}
+
+//rewrite the fadeInDown for the loading animation
+@keyframes fadeInDownR {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+@keyframes fadeOutUpR {
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+  }
+}
+

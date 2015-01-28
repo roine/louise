@@ -1,7 +1,7 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 require('angular');
 
-module.exports = /*@ngInject*/ ["$scope", "parse", function ($scope, parse) {
+module.exports = /*@ngInject*/ ["parse", "$scope", function (parse, $scope) {
     parse.getOptions().then(function (options) {
         $scope.options = options;
     });
@@ -56,7 +56,7 @@ module.exports = /*@ngInject*/ ["$rootScope", "$timeout", function ($rootScope, 
                 scope.showLoading = false;
                 $timeout(function(){
                     scope.showLoading = true;
-                }, 600);
+                }, 300);
             });
 
             $rootScope.$on('$routeChangeSuccess', function () {
@@ -152,19 +152,20 @@ module.exports = /*@ngInject*/ ["$routeProvider", "$locationProvider", function 
     $routeProvider
         .when('/', {
             templateUrl: 'views/home.html',
-            controller: 'HomeCtrl'
+            controller: 'HomeCtrl',
         })
         .when('/projet/:projectSlug', {
             templateUrl: 'views/project.html',
             controller: 'ProjectCtrl',
             resolve: {
-                images: ["imageLoader", "$route", function (imageLoader, $route) {
+                images: ["imageLoader", "$route", "$timeout", function (imageLoader, $route, $timeout) {
                     return imageLoader.init($route.current.params.projectSlug)
                 }]
             }
         })
         .otherwise('/');
 }];
+
 },{"./services":14,"angular":19}],12:[function(require,module,exports){
 module.exports.requests = /*@ngInject*/ ["$cacheFactory", function($cacheFactory){
     return $cacheFactory('requests');
@@ -468,7 +469,7 @@ module.exports =  /*@ngInject*/ ["$q", "$cacheFactory", "requestsCache", functio
     return _public;
 }];
 },{"angular":19,"parse-browserify":45}],16:[function(require,module,exports){
-angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("views/home.html","<div class=\"fixed-menu\">\n	<div class=\"head\" ng-show=\"options\">\n		<h3 class=\"head-title\">{{options.firstname}} {{options.lastname}}</h3>\n		<div class=\"head-job\">{{options.job}}</div>\n		<div class=\"head-phone\">{{options.phone}}</div>\n		<div class=\"head-email\"><a ng-href=\"mailto:{{options.email}}\" ng-show=\"options.email\">e-mail</a></div>\n		<div class=\"head-about\">&agrave; propos</div>\n	</div>\n	<div class=\"project-list\" ng-show=\"projects\">\n		<div ng-repeat=\"project in projects\" class=\"project\">\n			<a ng-href=\"#!/projet/{{project.slug}}\">\n				<div class=\"project-title\">{{project.title}}</div>\n				<div class=\"project-summary\">{{project.summary}}</div>\n			</a>\n		</div>\n	</div>\n</div>\n");
+angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("views/home.html","<div class=\"fixed-menu\">\n	<div class=\"head\" ng-show=\"options\">\n		<h3 class=\"head-title\">{{options.firstname}} {{options.lastname}}</h3>\n\n		<div class=\"head-job\">{{options.job}}</div>\n		<div class=\"head-phone\">{{options.phone}}</div>\n		<div class=\"head-email\"><a ng-href=\"mailto:{{options.email}}\" ng-show=\"options.email\">e-mail</a></div>\n		<div class=\"head-about\">&agrave; propos</div>\n	</div>\n	<div class=\"row\" style=\"position:relative;\">\n		<div class=\"project-list large-10 columns\" ng-show=\"projects\">\n			<div ng-repeat=\"project in projects\" class=\"project\">\n				<a ng-href=\"#!/projet/{{project.slug}}\">\n					<div class=\"project-title\">{{project.title}}</div>\n					<div class=\"project-summary\">{{project.summary}}</div>\n				</a>\n			</div>\n		</div>\n		<div class=\"etc large-2\">\n			<div class=\"right\">\n				<ul>\n					<li>magneto</li>\n					<li>F.O.R.G.E</li>\n					<li>Mystique</li>\n				</ul>\n				<div>portfolio.pdf</div>\n			</div>\n		</div>\n	</div>\n\n</div>\n");
 $templateCache.put("views/project.html","<div class=\"row\">\n	<div class=\"large-12 columns\">\n		{{project.title}}\n\n		<slick-carousel images=\"images\"></slick-carousel>\n		<a href=\"#!/\">home</a>\n	</div>\n</div>");}]);
 },{}],17:[function(require,module,exports){
 /**

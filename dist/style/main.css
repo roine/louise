@@ -325,6 +325,46 @@ td, th {
   -webkit-animation: fadeInUp 1.2s;
           animation: fadeInUp 1.2s; }
 
+.loading.ng-hide-remove {
+  -webkit-animation: fadeInDownR 0.3s;
+          animation: fadeInDownR 0.3s; }
+
+.loading.ng-hide-add {
+  -webkit-animation: fadeOutUpR 0.3s;
+          animation: fadeOutUpR 0.3s; }
+
+@-webkit-keyframes fadeInDownR {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+            transform: translate3d(0, -100%, 0); }
+
+  100% {
+    -webkit-transform: none;
+            transform: none; } }
+
+@keyframes fadeInDownR {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+            transform: translate3d(0, -100%, 0); }
+
+  100% {
+    -webkit-transform: none;
+            transform: none; } }
+
+@-webkit-keyframes fadeOutUpR {
+  100% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+            transform: translate3d(0, -100%, 0); } }
+
+@keyframes fadeOutUpR {
+  100% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+            transform: translate3d(0, -100%, 0); } }
+
 meta.foundation-version {
   font-family: "/5.4.7/"; }
 
@@ -425,7 +465,7 @@ select {
   margin-right: auto;
   margin-top: 0;
   margin-bottom: 0;
-  max-width: 62.5rem; }
+  max-width: rem-calc(1160); }
   .row:before, .row:after {
     content: " ";
     display: table; }
@@ -4034,7 +4074,7 @@ ul.pagination {
   @media only screen and (min-width:40.063em) {
     .reveal-modal, dialog {
       width: 80%;
-      max-width: 62.5rem;
+      max-width: rem-calc(1160);
       left: 0;
       right: 0;
       margin: 0 auto; } }
@@ -4050,35 +4090,35 @@ ul.pagination {
   @media only screen and (min-width:40.063em) {
     .reveal-modal.tiny, dialog.tiny {
       width: 30%;
-      max-width: 62.5rem;
+      max-width: rem-calc(1160);
       left: 0;
       right: 0;
       margin: 0 auto; } }
   @media only screen and (min-width:40.063em) {
     .reveal-modal.small, dialog.small {
       width: 40%;
-      max-width: 62.5rem;
+      max-width: rem-calc(1160);
       left: 0;
       right: 0;
       margin: 0 auto; } }
   @media only screen and (min-width:40.063em) {
     .reveal-modal.medium, dialog.medium {
       width: 60%;
-      max-width: 62.5rem;
+      max-width: rem-calc(1160);
       left: 0;
       right: 0;
       margin: 0 auto; } }
   @media only screen and (min-width:40.063em) {
     .reveal-modal.large, dialog.large {
       width: 70%;
-      max-width: 62.5rem;
+      max-width: rem-calc(1160);
       left: 0;
       right: 0;
       margin: 0 auto; } }
   @media only screen and (min-width:40.063em) {
     .reveal-modal.xlarge, dialog.xlarge {
       width: 95%;
-      max-width: 62.5rem;
+      max-width: rem-calc(1160);
       left: 0;
       right: 0;
       margin: 0 auto; } }
@@ -4093,7 +4133,7 @@ ul.pagination {
     @media only screen and (min-width:40.063em) {
       .reveal-modal.full, dialog.full {
         width: 100vw;
-        max-width: 62.5rem;
+        max-width: rem-calc(1160);
         left: 0;
         right: 0;
         margin: 0 auto; } }
@@ -4930,7 +4970,7 @@ meta.foundation-mq-topbar {
       background: #333333; }
 
   .contain-to-grid .top-bar {
-    max-width: 62.5rem;
+    max-width: rem-calc(1160);
     margin: 0 auto;
     margin-bottom: 0; }
 
@@ -6448,27 +6488,12 @@ th.hide-for-touch {
       color: black;
       opacity: 0.75; }
 
-body, html {
-  height: 100%; }
-
 .fixed-menu {
   display: table;
   height: 100%;
   position: fixed;
   padding: 50px 60px;
   width: 100%; }
-
-.head {
-  font-weight: bold; }
-  .head .head-title {
-    font-weight: bold;
-    margin-bottom: 5px; }
-  .head .head-job, .head .head-phone, .head .head-email {
-    font-size: 14px; }
-  .head .head-email a {
-    color: inherit; }
-  .head .head-about {
-    margin-top: 20px; }
 
 .project-list {
   -webkit-columns: 6 auto;
@@ -6497,6 +6522,29 @@ body, html {
     position: relative;
     float: left;
     padding-right: 5px; }
+
+.etc {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-weight: bold; }
+  .etc li {
+    list-style: none; }
+
+body, html {
+  height: 100%; }
+
+.head {
+  font-weight: bold; }
+  .head .head-title {
+    font-weight: bold;
+    margin-bottom: 5px; }
+  .head .head-job, .head .head-phone, .head .head-email {
+    font-size: 14px; }
+  .head .head-email a {
+    color: inherit; }
+  .head .head-about {
+    margin-top: 20px; }
 
 .show {
   border: 1px solid red; }
