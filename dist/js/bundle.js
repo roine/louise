@@ -40,18 +40,23 @@ angular.module('app')
 
 
 },{"./loading-indicator":5,"./slick-carousel":6,"angular":19}],5:[function(require,module,exports){
-module.exports = /*@ngInject*/ ["$rootScope", function ($rootScope) {
+module.exports = /*@ngInject*/ ["$rootScope", "$timeout", function ($rootScope, $timeout) {
     return {
         restrict: 'E',
-        template: '<div class="loading" ng-show="loading"><div class="loading-content" ng-transclude></div></div>',
+        template: '<div class="loading" ng-show="loading && showLoading"><div class="loading-content" ng-transclude></div></div>',
         replace: true,
         transclude: true,
         link: function (scope, elem, attr) {
 
             scope.loading = false;
+            scope.showLoading = false
 
             $rootScope.$on('$routeChangeStart', function () {
                 scope.loading = true;
+                scope.showLoading = false;
+                $timeout(function(){
+                    scope.showLoading = true;
+                }, 600);
             });
 
             $rootScope.$on('$routeChangeSuccess', function () {
