@@ -1,6 +1,13 @@
-<div class="row">
+<div class="row content">
 	<div class="large-12 columns">
-		{{project.title}}
+		<div class="head" ng-show="options">
+			<h3 class="head-title">{{options.firstname}} {{options.lastname}}</h3>
+
+			<div class="head-job">{{options.job}}</div>
+			<div class="head-phone">{{options.phone}}</div>
+			<div class="head-email"><a ng-href="mailto:{{options.email}}" ng-show="options.email">e-mail</a></div>
+			<div class="head-about">&agrave; propos</div>
+		</div>
 
 		<slick-carousel images="images"></slick-carousel>
 		<a href="#!/">home</a>

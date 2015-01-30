@@ -12,8 +12,14 @@ body, html {
   height: 100%;
 }
 
-.container.isLoading {
-  filter: blur(3px);
+.container {
+  .isLoading {
+    filter: blur(3px);
+  }
+}
+
+.content {
+  padding: 30px 50px;
 }
 
 .head {

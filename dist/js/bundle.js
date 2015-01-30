@@ -21,17 +21,18 @@ angular.module('app')
 require('angular');
 
 module.exports = /*@ngInject*/ ["$scope", "$routeParams", "parse", "imageLoader", "images", function ($scope, $routeParams, parse, imageLoader, images) {
+
+    // get the project information
     parse.findBySlug($routeParams.projectSlug).then(function (result) {
         $scope.project = result;
     });
+    // images have been resolved and are ready to be served
+    $scope.images = images;
 
-    imageLoader.init($routeParams.projectSlug).then(function (images) {
-        $scope.images = images;
-    });
-
-    console.log(images);
-
-}]
+    parse.getOptions().then(function(options){
+        $scope.options = options;
+    })
+}];
 },{"angular":19}],4:[function(require,module,exports){
 require('angular');
 angular.module('app')
@@ -43,7 +44,7 @@ angular.module('app')
 module.exports = /*@ngInject*/ ["$rootScope", "$timeout", function ($rootScope, $timeout) {
     return {
         restrict: 'E',
-        template: '<div class="loading" ng-show="loading && showLoading"><div class="loading-content" ng-transclude></div></div>',
+        template: '<div class="loading anim" ng-show="loading && showLoading"><div class="loading-content" ng-transclude></div></div>',
         replace: true,
         transclude: true,
         link: function (scope, elem, attr) {
@@ -469,8 +470,8 @@ module.exports =  /*@ngInject*/ ["$q", "$cacheFactory", "requestsCache", functio
     return _public;
 }];
 },{"angular":19,"parse-browserify":45}],16:[function(require,module,exports){
-angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("views/home.html","<div class=\"fixed-menu\">\n	<div class=\"head\" ng-show=\"options\">\n		<h3 class=\"head-title\">{{options.firstname}} {{options.lastname}}</h3>\n\n		<div class=\"head-job\">{{options.job}}</div>\n		<div class=\"head-phone\">{{options.phone}}</div>\n		<div class=\"head-email\"><a ng-href=\"mailto:{{options.email}}\" ng-show=\"options.email\">e-mail</a></div>\n		<div class=\"head-about\">&agrave; propos</div>\n	</div>\n	<div class=\"row\" style=\"position:relative;\">\n		<div class=\"project-list large-10 columns\" ng-show=\"projects\">\n			<div ng-repeat=\"project in projects\" class=\"project\">\n				<a ng-href=\"#!/projet/{{project.slug}}\">\n					<div class=\"project-title\">{{project.title}}</div>\n					<div class=\"project-summary\">{{project.summary}}</div>\n				</a>\n			</div>\n		</div>\n		<div class=\"etc large-2\">\n			<div class=\"right\">\n				<ul>\n					<li>magneto</li>\n					<li>F.O.R.G.E</li>\n					<li>Mystique</li>\n				</ul>\n				<div>portfolio.pdf</div>\n			</div>\n		</div>\n	</div>\n\n</div>\n");
-$templateCache.put("views/project.html","<div class=\"row\">\n	<div class=\"large-12 columns\">\n		{{project.title}}\n\n		<slick-carousel images=\"images\"></slick-carousel>\n		<a href=\"#!/\">home</a>\n	</div>\n</div>");}]);
+angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("views/home.html","<div class=\"fixed-menu content\">\n	<div class=\"anim head\" ng-show=\"options\">\n		<h3 class=\"head-title\">{{options.firstname}} {{options.lastname}}</h3>\n\n		<div class=\"head-job\">{{options.job}}</div>\n		<div class=\"head-phone\">{{options.phone}}</div>\n		<div class=\"head-email\"><a ng-href=\"mailto:{{options.email}}\" ng-show=\"options.email\">e-mail</a></div>\n		<div class=\"head-about\">&agrave; propos</div>\n	</div>\n	<div class=\"row\" style=\"position:relative;\">\n		<div class=\"project-list large-10 columns anim\" ng-show=\"projects\">\n			<div ng-repeat=\"project in projects\" class=\"project\">\n				<a ng-href=\"#!/projet/{{project.slug}}\">\n					<div class=\"project-title\">{{project.title}}</div>\n					<div class=\"project-summary\">{{project.summary}}</div>\n				</a>\n			</div>\n		</div>\n		<div class=\"etc large-2 anim\" ng-show=\"projects\">\n			<div class=\"right\">\n				<ul>\n					<li>magneto</li>\n					<li>F.O.R.G.E</li>\n					<li>Mystique</li>\n				</ul>\n				<div>portfolio.pdf</div>\n			</div>\n		</div>\n	</div>\n\n</div>\n");
+$templateCache.put("views/project.html","<div class=\"row content\">\n	<div class=\"large-12 columns\">\n		<div class=\"head\" ng-show=\"options\">\n			<h3 class=\"head-title\">{{options.firstname}} {{options.lastname}}</h3>\n\n			<div class=\"head-job\">{{options.job}}</div>\n			<div class=\"head-phone\">{{options.phone}}</div>\n			<div class=\"head-email\"><a ng-href=\"mailto:{{options.email}}\" ng-show=\"options.email\">e-mail</a></div>\n			<div class=\"head-about\">&agrave; propos</div>\n		</div>\n\n		<slick-carousel images=\"images\"></slick-carousel>\n		<a href=\"#!/\">home</a>\n	</div>\n</div>");}]);
 },{}],17:[function(require,module,exports){
 /**
  * @license AngularJS v1.3.8

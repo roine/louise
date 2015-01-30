@@ -1,17 +1,20 @@
-.head.ng-hide-remove {
-  animation: fadeInLeft 1s;
-}
+.anim {
+  &.head.ng-hide-remove {
+    animation: fadeInLeft 1s;
+  }
 
-.project-list.ng-hide-remove {
-  animation: fadeInUp 1.2s;
-}
-
-.loading.ng-hide-remove {
-  animation: fadeInDownR .4s;
-}
-
-.loading.ng-hide-add {
-  animation: fadeOutUpR .3s;
+  &.project-list.ng-hide-remove {
+    animation: fadeInUp 1.2s;
+  }
+  &.etc.ng-hide-remove {
+    animation: fadeInUp 1s;
+  }
+  &.loading.ng-hide-remove {
+    animation: fadeInDownR .4s;
+  }
+  &.loading.ng-hide-add {
+    animation: fadeOutUpR .3s;
+  }
 }
 
 //rewrite the fadeInDown for the loading animation

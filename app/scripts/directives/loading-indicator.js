@@ -1,7 +1,7 @@
 module.exports = /*@ngInject*/ function ($rootScope, $timeout) {
     return {
         restrict: 'E',
-        template: '<div class="loading" ng-show="loading && showLoading"><div class="loading-content" ng-transclude></div></div>',
+        template: '<div class="loading anim" ng-show="loading && showLoading"><div class="loading-content" ng-transclude></div></div>',
         replace: true,
         transclude: true,
         link: function (scope, elem, attr) {

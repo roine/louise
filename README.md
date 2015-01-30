@@ -41,7 +41,7 @@ height: calc(100% - 300px); **v**
 - ajouter le lien contact en dessous du téléphone **v** (ajouter dans parse et changer le style du lien)
 - ajouter des numéros aux légendes (qui devraient se répéter à côté des images cf la maquette du site) **v**
 - ajouter les images sur la home page (cf site, sera-t-il possible de gérer la position et la taille des images + que ça soit responsive ? )
-- ajouter les liens vers magneto, portfolio, source et F.O.R.G.E en bas à gauche en fixe. 
+- ajouter les liens vers magneto, portfolio, source et F.O.R.G.E en bas à gauche en fixe.  **v**
 
 PAGE PROJET : 
 
