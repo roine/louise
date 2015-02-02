@@ -6535,7 +6535,7 @@ th.hide-for-touch {
 body, html {
   height: 100%; }
 
-.container .isLoading {
+.container.isLoading {
   -webkit-filter: blur(3px);
           filter: blur(3px); }
 

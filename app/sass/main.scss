@@ -13,7 +13,7 @@ body, html {
 }
 
 .container {
-  .isLoading {
+  &.isLoading {
     filter: blur(3px);
   }
 }
