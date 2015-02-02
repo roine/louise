@@ -34,7 +34,9 @@
     "browserify-ngannotate": "~0.5.0",
     "uglifyify": "~2.6.0",
     "gulp-streamify": "0.0.5",
-    "gulp-imagemin": "~2.1.0"
+    "gulp-imagemin": "~2.1.0",
+    "gulp-jshint": "~1.9.2",
+    "jshint-stylish": "~1.0.0"
   },
   "dependencies": {
     "browserify": "~6.2.0",

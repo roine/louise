@@ -2,5 +2,6 @@
     "globals": {
         "angular": true,
         "Parse": true
-    }
+    },
+    "browserify": true
 }

@@ -51,29 +51,31 @@ module.exports = function () {
                 });
             }, function () {
                 defer.resolve(self.images[project]);
+                // not sure this is useful
                 return self.images[project];
             });
 
             return defer.promise;
 
-        }
+        };
 
         this.loader = function (paths, i) {
             var defer = $q.defer();
             var self = this,
                 img = new Image();
+
             img.src = paths[i];
 
             img.onload = function () {
-                self.images[self.project].push(paths[i])
+                self.images[self.project].push(paths[i]);
                 defer.resolve();
-            }
+            };
 
             img.onerror = function () {
                 defer.reject();
-            }
+            };
             return defer.promise;
-        }
+        };
 
         function asyncLoop(iterations, func, callback) {
             var index = 0;
@@ -110,5 +112,5 @@ module.exports = function () {
 
     this.$get = /*@ngInject*/ function ($q) {
         return new ImageLoader($q);
-    }
-}
+    };
+};

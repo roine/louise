@@ -11,5 +11,5 @@ module.exports = /*@ngInject*/ function ($scope, $routeParams, parse, imageLoade
 
     parse.getOptions().then(function(options){
         $scope.options = options;
-    })
+    });
 };

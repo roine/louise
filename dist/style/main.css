@@ -324,8 +324,8 @@ td, th {
   -webkit-animation: fadeInUp 1.2s;
           animation: fadeInUp 1.2s; }
 .anim.etc.ng-hide-remove {
-  -webkit-animation: fadeInUp 1s;
-          animation: fadeInUp 1s; }
+  -webkit-animation: fadeInUp 800ms;
+          animation: fadeInUp 800ms; }
 .anim.loading.ng-hide-remove {
   -webkit-animation: fadeInDownR 0.4s;
           animation: fadeInDownR 0.4s; }
@@ -6492,7 +6492,6 @@ th.hide-for-touch {
   display: table;
   height: 100%;
   position: fixed;
-  padding: 50px 60px;
   width: 100%; }
 
 .project-list {
@@ -6530,6 +6529,8 @@ th.hide-for-touch {
   font-weight: bold; }
   .etc li {
     list-style: none; }
+  .etc a {
+    color: inherit; }
 
 body, html {
   height: 100%; }

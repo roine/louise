@@ -15,7 +15,9 @@ var gulp = require('gulp'),
     autoprefixer = require('gulp-autoprefixer'),
     uglify = require('gulp-uglify'),
     ngAnnotate = require('gulp-ng-annotate'),
-    imagemin = require('gulp-imagemin');
+    imagemin = require('gulp-imagemin'),
+    jshint = require('gulp-jshint'),
+    stylish = require('jshint-stylish');
 
 var opt = {
     SASS_FOLDER: './app/sass/',
@@ -105,7 +107,13 @@ gulp.task('imageopt', function () {
     gulp.src(opt.IMAGES_PROJECTS)
         .pipe(imagemin())
         .pipe(gulp.dest(opt.IMAGES_PROJECTS_OPTIM));
-})
+});
+
+gulp.task('lint', function () {
+    return gulp.src(opt.JS_SOURCE)
+        .pipe(jshint())
+        .pipe(jshint.reporter('jshint-stylish'));
+});
 
 gulp.task('default', function () {
     gulp.watch([opt.VIEW_SOURCE, opt.TEMPLATE_SOURCE], ['templateCache']);

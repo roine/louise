@@ -13,7 +13,7 @@ module.exports = /*@ngInject*/ function ($routeProvider, $locationProvider) {
             controller: 'ProjectCtrl',
             resolve: {
                 images: function (imageLoader, $route, $timeout) {
-                    return imageLoader.init($route.current.params.projectSlug)
+                    return imageLoader.init($route.current.params.projectSlug);
                 }
             }
         })

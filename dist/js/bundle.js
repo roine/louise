@@ -31,7 +31,7 @@ module.exports = /*@ngInject*/ ["$scope", "$routeParams", "parse", "imageLoader"
 
     parse.getOptions().then(function(options){
         $scope.options = options;
-    })
+    });
 }];
 },{"angular":19}],4:[function(require,module,exports){
 require('angular');
@@ -50,7 +50,7 @@ module.exports = /*@ngInject*/ ["$rootScope", "$timeout", function ($rootScope, 
         link: function (scope, elem, attr) {
 
             scope.loading = false;
-            scope.showLoading = false
+            scope.showLoading = false;
 
             $rootScope.$on('$routeChangeStart', function () {
                 scope.loading = true;
@@ -64,12 +64,12 @@ module.exports = /*@ngInject*/ ["$rootScope", "$timeout", function ($rootScope, 
                 scope.loading = false;
             });
         }
-    }
-}]
+    };
+}];
 },{}],6:[function(require,module,exports){
 require('angular');
 require('slick-carousel');
-var $ = require('jquery')
+var $ = require('jquery');
 
 module.exports = /*@ngInject*/ ["$timeout", function ($timeout) {
     return {
@@ -86,15 +86,14 @@ module.exports = /*@ngInject*/ ["$timeout", function ($timeout) {
                 $timeout(function(){
                     $(element).slick();
                 });
-            };
+            }
             if(!initialized){
                 scope.$watch('images', function(newVal, oldVal){
                     if(angular.isDefined(newVal) && !initialized){
-                        console.log('init')
                         initialize();
                         initialized = true;
                     }
-                })
+                });
             }
 
         }
@@ -143,7 +142,7 @@ angular.bootstrap(document, ['app']);
 module.exports = function(imageLoaderProvider){
     imageLoaderProvider.maxImage(25);
     imageLoaderProvider.useOptim(true);
-}
+};
 },{}],11:[function(require,module,exports){
 require('angular');
 require('./services');
@@ -160,7 +159,7 @@ module.exports = /*@ngInject*/ ["$routeProvider", "$locationProvider", function 
             controller: 'ProjectCtrl',
             resolve: {
                 images: ["imageLoader", "$route", "$timeout", function (imageLoader, $route, $timeout) {
-                    return imageLoader.init($route.current.params.projectSlug)
+                    return imageLoader.init($route.current.params.projectSlug);
                 }]
             }
         })
@@ -225,29 +224,31 @@ module.exports = function () {
                 });
             }, function () {
                 defer.resolve(self.images[project]);
+                // not sure this is useful
                 return self.images[project];
             });
 
             return defer.promise;
 
-        }
+        };
 
         this.loader = function (paths, i) {
             var defer = $q.defer();
             var self = this,
                 img = new Image();
+
             img.src = paths[i];
 
             img.onload = function () {
-                self.images[self.project].push(paths[i])
+                self.images[self.project].push(paths[i]);
                 defer.resolve();
-            }
+            };
 
             img.onerror = function () {
                 defer.reject();
-            }
+            };
             return defer.promise;
-        }
+        };
 
         function asyncLoop(iterations, func, callback) {
             var index = 0;
@@ -284,8 +285,8 @@ module.exports = function () {
 
     this.$get = /*@ngInject*/ ["$q", function ($q) {
         return new ImageLoader($q);
-    }]
-}
+    }];
+};
 },{"angular":19}],14:[function(require,module,exports){
 require('angular');
 angular.module('app')
@@ -407,7 +408,7 @@ module.exports =  /*@ngInject*/ ["$q", "$cacheFactory", "requestsCache", functio
         query.equalTo(key, params[key]);
         query.find({
             success: function (response) {
-                var project = {}
+                var project = {};
                 angular.forEach(response, function (obj, key) {
                     project = {
                         title: obj.get('title'),
@@ -470,8 +471,8 @@ module.exports =  /*@ngInject*/ ["$q", "$cacheFactory", "requestsCache", functio
     return _public;
 }];
 },{"angular":19,"parse-browserify":45}],16:[function(require,module,exports){
-angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("views/home.html","<div class=\"fixed-menu content\">\n	<div class=\"anim head\" ng-show=\"options\">\n		<h3 class=\"head-title\">{{options.firstname}} {{options.lastname}}</h3>\n\n		<div class=\"head-job\">{{options.job}}</div>\n		<div class=\"head-phone\">{{options.phone}}</div>\n		<div class=\"head-email\"><a ng-href=\"mailto:{{options.email}}\" ng-show=\"options.email\">e-mail</a></div>\n		<div class=\"head-about\">&agrave; propos</div>\n	</div>\n	<div class=\"row\" style=\"position:relative;\">\n		<div class=\"project-list large-10 columns anim\" ng-show=\"projects\">\n			<div ng-repeat=\"project in projects\" class=\"project\">\n				<a ng-href=\"#!/projet/{{project.slug}}\">\n					<div class=\"project-title\">{{project.title}}</div>\n					<div class=\"project-summary\">{{project.summary}}</div>\n				</a>\n			</div>\n		</div>\n		<div class=\"etc large-2 anim\" ng-show=\"projects\">\n			<div class=\"right\">\n				<ul>\n					<li>magneto</li>\n					<li>F.O.R.G.E</li>\n					<li>Mystique</li>\n				</ul>\n				<div>portfolio.pdf</div>\n			</div>\n		</div>\n	</div>\n\n</div>\n");
-$templateCache.put("views/project.html","<div class=\"row content\">\n	<div class=\"large-12 columns\">\n		<div class=\"head\" ng-show=\"options\">\n			<h3 class=\"head-title\">{{options.firstname}} {{options.lastname}}</h3>\n\n			<div class=\"head-job\">{{options.job}}</div>\n			<div class=\"head-phone\">{{options.phone}}</div>\n			<div class=\"head-email\"><a ng-href=\"mailto:{{options.email}}\" ng-show=\"options.email\">e-mail</a></div>\n			<div class=\"head-about\">&agrave; propos</div>\n		</div>\n\n		<slick-carousel images=\"images\"></slick-carousel>\n		<a href=\"#!/\">home</a>\n	</div>\n</div>");}]);
+angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("views/home.html","<div class=\"fixed-menu content\">\n	<div class=\"anim head\" ng-show=\"options\">\n		<h3 class=\"head-title\">{{options.firstname}} {{options.lastname}}</h3>\n\n		<div class=\"head-job\">{{options.job}}</div>\n		<div class=\"head-phone\">{{options.phone}}</div>\n		<div class=\"head-email\"><a ng-href=\"mailto:{{options.email}}\" ng-show=\"options.email\">e-mail</a></div>\n		<div class=\"head-about\">&agrave; propos</div>\n	</div>\n	<div class=\"row\" style=\"position:relative;\">\n		<div class=\"project-list large-10 columns anim\" ng-show=\"projects\">\n			<div ng-repeat=\"project in projects\" class=\"project\">\n				<a ng-href=\"#!/projet/{{project.slug}}\">\n					<div class=\"project-title\">{{project.title}}</div>\n					<div class=\"project-summary\">{{project.summary}}</div>\n				</a>\n			</div>\n		</div>\n		<div class=\"etc large-2 anim\" ng-show=\"projects\">\n			<div class=\"right\">\n				<ul>\n					<li><a href=\"http://www.le-magneto.com/\">magneto</a></li>\n					<li><a href=\"http://www.f-o-r-g-e.com/\">F.O.R.G.E</a></li>\n					<li><a href=\"http://www.mystique-plugin.com/\">Mystique</a></li>\n				</ul>\n				<div>portfolio.pdf</div>\n			</div>\n		</div>\n	</div>\n\n</div>\n");
+$templateCache.put("views/project.html","<div class=\"content\">\n	<div class=\"head\" ng-show=\"options\">\n		<h3 class=\"head-title\">{{options.firstname}} {{options.lastname}}</h3>\n\n		<div class=\"head-job\">{{options.job}}</div>\n		<div class=\"head-phone\">{{options.phone}}</div>\n		<div class=\"head-email\"><a ng-href=\"mailto:{{options.email}}\" ng-show=\"options.email\">e-mail</a></div>\n		<div class=\"head-about\">&agrave; propos</div>\n	</div>\n\n	<slick-carousel images=\"images\"></slick-carousel>\n	<a href=\"#!/\">home</a>\n</div>");}]);
 },{}],17:[function(require,module,exports){
 /**
  * @license AngularJS v1.3.8

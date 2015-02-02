@@ -110,7 +110,7 @@ module.exports =  /*@ngInject*/ function ($q, $cacheFactory, requestsCache) {
         query.equalTo(key, params[key]);
         query.find({
             success: function (response) {
-                var project = {}
+                var project = {};
                 angular.forEach(response, function (obj, key) {
                     project = {
                         title: obj.get('title'),

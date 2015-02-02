@@ -7,7 +7,7 @@ module.exports = /*@ngInject*/ function ($rootScope, $timeout) {
         link: function (scope, elem, attr) {
 
             scope.loading = false;
-            scope.showLoading = false
+            scope.showLoading = false;
 
             $rootScope.$on('$routeChangeStart', function () {
                 scope.loading = true;
@@ -21,5 +21,5 @@ module.exports = /*@ngInject*/ function ($rootScope, $timeout) {
                 scope.loading = false;
             });
         }
-    }
-}
+    };
+};

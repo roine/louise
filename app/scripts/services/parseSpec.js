@@ -15,7 +15,7 @@ describe('Parse Service', function () {
             toBePromise: function (util) {
                 return {
                     compare: function (actual) {
-                        var result = {}
+                        var result = {};
                         result.pass = typeof actual === "object" && typeof actual.then === "function";
 
                         if (result.pass) {

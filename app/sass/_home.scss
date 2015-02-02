@@ -2,7 +2,6 @@
   display: table;
   height: 100%;
   position: fixed;
-  padding: 50px 60px;
   width: 100%;
 }
 
@@ -41,5 +40,8 @@
   font-weight: bold;
   li {
     list-style: none;
+  }
+  a {
+    color: inherit;
   }
 }

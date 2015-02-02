@@ -1,6 +1,6 @@
 require('angular');
 require('slick-carousel');
-var $ = require('jquery')
+var $ = require('jquery');
 
 module.exports = /*@ngInject*/ function ($timeout) {
     return {
@@ -17,15 +17,14 @@ module.exports = /*@ngInject*/ function ($timeout) {
                 $timeout(function(){
                     $(element).slick();
                 });
-            };
+            }
             if(!initialized){
                 scope.$watch('images', function(newVal, oldVal){
                     if(angular.isDefined(newVal) && !initialized){
-                        console.log('init')
                         initialize();
                         initialized = true;
                     }
-                })
+                });
             }
 
         }
