@@ -55,7 +55,7 @@ module.exports = /*@ngInject*/ ["$rootScope", "$timeout", function ($rootScope, 
             $rootScope.$on('$routeChangeStart', function () {
                 scope.loading = true;
                 scope.showLoading = false;
-                $timeout(function(){
+                $timeout(function () {
                     scope.showLoading = true;
                 }, 300);
             });
