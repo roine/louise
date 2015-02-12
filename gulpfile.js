@@ -50,7 +50,7 @@ gulp.task('browserify', function () {
 
     var browserified = transform(function (filename) {
         var b = browserify(filename);
-        b.transform(browserifyAnnotate)
+        b.transform(browserifyAnnotate);
 
         return b.bundle();
     });
@@ -84,7 +84,7 @@ gulp.task('init', function () {
     // move animate
     gulp.src('./bower_components/animate.css/animate.css')
         .pipe(gulp.dest(opt.SASS_DIST));
-})
+});
 
 gulp.task('templateCache', function () {
     gulp.src(opt.VIEW_SOURCE)

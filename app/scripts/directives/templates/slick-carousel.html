@@ -1,5 +1,14 @@
-<div id="project-slider">
-	<div ng-repeat="image in images">
-		<img ng-src="{{image}}" alt=""/>
+<div class="slider-wrapper">
+
+	<div id="project-slider" class="project-slider" ng-show="images">
+		<div ng-repeat="image in images">
+			<img ng-src="{{image}}" alt=""/>
+		</div>
 	</div>
+
+	<div class="no-images" ng-show="!images">
+		On dirait que ce project n'a pas d'images
+	</div>
+	<a class="close project-close" href="#!/"></a>
+
 </div>

@@ -1,0 +1,28 @@
+.slider-wrapper {
+  position: relative;
+  margin-top: -20px;
+}
+
+.project-slider {
+  margin: 0 auto;
+  width: 60%;
+}
+
+.project-close {
+  position: absolute;
+  left: 95%;
+  top: 0;
+}
+
+.project-page {
+  .footer {
+    margin-top: 40px;
+    h5 {
+      font-weight: bold;
+      font-size: 13px;
+    }
+    div {
+      font-size: 12px;
+    }
+  }
+}

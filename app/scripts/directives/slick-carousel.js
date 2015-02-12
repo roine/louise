@@ -15,7 +15,7 @@ module.exports = /*@ngInject*/ function ($timeout) {
 
             function initialize(){
                 $timeout(function(){
-                    $(element).slick();
+                    $(element).find('#project-slider').slick();
                 });
             }
             if(!initialized){
