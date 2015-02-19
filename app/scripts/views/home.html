@@ -1,7 +1,7 @@
-<div class="fixed-menu content">
+<div class="fixed-menu content home-page">
 	<header options="options"></header>
 
-	<div class="row" style="position:relative;">
+	<div class="row project-wrapper">
 		<div class="project-list large-10 columns anim" ng-show="projects">
 			<div ng-repeat="project in projects" class="project">
 				<a ng-href="#!/projet/{{::project.slug}}">
@@ -10,7 +10,7 @@
 				</a>
 			</div>
 		</div>
-		<div class="etc large-2 anim" ng-show="projects">
+		<div class="etc large-2 columns anim" ng-show="projects">
 			<div class="right">
 				<ul>
 					<li><a href="http://www.le-magneto.com/">magneto</a></li>

@@ -6478,14 +6478,22 @@ th.hide-for-touch {
   height: 100%;
   position: fixed;
   width: 100%; }
+  .fixed-menu header {
+    display: table-row;
+    height: 300px; }
+
+.project-wrapper {
+  position: relative;
+  display: table-row; }
 
 .project-list {
   -webkit-columns: 6 auto;
      -moz-columns: 6 auto;
           columns: 6 auto;
-  margin-top: 150px;
-  height: calc(100% - 300px);
+  height: 100%;
   counter-reset: enum; }
+  .project-list.columns {
+    padding: 0; }
 
 .project {
   -webkit-column-rule-width: 200px;
@@ -6506,6 +6514,14 @@ th.hide-for-touch {
     position: relative;
     float: left;
     padding-right: 5px; }
+
+.home-page .etc {
+  height: 100%;
+  position: relative; }
+  .home-page .etc .right {
+    bottom: 0;
+    position: absolute;
+    right: 0; }
 
 .slider-wrapper {
   position: relative;
@@ -6586,9 +6602,6 @@ body, html {
   position: relative; }
 
 .etc {
-  position: absolute;
-  bottom: 0;
-  right: 0;
   font-weight: bold; }
   .etc li {
     list-style: none; }
