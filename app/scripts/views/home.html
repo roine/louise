@@ -1,12 +1,6 @@
 <div class="fixed-menu content">
-	<div class="anim head" ng-show="options">
-		<h3 class="head-title">{{options.firstname}} {{options.lastname}}</h3>
+	<header options="options"></header>
 
-		<div class="head-job">{{options.job}}</div>
-		<div class="head-phone">{{options.phone}}</div>
-		<div class="head-email"><a ng-href="mailto:{{options.email}}" ng-show="options.email">e-mail</a></div>
-		<div class="head-about">&agrave; propos</div>
-	</div>
 	<div class="row" style="position:relative;">
 		<div class="project-list large-10 columns anim" ng-show="projects">
 			<div ng-repeat="project in projects" class="project">

@@ -6588,3 +6588,6 @@ body, html {
   font-size: 32px; }
   .close:after {
     content: "X"; }
+
+.slick-dots li {
+  width: 0px; }

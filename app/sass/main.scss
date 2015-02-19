@@ -65,11 +65,17 @@ body, html {
   }
 }
 
-.close{
+.close {
   color: black;
   font-weight: 100;
   font-size: 32px;
-  &:after{
+  &:after {
     content: "X";
+  }
+}
+
+.slick-dots {
+  li {
+    width: 0px;
   }
 }

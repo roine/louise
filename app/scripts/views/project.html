@@ -1,31 +1,26 @@
 <div class="content project-page">
-	<div class="head" ng-show="options">
-		<h3 class="head-title">{{options.firstname}} {{options.lastname}}</h3>
+	<header options="options"></header>
 
-		<div class="head-job">{{options.job}}</div>
-		<div class="head-phone">{{options.phone}}</div>
-		<div class="head-email"><a ng-href="mailto:{{options.email}}" ng-show="options.email">e-mail</a></div>
-		<div class="head-about">&agrave; propos</div>
-	</div>
-	<slick-carousel images="images"></slick-carousel>
+	<slick-carousel images="images" dots="true" autoplay="true" autoplay-speed="4000" speed="800"></slick-carousel>
+
 	<div class="footer row">
 		<div class="large-2 columns">
-			<h5>{{project.title}}</h5>
+			<h5>{{::project.title}}</h5>
 
-			<div>{{project.summary}}</div>
+			<div>{{::project.summary}}</div>
 		</div>
 		<div class="large-2 columns">
 			<h5>Informations</h5>
 
 			<div>
-				{{project.information}}
+				{{::project.information}}
 			</div>
 		</div>
 		<div class="large-2 columns end">
 			<h5>Collaborateurs</h5>
 
 			<div>
-				{{project.collaborators}}
+				{{::project.collaborators}}
 			</div>
 		</div>
 	</div>

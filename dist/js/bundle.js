@@ -10,14 +10,14 @@ module.exports = /*@ngInject*/ ["parse", "$scope", function (parse, $scope) {
         console.log('projects', projects);
     });
 }];
-},{"angular":19}],2:[function(require,module,exports){
+},{"angular":20}],2:[function(require,module,exports){
 require('angular');
 angular.module('app')
     .controller('HomeCtrl',require('./home'))
     .controller('ProjectCtrl', require('./project'));
 
 
-},{"./home":1,"./project":3,"angular":19}],3:[function(require,module,exports){
+},{"./home":1,"./project":3,"angular":20}],3:[function(require,module,exports){
 require('angular');
 
 module.exports = /*@ngInject*/ ["$scope", "$routeParams", "parse", "imageLoader", "images", function ($scope, $routeParams, parse, imageLoader, images) {
@@ -33,14 +33,26 @@ module.exports = /*@ngInject*/ ["$scope", "$routeParams", "parse", "imageLoader"
         $scope.options = options;
     });
 }];
-},{"angular":19}],4:[function(require,module,exports){
+},{"angular":20}],4:[function(require,module,exports){
+module.exports = /*@ngInject*/ function () {
+    return {
+        templateUrl: 'templates/header.html',
+        scope: {
+            options: "="
+        },
+        link: function () {
+        }
+    };
+}
+},{}],5:[function(require,module,exports){
 require('angular');
 angular.module('app')
     .directive('slickCarousel', require('./slick-carousel'))
-    .directive('loadingIndicator', require('./loading-indicator'));
+    .directive('loadingIndicator', require('./loading-indicator'))
+    .directive('header', require('./header'));
 
 
-},{"./loading-indicator":5,"./slick-carousel":6,"angular":19}],5:[function(require,module,exports){
+},{"./header":4,"./loading-indicator":6,"./slick-carousel":7,"angular":20}],6:[function(require,module,exports){
 module.exports = /*@ngInject*/ ["$rootScope", "$timeout", function ($rootScope, $timeout) {
     return {
         restrict: 'E',
@@ -57,7 +69,7 @@ module.exports = /*@ngInject*/ ["$rootScope", "$timeout", function ($rootScope, 
                 scope.showLoading = false;
                 $timeout(function () {
                     scope.showLoading = true;
-                }, 300);
+                }, 500);
             });
 
             $rootScope.$on('$routeChangeSuccess', function () {
@@ -66,7 +78,7 @@ module.exports = /*@ngInject*/ ["$rootScope", "$timeout", function ($rootScope, 
         }
     };
 }];
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 require('angular');
 require('slick-carousel');
 var $ = require('jquery');
@@ -75,21 +87,43 @@ module.exports = /*@ngInject*/ ["$timeout", function ($timeout) {
     return {
         restrict: 'AE',
         scope: {
-            images: "="
+            images: "=",
+            dots: "@",
+            autoplay: "@",
+            autoplaySpeed: "@",
+            speed: "=",
+            options: "="
         },
         replace: true,
         templateUrl: 'templates/slick-carousel.html',
         link: function (scope, element, attr) {
             var initialized = false;
 
-            function initialize(){
-                $timeout(function(){
-                    $(element).find('#project-slider').slick();
+            function initialize() {
+                var options = [];
+                if (scope.dots) {
+                    options.dots = scope.$eval(scope.dots);
+                }
+                if (scope.autoplay) {
+                    options.autoplay = scope.$eval(scope.autoplay);
+                }
+                if (scope.autoplaySpeed) {
+                    options.autoplaySpeed = scope.$eval(scope.autoplaySpeed);
+                }
+                if (scope.speed) {
+                    options.speed = scope.speed;
+                }
+
+                options = angular.extend(options, scope.options);
+
+                $timeout(function () {
+                    $(element).find('#project-slider').slick(options);
                 });
             }
-            if(!initialized){
-                scope.$watch('images', function(newVal, oldVal){
-                    if(angular.isDefined(newVal) && !initialized){
+
+            if (!initialized) {
+                scope.$watch('images', function (newVal, oldVal) {
+                    if (angular.isDefined(newVal) && !initialized) {
                         initialize();
                         initialized = true;
                     }
@@ -99,9 +133,10 @@ module.exports = /*@ngInject*/ ["$timeout", function ($timeout) {
         }
     };
 }];
-},{"angular":19,"jquery":21,"slick-carousel":46}],7:[function(require,module,exports){
-angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("templates/slick-carousel.html","<div class=\"slider-wrapper\">\n\n	<div id=\"project-slider\" class=\"project-slider\" ng-show=\"images\">\n		<div ng-repeat=\"image in images\">\n			<img ng-src=\"{{image}}\" alt=\"\"/>\n		</div>\n	</div>\n\n	<div class=\"no-images\" ng-show=\"!images\">\n		On dirait que ce project n\'a pas d\'images\n	</div>\n	<a class=\"close project-close\" href=\"#!/\"></a>\n\n</div>");}]);
-},{}],8:[function(require,module,exports){
+},{"angular":20,"jquery":22,"slick-carousel":47}],8:[function(require,module,exports){
+angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("templates/header.html","<div class=\"head anim\" ng-show=\"options\">\n	<h3 class=\"head-title\">{{::options.firstname}} {{::options.lastname}}</h3>\n\n	<div class=\"head-job\">{{::options.job}}</div>\n	<div class=\"head-phone\">{{::options.phone}}</div>\n	<div class=\"head-email\"><a ng-href=\"mailto:{{::options.email}}\" ng-show=\"options.email\">e-mail</a></div>\n	<div class=\"head-about\">&agrave; propos</div>\n</div>");
+$templateCache.put("templates/slick-carousel.html","<div class=\"slider-wrapper\">\n\n	<div id=\"project-slider\" class=\"project-slider\" ng-show=\"images\">\n		<div ng-repeat=\"image in images\">\n			<img ng-src=\"{{image}}\" alt=\"\"/>\n		</div>\n	</div>\n\n	<div class=\"no-images\" ng-show=\"!images\">\n		On dirait que ce project n\'a pas d\'images\n	</div>\n	<a class=\"close project-close\" href=\"#!/\"></a>\n\n</div>");}]);
+},{}],9:[function(require,module,exports){
 require('angular');
 var app = angular.module('app');
 require('./views/templates');
@@ -119,7 +154,7 @@ app.config(require('./routes'));
 
 
 
-},{"./controllers":2,"./directives":4,"./directives/templates/templates":7,"./provider-settings":10,"./routes":11,"./services":14,"./views/templates":16,"angular":19}],9:[function(require,module,exports){
+},{"./controllers":2,"./directives":5,"./directives/templates/templates":8,"./provider-settings":11,"./routes":12,"./services":15,"./views/templates":17,"angular":20}],10:[function(require,module,exports){
 'use strict';
 
 // Libraries
@@ -138,12 +173,12 @@ angular.bootstrap(document, ['app']);
 
 
 
-},{"./":8,"angular":19,"angular-animate":17,"angular-route":18,"jquery":21}],10:[function(require,module,exports){
+},{"./":9,"angular":20,"angular-animate":18,"angular-route":19,"jquery":22}],11:[function(require,module,exports){
 module.exports = function(imageLoaderProvider){
     imageLoaderProvider.maxImage(25);
     imageLoaderProvider.useOptim(true);
 };
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 require('angular');
 require('./services');
 
@@ -166,11 +201,11 @@ module.exports = /*@ngInject*/ ["$routeProvider", "$locationProvider", function 
         .otherwise('/');
 }];
 
-},{"./services":14,"angular":19}],12:[function(require,module,exports){
+},{"./services":15,"angular":20}],13:[function(require,module,exports){
 module.exports.requests = /*@ngInject*/ ["$cacheFactory", function($cacheFactory){
     return $cacheFactory('requests');
 }];
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 require('angular');
 
 module.exports = function () {
@@ -287,7 +322,7 @@ module.exports = function () {
         return new ImageLoader($q);
     }];
 };
-},{"angular":19}],14:[function(require,module,exports){
+},{"angular":20}],15:[function(require,module,exports){
 require('angular');
 angular.module('app')
     .factory('parse', require('./parse'))
@@ -295,7 +330,7 @@ angular.module('app')
     .provider('imageLoader', require('./image-loader'));
 
 
-},{"./cache":12,"./image-loader":13,"./parse":15,"angular":19}],15:[function(require,module,exports){
+},{"./cache":13,"./image-loader":14,"./parse":16,"angular":20}],16:[function(require,module,exports){
 var Parse = require('parse-browserify');
 require('angular');
 
@@ -470,10 +505,10 @@ module.exports =  /*@ngInject*/ ["$q", "$cacheFactory", "requestsCache", functio
 
     return _public;
 }];
-},{"angular":19,"parse-browserify":45}],16:[function(require,module,exports){
-angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("views/home.html","<div class=\"fixed-menu content\">\n	<div class=\"anim head\" ng-show=\"options\">\n		<h3 class=\"head-title\">{{options.firstname}} {{options.lastname}}</h3>\n\n		<div class=\"head-job\">{{options.job}}</div>\n		<div class=\"head-phone\">{{options.phone}}</div>\n		<div class=\"head-email\"><a ng-href=\"mailto:{{options.email}}\" ng-show=\"options.email\">e-mail</a></div>\n		<div class=\"head-about\">&agrave; propos</div>\n	</div>\n	<div class=\"row\" style=\"position:relative;\">\n		<div class=\"project-list large-10 columns anim\" ng-show=\"projects\">\n			<div ng-repeat=\"project in projects\" class=\"project\">\n				<a ng-href=\"#!/projet/{{project.slug}}\">\n					<div class=\"project-title\">{{project.title}}</div>\n					<div class=\"project-summary\">{{project.summary}}</div>\n				</a>\n			</div>\n		</div>\n		<div class=\"etc large-2 anim\" ng-show=\"projects\">\n			<div class=\"right\">\n				<ul>\n					<li><a href=\"http://www.le-magneto.com/\">magneto</a></li>\n					<li><a href=\"http://www.f-o-r-g-e.com/\">F.O.R.G.E</a></li>\n					<li><a href=\"http://www.mystique-plugin.com/\">Mystique</a></li>\n				</ul>\n				<div>portfolio.pdf</div>\n			</div>\n		</div>\n	</div>\n\n</div>\n");
-$templateCache.put("views/project.html","<div class=\"content project-page\">\n	<div class=\"head\" ng-show=\"options\">\n		<h3 class=\"head-title\">{{options.firstname}} {{options.lastname}}</h3>\n\n		<div class=\"head-job\">{{options.job}}</div>\n		<div class=\"head-phone\">{{options.phone}}</div>\n		<div class=\"head-email\"><a ng-href=\"mailto:{{options.email}}\" ng-show=\"options.email\">e-mail</a></div>\n		<div class=\"head-about\">&agrave; propos</div>\n	</div>\n	<slick-carousel images=\"images\"></slick-carousel>\n	<div class=\"footer row\">\n		<div class=\"large-2 columns\">\n			<h5>{{project.title}}</h5>\n\n			<div>{{project.summary}}</div>\n		</div>\n		<div class=\"large-2 columns\">\n			<h5>Informations</h5>\n\n			<div>\n				{{project.information}}\n			</div>\n		</div>\n		<div class=\"large-2 columns end\">\n			<h5>Collaborateurs</h5>\n\n			<div>\n				{{project.collaborators}}\n			</div>\n		</div>\n	</div>\n</div>");}]);
-},{}],17:[function(require,module,exports){
+},{"angular":20,"parse-browserify":46}],17:[function(require,module,exports){
+angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("views/home.html","<div class=\"fixed-menu content\">\n	<header options=\"options\"></header>\n\n	<div class=\"row\" style=\"position:relative;\">\n		<div class=\"project-list large-10 columns anim\" ng-show=\"projects\">\n			<div ng-repeat=\"project in projects\" class=\"project\">\n				<a ng-href=\"#!/projet/{{project.slug}}\">\n					<div class=\"project-title\">{{project.title}}</div>\n					<div class=\"project-summary\">{{project.summary}}</div>\n				</a>\n			</div>\n		</div>\n		<div class=\"etc large-2 anim\" ng-show=\"projects\">\n			<div class=\"right\">\n				<ul>\n					<li><a href=\"http://www.le-magneto.com/\">magneto</a></li>\n					<li><a href=\"http://www.f-o-r-g-e.com/\">F.O.R.G.E</a></li>\n					<li><a href=\"http://www.mystique-plugin.com/\">Mystique</a></li>\n				</ul>\n				<div>portfolio.pdf</div>\n			</div>\n		</div>\n	</div>\n\n</div>\n");
+$templateCache.put("views/project.html","<div class=\"content project-page\">\n	<header options=\"options\"></header>\n\n	<slick-carousel images=\"images\" dots=\"true\" autoplay=\"true\" autoplay-speed=\"4000\" speed=\"800\"></slick-carousel>\n\n	<div class=\"footer row\">\n		<div class=\"large-2 columns\">\n			<h5>{{::project.title}}</h5>\n\n			<div>{{::project.summary}}</div>\n		</div>\n		<div class=\"large-2 columns\">\n			<h5>Informations</h5>\n\n			<div>\n				{{::project.information}}\n			</div>\n		</div>\n		<div class=\"large-2 columns end\">\n			<h5>Collaborateurs</h5>\n\n			<div>\n				{{::project.collaborators}}\n			</div>\n		</div>\n	</div>\n</div>\n");}]);
+},{}],18:[function(require,module,exports){
 /**
  * @license AngularJS v1.3.13
  * (c) 2010-2014 Google, Inc. http://angularjs.org
@@ -2612,7 +2647,7 @@ angular.module('ngAnimate', ['ng'])
 
 })(window, window.angular);
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /**
  * @license AngularJS v1.3.13
  * (c) 2010-2014 Google, Inc. http://angularjs.org
@@ -3603,7 +3638,7 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /**
  * @license AngularJS v1.3.13
  * (c) 2010-2014 Google, Inc. http://angularjs.org
@@ -29734,7 +29769,7 @@ var minlengthDirective = function() {
 })(window, document);
 
 !window.angular.$$csp() && window.angular.element(document).find('head').prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}</style>');
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -29822,7 +29857,7 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.3
  * http://jquery.com/
@@ -39029,7 +39064,7 @@ return jQuery;
 
 }));
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /*!
  * Parse JavaScript SDK
  * Version: 1.2.18*
@@ -39088,7 +39123,7 @@ require('./history');
 require('./router');
 require('./cloud');
 require('./push');
-},{"./acl":23,"./analytics":24,"./cloud":25,"./collection":26,"./coreAPI":27,"./error":28,"./events":29,"./facebook":30,"./file":31,"./geopoint":32,"./history":33,"./object":34,"./op":35,"./promise":36,"./push":37,"./query":38,"./relation":39,"./role":40,"./router":41,"./user":42,"./view":43,"underscore":44}],23:[function(require,module,exports){
+},{"./acl":24,"./analytics":25,"./cloud":26,"./collection":27,"./coreAPI":28,"./error":29,"./events":30,"./facebook":31,"./file":32,"./geopoint":33,"./history":34,"./object":35,"./op":36,"./promise":37,"./push":38,"./query":39,"./relation":40,"./role":41,"./router":42,"./user":43,"./view":44,"underscore":45}],24:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -39346,7 +39381,7 @@ require('./push');
     }
     throw "role must be a Parse.Role or a String";
   };
-},{"./Parse":22}],24:[function(require,module,exports){
+},{"./Parse":23}],25:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -39409,7 +39444,7 @@ require('./push');
     }
   });
 
-},{"./Parse":22}],25:[function(require,module,exports){
+},{"./Parse":23}],26:[function(require,module,exports){
 
 
  var Parse = require('./Parse').Parse;
@@ -39455,7 +39490,7 @@ require('./push');
   });
 
 
-},{"./Parse":22}],26:[function(require,module,exports){
+},{"./Parse":23}],27:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -39917,7 +39952,7 @@ require('./push');
   Parse.Collection.extend = Parse._extend;
 
 
-},{"./Parse":22}],27:[function(require,module,exports){
+},{"./Parse":23}],28:[function(require,module,exports){
 (function (process){
   /**
    * Contains all Parse API classes and functions.
@@ -40541,7 +40576,7 @@ var Parse = require('./Parse').Parse;
   };
 
 }).call(this,require('_process'))
-},{"./Parse":22,"_process":20}],28:[function(require,module,exports){
+},{"./Parse":23,"_process":21}],29:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -40900,7 +40935,7 @@ var Parse = require('./Parse').Parse;
     X_DOMAIN_REQUEST: 602
   });
 
-},{"./Parse":22}],29:[function(require,module,exports){
+},{"./Parse":23}],30:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var eventSplitter = /\s+/;
@@ -41054,7 +41089,7 @@ var Parse = require('./Parse').Parse;
    */
   Parse.Events.unbind = Parse.Events.off;
 
-},{"./Parse":22}],30:[function(require,module,exports){
+},{"./Parse":23}],31:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -41246,7 +41281,7 @@ var Parse = require('./Parse').Parse;
     }
   };
   
-},{"./Parse":22}],31:[function(require,module,exports){
+},{"./Parse":23}],32:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -41648,7 +41683,7 @@ var Parse = require('./Parse').Parse;
     }
   };
 
-},{"./Parse":22}],32:[function(require,module,exports){
+},{"./Parse":23}],33:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -41820,7 +41855,7 @@ var Parse = require('./Parse').Parse;
       return this.radiansTo(point) * 3958.8;
     }
   };
-},{"./Parse":22}],33:[function(require,module,exports){
+},{"./Parse":23}],34:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -42079,7 +42114,7 @@ var Parse = require('./Parse').Parse;
       }
     }
   });
-},{"./Parse":22}],34:[function(require,module,exports){
+},{"./Parse":23}],35:[function(require,module,exports){
 // Parse.Object is analogous to the Java ParseObject.
 // It also implements the same interface as a Backbone model.
 
@@ -43854,7 +43889,7 @@ var Parse = require('./Parse').Parse;
       return object;
     });
   };
-},{"./Parse":22}],35:[function(require,module,exports){
+},{"./Parse":23}],36:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -44383,7 +44418,7 @@ var Parse = require('./Parse').Parse;
     return new Parse.Op.Relation([], Parse._decode(undefined, json.objects));
   });
 
-},{"./Parse":22}],36:[function(require,module,exports){
+},{"./Parse":23}],37:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -44738,7 +44773,7 @@ var Parse = require('./Parse').Parse;
 
   });
 
-},{"./Parse":22}],37:[function(require,module,exports){
+},{"./Parse":23}],38:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   
@@ -44798,7 +44833,7 @@ var Parse = require('./Parse').Parse;
     return request._thenRunCallbacks(options);
   };
 
-},{"./Parse":22}],38:[function(require,module,exports){
+},{"./Parse":23}],39:[function(require,module,exports){
 // Parse.Query is a way to create a list of Parse.Objects.
 
   var Parse = require('./Parse').Parse;
@@ -45676,7 +45711,7 @@ var Parse = require('./Parse').Parse;
     }
   };
 
-},{"./Parse":22}],39:[function(require,module,exports){
+},{"./Parse":23}],40:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -45775,7 +45810,7 @@ var Parse = require('./Parse').Parse;
       return query;
     }
   };
-},{"./Parse":22}],40:[function(require,module,exports){
+},{"./Parse":23}],41:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -45902,7 +45937,7 @@ var Parse = require('./Parse').Parse;
   });
 
 
-},{"./Parse":22}],41:[function(require,module,exports){
+},{"./Parse":23}],42:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -46023,7 +46058,7 @@ var Parse = require('./Parse').Parse;
    */
   Parse.Router.extend = Parse._extend;
 
-},{"./Parse":22}],42:[function(require,module,exports){
+},{"./Parse":23}],43:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -46680,7 +46715,7 @@ var Parse = require('./Parse').Parse;
 
   });
 
-},{"./Parse":22}],43:[function(require,module,exports){
+},{"./Parse":23}],44:[function(require,module,exports){
 
   var Parse = require('./Parse').Parse;
   var _ = Parse._;
@@ -46884,7 +46919,7 @@ var Parse = require('./Parse').Parse;
    */
   Parse.View.extend = Parse._extend;
 
-},{"./Parse":22}],44:[function(require,module,exports){
+},{"./Parse":23}],45:[function(require,module,exports){
 //     Underscore.js 1.7.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -48301,11 +48336,11 @@ var Parse = require('./Parse').Parse;
   }
 }.call(this));
 
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 module.exports = require('./lib/Parse').Parse;
 
 
-},{"./lib/Parse":22}],46:[function(require,module,exports){
+},{"./lib/Parse":23}],47:[function(require,module,exports){
 /*
      _ _      _       _
  ___| (_) ___| | __  (_)___
@@ -50424,4 +50459,4 @@ module.exports = require('./lib/Parse').Parse;
 
 }));
 
-},{"jquery":21}]},{},[9]);
+},{"jquery":22}]},{},[10]);
