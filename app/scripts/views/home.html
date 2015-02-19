@@ -4,9 +4,9 @@
 	<div class="row" style="position:relative;">
 		<div class="project-list large-10 columns anim" ng-show="projects">
 			<div ng-repeat="project in projects" class="project">
-				<a ng-href="#!/projet/{{project.slug}}">
-					<div class="project-title">{{project.title}}</div>
-					<div class="project-summary">{{project.summary}}</div>
+				<a ng-href="#!/projet/{{::project.slug}}">
+					<div class="project-title">{{::project.title}}</div>
+					<div class="project-summary">{{::project.summary}}</div>
 				</a>
 			</div>
 		</div>

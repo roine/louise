@@ -6507,16 +6507,6 @@ th.hide-for-touch {
     float: left;
     padding-right: 5px; }
 
-.etc {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  font-weight: bold; }
-  .etc li {
-    list-style: none; }
-  .etc a {
-    color: inherit; }
-
 .slider-wrapper {
   position: relative;
   margin-top: -20px; }
@@ -6535,7 +6525,7 @@ th.hide-for-touch {
   .project-page .footer h5 {
     font-weight: bold;
     font-size: 13px; }
-  .project-page .footer div {
+  .project-page .footer .info {
     font-size: 12px; }
 
 body, html {
@@ -6591,3 +6581,16 @@ body, html {
 
 .slick-dots li {
   width: 0px; }
+
+.footer {
+  position: relative; }
+
+.etc {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-weight: bold; }
+  .etc li {
+    list-style: none; }
+  .etc a {
+    color: inherit; }

@@ -79,3 +79,21 @@ body, html {
     width: 0px;
   }
 }
+
+.footer {
+  // make sure etc is in footer
+  position: relative;
+}
+
+.etc {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-weight: bold;
+  li {
+    list-style: none;
+  }
+  a {
+    color: inherit;
+  }
+}
