@@ -47,3 +47,12 @@ PAGE PROJET :
 - enlever le "home" pour retourner à la première page, 
 - ajouter une croix en haut à droite (cf maquette) 
 —> je peux te l'envoyer au besoin au format png à la bonne taille
+
+
+## Note Performance
+
+bundle
+uncompressed => 1.6 mb
+compressed => 359kb
+
+NOTE::CHECK LOADING

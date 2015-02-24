@@ -1,53 +1,57 @@
-.fixed-menu {
-  display: table;
-  height: 100%;
-  position: fixed;
-  width: 100%;
-  header {
-    display: table-row;
-    height: 300px;
-  }
-}
+// Homepage specific
+.home-page {
 
-.project-wrapper {
-  position: relative;
-  display: table-row;
-}
-
-.project-list {
-  columns: 6 auto;
-  height: 100%;
-  counter-reset: enum;
-  &.columns {
-    padding: 0;
-  }
-}
-
-.project {
-  column-rule-width: 200px;
-  margin-bottom: 10px;
-  break-inside: avoid-column;
-  position: relative;
-  a {
-    color: inherit;
-  }
-  .project-title {
-    font-weight: bold;
+  .fixed-menu {
+    display: table;
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    header {
+      display: table-row;
+      height: 280px;
+    }
   }
 
-  &:before {
-    content: counter(enum) " ]";
-    counter-increment: enum;
+  .project-wrapper {
     position: relative;
-    float: left;
-    padding-right: 5px;
+    display: table-row;
+    height: 100%;
   }
-}
 
-.home-page{
+  .project-list {
+    columns: 5 auto;
+    column-gap: 2em;
+    height: 100%;
+    counter-reset: enum;
+    &.columns {
+      padding: 0;
+    }
+  }
+
+  .project {
+    padding-bottom: rem_calc(10px);
+    break-inside: avoid-column;
+    position: relative;
+    a {
+      color: inherit;
+    }
+    .project-title {
+      font-weight: bold;
+    }
+
+    &:before {
+      content: counter(enum) " ]";
+      counter-increment: enum;
+      position: relative;
+      float: left;
+      padding-right: 5px;
+    }
+  }
+
   .etc {
     height: 100%;
     position: relative;
+    display: table;
     .right {
       bottom: 0;
       position: absolute;
@@ -55,3 +59,4 @@
     }
   }
 }
+

@@ -1,6 +1,7 @@
 require('angular');
 
-module.exports = function () {
+/*@ngInject*/
+function ImageLoaderService() {
     var maxImages = 10,
     // whether to use the optimized image
         useOptim = false;
@@ -113,4 +114,6 @@ module.exports = function () {
     this.$get = /*@ngInject*/ function ($q) {
         return new ImageLoader($q);
     };
-};
+}
+
+module.exports = ImageLoaderService;

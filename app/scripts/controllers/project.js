@@ -1,15 +1,26 @@
 require('angular');
+require('./../services');
 
-module.exports = /*@ngInject*/ function ($scope, $routeParams, parse, imageLoader, images) {
+/*@ngInject*/
+function ProjectCtrl($scope, images, project, options) {
 
-    // get the project information
-    parse.findBySlug($routeParams.projectSlug).then(function (result) {
-        $scope.project = result;
-    });
-    // images have been resolved and are ready to be served
+    $scope.page = "project-page";
+
+    $scope.project = project;
     $scope.images = images;
+    $scope.options = options;
+}
 
-    parse.getOptions().then(function(options){
-        $scope.options = options;
-    });
+ProjectCtrl.resolve = {
+    images: /*@ngInject*/ function (imageLoader, $route) {
+        return imageLoader.init($route.current.params.projectSlug);
+    },
+    project: /*@ngInject*/ function ($route, parse) {
+        return parse.findBySlug($route.current.params.projectSlug);
+    },
+    options: /*@ngInject*/ function (parse) {
+        return parse.getOptions();
+    }
 };
+
+module.exports = ProjectCtrl;

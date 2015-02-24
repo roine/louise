@@ -1,8 +1,8 @@
-<div class="fixed-menu content home-page">
+<div class="fixed-menu content">
 	<header options="options"></header>
 
-	<div class="row project-wrapper">
-		<div class="project-list large-10 columns anim" ng-show="projects">
+	<div class="row project-wrapper" data-equalizer>
+		<div class="project-list large-10 columns anim" ng-show="projects" data-equalizer-watch>
 			<div ng-repeat="project in projects" class="project">
 				<a ng-href="#!/projet/{{::project.slug}}">
 					<div class="project-title">{{::project.title}}</div>
@@ -10,7 +10,7 @@
 				</a>
 			</div>
 		</div>
-		<div class="etc large-2 columns anim" ng-show="projects">
+		<div class="etc large-2 columns anim" ng-show="projects" data-equalizer-watch>
 			<div class="right">
 				<ul>
 					<li><a href="http://www.le-magneto.com/">magneto</a></li>

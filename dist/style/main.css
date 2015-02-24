@@ -6473,51 +6473,49 @@ th.hide-for-touch {
       color: black;
       opacity: 0.75; }
 
-.fixed-menu {
+.home-page .fixed-menu {
   display: table;
   height: 100%;
   position: fixed;
   width: 100%; }
-  .fixed-menu header {
+  .home-page .fixed-menu header {
     display: table-row;
-    height: 300px; }
-
-.project-wrapper {
+    height: 280px; }
+.home-page .project-wrapper {
   position: relative;
-  display: table-row; }
-
-.project-list {
-  -webkit-columns: 6 auto;
-     -moz-columns: 6 auto;
-          columns: 6 auto;
+  display: table-row;
+  height: 100%; }
+.home-page .project-list {
+  -webkit-columns: 5 auto;
+     -moz-columns: 5 auto;
+          columns: 5 auto;
+  -webkit-column-gap: 2em;
+     -moz-column-gap: 2em;
+          column-gap: 2em;
   height: 100%;
   counter-reset: enum; }
-  .project-list.columns {
+  .home-page .project-list.columns {
     padding: 0; }
-
-.project {
-  -webkit-column-rule-width: 200px;
-     -moz-column-rule-width: 200px;
-          column-rule-width: 200px;
-  margin-bottom: 10px;
+.home-page .project {
+  padding-bottom: 0.625rem;
   -webkit-column-break-inside: avoid;
      page-break-inside: avoid;
           break-inside: avoid-column;
   position: relative; }
-  .project a {
+  .home-page .project a {
     color: inherit; }
-  .project .project-title {
+  .home-page .project .project-title {
     font-weight: bold; }
-  .project:before {
+  .home-page .project:before {
     content: counter(enum) " ]";
     counter-increment: enum;
     position: relative;
     float: left;
     padding-right: 5px; }
-
 .home-page .etc {
   height: 100%;
-  position: relative; }
+  position: relative;
+  display: table; }
   .home-page .etc .right {
     bottom: 0;
     position: absolute;
@@ -6544,8 +6542,11 @@ th.hide-for-touch {
   .project-page .footer .info {
     font-size: 12px; }
 
-body, html {
+html {
   height: 100%; }
+
+body {
+  min-height: 100%; }
 
 .container.isLoading {
   -webkit-filter: blur(3px);
@@ -6596,7 +6597,12 @@ body, html {
     content: "X"; }
 
 .slick-dots li {
-  width: 0px; }
+  width: auto;
+  margin: 0; }
+  .slick-dots li button {
+    width: auto; }
+    .slick-dots li button:before {
+      width: auto; }
 
 .footer {
   position: relative; }

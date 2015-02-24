@@ -1,4 +1,5 @@
-module.exports = /*@ngInject*/ function ($rootScope, $timeout) {
+/*@ngInject*/
+function LoadingIndicatorDirective($rootScope, $timeout) {
     return {
         restrict: 'E',
         template: '<div class="loading anim" ng-show="loading && showLoading"><div class="loading-content" ng-transclude></div></div>',
@@ -22,4 +23,6 @@ module.exports = /*@ngInject*/ function ($rootScope, $timeout) {
             });
         }
     };
-};
+}
+
+module.exports = LoadingIndicatorDirective;

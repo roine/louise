@@ -1,4 +1,5 @@
-module.exports = /*@ngInject*/ function () {
+/*@ngInject*/
+function HeaderDirective() {
     return {
         templateUrl: 'templates/header.html',
         scope: {
@@ -8,3 +9,5 @@ module.exports = /*@ngInject*/ function () {
         }
     };
 }
+
+module.exports = HeaderDirective;

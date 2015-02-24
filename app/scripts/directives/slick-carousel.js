@@ -2,7 +2,8 @@ require('angular');
 require('slick-carousel');
 var $ = require('jquery');
 
-module.exports = /*@ngInject*/ function ($timeout) {
+/*@ngInject*/
+function SlickCarouselDirective($timeout) {
     return {
         restrict: 'AE',
         scope: {
@@ -52,3 +53,5 @@ module.exports = /*@ngInject*/ function ($timeout) {
         }
     };
 };
+
+module.exports = SlickCarouselDirective;

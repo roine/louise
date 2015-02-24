@@ -8,8 +8,12 @@
 @import "home",
 "projects";
 
-body, html {
+html {
   height: 100%;
+}
+
+body {
+  min-height: 100%;
 }
 
 .container {
@@ -74,14 +78,23 @@ body, html {
   }
 }
 
+// overwrite the slick dots style
 .slick-dots {
   li {
-    width: 0px;
+    width: auto;
+    margin: 0;
+
+    button {
+      width: auto;
+      &:before {
+        width: auto;
+      }
+    }
   }
 }
 
 .footer {
-  // make sure etc is in footer
+  // make sure etc is contained in footer
   position: relative;
 }
 
