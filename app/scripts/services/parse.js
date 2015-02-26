@@ -5,9 +5,20 @@ require('angular');
 /*@ngInject*/
 function ParseService($q, $cacheFactory, requestsCache) {
     'use strict';
-    var _public = {};
+    var projects = [];
 
-    _public.projects = [];
+    var _public = {
+        projects: projects,
+        getOptions: getOptions,
+        getProjects: getProjects,
+        getProject: getProject,
+        findBy: findBy,
+        findBySlug: findBySlug
+    };
+
+    init();
+
+    return _public;
 
     /**
      * Initialise Parse
@@ -30,7 +41,7 @@ function ParseService($q, $cacheFactory, requestsCache) {
      * Get the options and settings
      * @returns {Promise}
      */
-    _public.getOptions = function () {
+    function getOptions() {
         var defer = $q.defer();
         var cachedOptions = requestsCache.get('options');
 
@@ -56,13 +67,13 @@ function ParseService($q, $cacheFactory, requestsCache) {
 
 
         return defer.promise;
-    };
+    }
 
     /**
      * Get the projects
      * @returns {Promise}
      */
-    _public.getProjects = function () {
+    function getProjects() {
         var defer = $q.defer();
         var cachedProjects = requestsCache.get('Projects');
 
@@ -83,22 +94,22 @@ function ParseService($q, $cacheFactory, requestsCache) {
                         slug: obj.get('slug'),
                         id: obj.id
                     };
-                    _public.projects.push(cleanObj);
+                    projects.push(cleanObj);
                 });
-                requestsCache.put('Projects', _public.projects);
-                defer.resolve(_public.projects);
+                requestsCache.put('Projects', projects);
+                defer.resolve(projects);
             },
             error: function (errors) {
                 defer.reject(errors);
             }
         });
         return defer.promise;
-    };
+    }
 
     /**
      * @param {object} params
      */
-    _public.getProject = function (params) {
+    function getProject(params) {
         var defer = $q.defer(),
             key = Object.keys(params)[0],
             acceptedKeys = ['slug', 'id'];
@@ -127,7 +138,7 @@ function ParseService($q, $cacheFactory, requestsCache) {
             }
         });
         return defer.promise;
-    };
+    }
 
     /**
      * Find a project
@@ -135,7 +146,7 @@ function ParseService($q, $cacheFactory, requestsCache) {
      * @param {string} where - the value to find
      * @returns {Promise}
      */
-    _public.findBy = function (type, where) {
+    function findBy(type, where) {
         var defer = $q.defer();
         if (!type) {
             return false;
@@ -147,7 +158,7 @@ function ParseService($q, $cacheFactory, requestsCache) {
         if (!projects) {
             var project = {};
             project[type] = where;
-            return _public.getProject(project);
+            return getProject(project);
         }
         else {
             angular.forEach(projects, function (project) {
@@ -159,19 +170,16 @@ function ParseService($q, $cacheFactory, requestsCache) {
         }
 
         return defer.promise;
-    };
+    }
 
     /**
      * Alias for findBy with a pre defined param
      * @param {string} slug
      */
-    _public.findBySlug = function (slug) {
-        return _public.findBy('slug', slug);
-    };
+    function findBySlug(slug) {
+        return findBy('slug', slug);
+    }
 
-    init();
-
-    return _public;
 }
 
 module.exports = ParseService;

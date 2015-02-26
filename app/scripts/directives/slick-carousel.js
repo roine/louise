@@ -6,35 +6,27 @@ var $ = require('jquery');
 function SlickCarouselDirective($timeout) {
     return {
         restrict: 'AE',
-        scope: {
-            images: "=",
-            dots: "@",
-            autoplay: "@",
-            autoplaySpeed: "@",
-            speed: "=",
-            options: "="
-        },
         replace: true,
         templateUrl: 'templates/slick-carousel.html',
-        link: function (scope, element, attr) {
+        link: function (scope, element, attrs) {
             var initialized = false;
 
             function initialize() {
                 var options = [];
-                if (scope.dots) {
-                    options.dots = scope.$eval(scope.dots);
-                }
-                if (scope.autoplay) {
-                    options.autoplay = scope.$eval(scope.autoplay);
-                }
-                if (scope.autoplaySpeed) {
-                    options.autoplaySpeed = scope.$eval(scope.autoplaySpeed);
-                }
-                if (scope.speed) {
-                    options.speed = scope.speed;
-                }
+                var acceptedOptions = [
+                    'dots',
+                    'autoplay',
+                    'autoplaySpeed',
+                    'speed'
+                ];
 
-                options = angular.extend(options, scope.options);
+                angular.forEach(attrs, function (value, attr) {
+                    if (~acceptedOptions.indexOf(attr)) {
+                        options[attr] = scope.$eval(value);
+                    }
+                });
+
+                options = angular.extend(options, attrs.options);
 
                 $timeout(function () {
                     $(element).find('#project-slider').slick(options);
@@ -52,6 +44,6 @@ function SlickCarouselDirective($timeout) {
 
         }
     };
-};
+}
 
 module.exports = SlickCarouselDirective;

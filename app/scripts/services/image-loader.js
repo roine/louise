@@ -3,24 +3,23 @@ require('./async-loop');
 
 /*@ngInject*/
 function ImageLoaderService() {
-    this.maxImages = 10;
+    var maxImages = 10;
     // whether to use the optimized image
-    this.optim = false;
-    self = this;
+    var optim = false;
 
     this.maxImage = function (max) {
         if (!angular.isNumber(max)) {
             return;
         }
-        self.maxImages = max;
+        maxImages = max;
     };
 
     this.useOptim = function (bool) {
-        self.optim = bool;
+        optim = !!bool;
     };
 
     this.$get = /*@ngInject*/ function ($q, asyncLoop) {
-        return new ImageLoader($q, asyncLoop, self.maxImages, self.optim);
+        return new ImageLoader($q, asyncLoop, maxImages, optim);
     };
 }
 /**

@@ -1,4 +1,4 @@
 module.exports = /*@ngInject*/ function (imageLoaderProvider) {
-    imageLoaderProvider.maxImage(10);
+    imageLoaderProvider.maxImage(5);
     imageLoaderProvider.useOptim(true);
 };

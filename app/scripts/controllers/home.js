@@ -11,7 +11,6 @@ function HomeCtrl(parse, $scope) {
 
     parse.getProjects().then(function (projects) {
         $scope.projects = projects;
-        console.log('projects', projects);
     });
 }
 
