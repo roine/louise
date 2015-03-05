@@ -12,11 +12,11 @@ function ProjectCtrl(images, project, options) {
 }
 
 ProjectCtrl.resolve = {
-    images: /*@ngInject*/ function (imageLoader, $route) {
-        return imageLoader.init($route.current.params.projectSlug);
+    images: /*@ngInject*/ function (imageLoader, $stateParams) {
+        return imageLoader.init($stateParams.projectSlug);
     },
-    project: /*@ngInject*/ function ($route, parse) {
-        return parse.findBySlug($route.current.params.projectSlug);
+    project: /*@ngInject*/ function (parse, $stateParams) {
+        return parse.findBySlug($stateParams.projectSlug);
     },
     options: /*@ngInject*/ function (parse) {
         return parse.getOptions();

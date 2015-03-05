@@ -4,7 +4,7 @@
 	<div class="row project-wrapper" data-equalizer>
 		<div class="project-list large-10 columns anim" ng-show="vm.projects" data-equalizer-watch>
 			<div ng-repeat="project in vm.projects" class="project">
-				<a ng-href="#!/projet/{{::project.slug}}">
+				<a ui-sref="projet({projectSlug:project.slug})">
 					<div class="project-title">{{::project.title}}</div>
 					<div class="project-summary">{{::project.summary}}</div>
 				</a>
