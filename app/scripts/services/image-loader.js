@@ -7,20 +7,25 @@ function ImageLoaderService() {
     // whether to use the optimized image
     var optim = false;
 
-    this.maxImage = function (max) {
+    this.maxImage = maxImage;
+    this.useOptim = useOptim;
+    this.$get = $get;
+
+    function maxImage(max) {
         if (!angular.isNumber(max)) {
             return;
         }
         maxImages = max;
-    };
+    }
 
-    this.useOptim = function (bool) {
+    function useOptim(bool) {
         optim = !!bool;
-    };
+    }
 
-    this.$get = /*@ngInject*/ function ($q, asyncLoop) {
+    /*@ngInject*/
+    function $get($q, asyncLoop) {
         return new ImageLoader($q, asyncLoop, maxImages, optim);
-    };
+    }
 }
 /**
  *
@@ -30,49 +35,55 @@ function ImageLoaderService() {
  * @constructor
  */
 function ImageLoader($q, asyncLoop, maxImages, optim) {
-    this.images = {};
-    this.project = '';
+    "use strict";
 
-    this.init = function (project) {
-        var path = 'images/projects/' + project + '/';
+    var images = {},
+        project = "";
+
+    this.images = images;
+    this.project = project;
+    this.init = init;
+    this.loader = loader;
+
+    function init(projectParam) {
+        var path = 'images/projects/' + projectParam + '/';
         if (optim) {
-            path = 'images/projects-optim/' + project + '/';
+            path = 'images/projects-optim/' + projectParam + '/';
         }
         var defer = $q.defer();
-        var self = this;
         var imagePaths = [];
 
-        this.project = project;
+        project = projectParam;
 
         // if the images are already loaded, return the cached images
-        if (self.images[project]) {
-            defer.resolve(self.images[project]);
+        if (images[project]) {
+            defer.resolve(images[project]);
             return defer.promise;
         }
 
-        self.images[project] = [];
+        images[project] = [];
 
         for (var i = 1; i <= maxImages; i++) {
             imagePaths.push(path + i + '.png');
         }
 
         asyncLoop(maxImages, function (loop) {
-            self.loader(imagePaths, loop.iteration()).then(function () {
+            loader(imagePaths, loop.iteration()).then(function () {
                 loop.next();
             }, function () {
                 loop.break();
             });
         }, function () {
-            defer.resolve(self.images[project]);
+            defer.resolve(images[project]);
             // not sure this is useful
-            return self.images[project];
+            return images[project];
         });
 
         return defer.promise;
 
-    };
+    }
 
-    this.loader = function (paths, i) {
+    function loader(paths, i) {
         var defer = $q.defer();
         var self = this,
             img = new Image();
@@ -80,7 +91,7 @@ function ImageLoader($q, asyncLoop, maxImages, optim) {
         img.src = paths[i];
 
         img.onload = function () {
-            self.images[self.project].push(paths[i]);
+            images[project].push(paths[i]);
             defer.resolve();
         };
 
@@ -88,7 +99,7 @@ function ImageLoader($q, asyncLoop, maxImages, optim) {
             defer.reject();
         };
         return defer.promise;
-    };
+    }
 
 }
 

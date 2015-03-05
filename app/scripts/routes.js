@@ -7,10 +7,12 @@ function Routes($routeProvider, $locationProvider) {
         .when('/', {
             templateUrl: 'views/home.html',
             controller: 'HomeCtrl',
+            controllerAs: 'vm'
         })
         .when('/projet/:projectSlug', {
             templateUrl: 'views/project.html',
             controller: 'ProjectCtrl',
+            controllerAs: 'vm',
             resolve: ProjectCtrl.resolve
         })
         .otherwise('/');

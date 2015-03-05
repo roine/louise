@@ -1,16 +1,17 @@
 require('angular');
 
 /*@ngInject*/
-function HomeCtrl(parse, $scope) {
+function HomeCtrl(parse) {
 
-    $scope.page = "home-page";
+    var vm = this;
+    vm.page = "home-page";
 
     parse.getOptions().then(function (options) {
-        $scope.options = options;
+        vm.options = options;
     });
 
     parse.getProjects().then(function (projects) {
-        $scope.projects = projects;
+        vm.projects = projects;
     });
 }
 

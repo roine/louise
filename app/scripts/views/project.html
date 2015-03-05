@@ -1,27 +1,26 @@
 <div class="content">
-	<header options="options"></header>
-
-	<slick-carousel images="images" dots="true" autoplay="true" autoplay-speed="4000" speed="800"></slick-carousel>
+	<header options="vm.options"></header>
+	<slick-carousel images="vm.images" dots="true" autoplay="true" autoplay-speed="4000" speed="800"></slick-carousel>
 
 	<div class="footer row">
 		<div class="info large-10 columns">
 			<div class="large-3 columns">
-				<h5>{{::project.title}}</h5>
+				<h5>{{::vm.project.title}}</h5>
 
-				<div>{{::project.summary}}</div>
+				<div>{{::vm.project.summary}}</div>
 			</div>
 			<div class="large-3 columns">
 				<h5>Informations</h5>
 
 				<div>
-					{{::project.information}}
+					{{::vm.project.information}}
 				</div>
 			</div>
 			<div class="large-3 columns end">
 				<h5>Collaborateurs</h5>
 
 				<div>
-					{{::project.collaborators}}
+					{{::vm.project.collaborators}}
 				</div>
 			</div>
 		</div>

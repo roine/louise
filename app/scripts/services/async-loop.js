@@ -29,8 +29,8 @@ function AsyncLoop() {
         };
         loop.next();
         return loop;
-    }
-        ;
+    };
 }
+
 
 module.exports = AsyncLoop;

@@ -2,13 +2,13 @@ require('angular');
 require('./../services');
 
 /*@ngInject*/
-function ProjectCtrl($scope, images, project, options) {
+function ProjectCtrl(images, project, options) {
+    var vm = this;
+    vm.page = "project-page";
 
-    $scope.page = "project-page";
-
-    $scope.project = project;
-    $scope.images = images;
-    $scope.options = options;
+    vm.project = project;
+    vm.images = images;
+    vm.options = options;
 }
 
 ProjectCtrl.resolve = {

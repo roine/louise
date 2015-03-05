@@ -57,8 +57,13 @@ gulp.task('browserify', function () {
 
     gulp.src(opt.MAIN_JS_SOURCE)
         .pipe(browserified)
-        .pipe(uglify())
         .pipe(concat('bundle.js'))
+        .pipe(gulp.dest('./dist/js'));
+
+    gulp.src(opt.MAIN_JS_SOURCE)
+        .pipe(browserified)
+        .pipe(uglify())
+        .pipe(concat('bundle.min.js'))
         .pipe(gulp.dest('./dist/js'));
 });
 

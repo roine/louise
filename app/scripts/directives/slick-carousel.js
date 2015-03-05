@@ -5,8 +5,11 @@ var $ = require('jquery');
 /*@ngInject*/
 function SlickCarouselDirective($timeout) {
     return {
-        restrict: 'AE',
+        restrict: 'E',
         replace: true,
+        scope: {
+            images: "="
+        },
         templateUrl: 'templates/slick-carousel.html',
         link: function (scope, element, attrs) {
             var initialized = false;
