@@ -134,10 +134,11 @@ gulp.task('index', function () {
             './dist/**/*.js',
             '!./dist/**/*.min.js',
             './dist/**/*.css',
-            '!./dist/**/*.min.css']
+            '!./dist/**/*.min.css'],
+        {read: false}
     );
     if (argv.env === "prod") {
-        sources = gulp.src(['./dist/**/*.min.js', './dist/**/*.min.css']);
+        sources = gulp.src(['./dist/**/*.min.js', './dist/**/*.min.css'], {read: false});
     }
 
     return gulp.src(opt.INDEX)

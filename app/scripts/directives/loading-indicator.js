@@ -10,7 +10,7 @@ function LoadingIndicatorDirective($rootScope, $timeout) {
             scope.loading = false;
             scope.showLoading = false;
 
-            $rootScope.$on('$routeChangeStart', function () {
+            $rootScope.$on('$stateChangeStart', function () {
                 scope.loading = true;
                 scope.showLoading = false;
                 $timeout(function () {
@@ -18,7 +18,7 @@ function LoadingIndicatorDirective($rootScope, $timeout) {
                 }, 500);
             });
 
-            $rootScope.$on('$routeChangeSuccess', function () {
+            $rootScope.$on('$stateChangeSuccess', function () {
                 scope.loading = false;
             });
         }

@@ -1,7 +1,7 @@
 require('angular');
 var ProjectCtrl = require('./controllers/project');
 /*@ngInject*/
-function Routes($locationProvider, $stateProvider) {
+function Routes($locationProvider, $stateProvider, $urlRouterProvider) {
     $locationProvider.hashPrefix('!');
 
     $stateProvider
@@ -18,6 +18,8 @@ function Routes($locationProvider, $stateProvider) {
             controllerAs: 'vm',
             resolve: ProjectCtrl.resolve
         });
+
+    $urlRouterProvider.otherwise('/');
 }
 
 module.exports = Routes;

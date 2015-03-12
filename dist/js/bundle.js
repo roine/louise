@@ -48,7 +48,7 @@ ProjectCtrl.resolve = {
     project: /*@ngInject*/ ["parse", "$stateParams", function (parse, $stateParams) {
         return parse.findBySlug($stateParams.projectSlug);
     }],
-    options: /*@ngInject*/ ["parse", function (parse) {
+    options: /*@ngInject*/ ["parse", "$timeout", function (parse, $timeout) {
         return parse.getOptions();
     }]
 };
@@ -90,7 +90,7 @@ function LoadingIndicatorDirective($rootScope, $timeout) {
             scope.loading = false;
             scope.showLoading = false;
 
-            $rootScope.$on('$routeChangeStart', function () {
+            $rootScope.$on('$stateChangeStart', function () {
                 scope.loading = true;
                 scope.showLoading = false;
                 $timeout(function () {
@@ -98,7 +98,7 @@ function LoadingIndicatorDirective($rootScope, $timeout) {
                 }, 500);
             });
 
-            $rootScope.$on('$routeChangeSuccess', function () {
+            $rootScope.$on('$stateChangeSuccess', function () {
                 scope.loading = false;
             });
         }
@@ -208,7 +208,7 @@ module.exports = /*@ngInject*/ ["imageLoaderProvider", function (imageLoaderProv
 require('angular');
 var ProjectCtrl = require('./controllers/project');
 /*@ngInject*/
-function Routes($locationProvider, $stateProvider) {
+function Routes($locationProvider, $stateProvider, $urlRouterProvider) {
     $locationProvider.hashPrefix('!');
 
     $stateProvider
@@ -225,8 +225,10 @@ function Routes($locationProvider, $stateProvider) {
             controllerAs: 'vm',
             resolve: ProjectCtrl.resolve
         });
+
+    $urlRouterProvider.otherwise('/');
 }
-Routes.$inject = ["$locationProvider", "$stateProvider"];
+Routes.$inject = ["$locationProvider", "$stateProvider", "$urlRouterProvider"];
 
 module.exports = Routes;
 

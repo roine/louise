@@ -18,7 +18,7 @@ ProjectCtrl.resolve = {
     project: /*@ngInject*/ function (parse, $stateParams) {
         return parse.findBySlug($stateParams.projectSlug);
     },
-    options: /*@ngInject*/ function (parse) {
+    options: /*@ngInject*/ function (parse, $timeout) {
         return parse.getOptions();
     }
 };
