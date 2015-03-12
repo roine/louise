@@ -5,4 +5,4 @@ function CacheRequestsService($cacheFactory) {
 
 module.exports = {
     requests: CacheRequestsService
-}
+};

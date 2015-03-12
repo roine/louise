@@ -9,7 +9,10 @@ var gulp = require('gulp'),
     streamify = require('gulp-streamify'),
 
     concat = require('gulp-concat'),
+    rename = require('gulp-rename'),
+    inject = require('gulp-inject'),
     sass = require('gulp-sass'),
+    minifyCSS = require('gulp-minify-css'),
     argv = require('yargs').argv,
     templateCache = require('gulp-angular-templatecache'),
     autoprefixer = require('gulp-autoprefixer'),
@@ -35,6 +38,7 @@ var opt = {
     TEMPLATE_DIST: './app/scripts/directives/templates/',
 
     MAIN_JS_SOURCE: './app/scripts/main.js',
+    INDEX: './app/index.html',
 
     IMAGES_SOURCE: './dist/images/*',
     IMAGES_DIST: './dist/images/',
@@ -58,20 +62,20 @@ gulp.task('browserify', function () {
     gulp.src(opt.MAIN_JS_SOURCE)
         .pipe(browserified)
         .pipe(concat('bundle.js'))
-        .pipe(gulp.dest('./dist/js'));
-
-    gulp.src(opt.MAIN_JS_SOURCE)
-        .pipe(browserified)
+        .pipe(gulp.dest(opt.JS_DIST))
         .pipe(uglify())
-        .pipe(concat('bundle.min.js'))
-        .pipe(gulp.dest('./dist/js'));
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest(opt.JS_DIST));
+
 });
 
 gulp.task('sass', function () {
     return gulp.src(opt.SASS_FOLDER + 'main.scss')
         .pipe(sass())
         .pipe(autoprefixer())
-        //.pipe(concat('main.css'))
+        .pipe(gulp.dest(opt.SASS_DIST))
+        .pipe(minifyCSS())
+        .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest(opt.SASS_DIST));
 });
 
@@ -88,6 +92,9 @@ gulp.task('init', function () {
 
     // move animate
     gulp.src('./bower_components/animate.css/animate.css')
+        .pipe(gulp.dest(opt.SASS_DIST));
+
+    gulp.src('./bower_components/animate.css/animate.min.css')
         .pipe(gulp.dest(opt.SASS_DIST));
 });
 
@@ -119,6 +126,29 @@ gulp.task('lint', function () {
         .pipe(jshint())
         .pipe(jshint.reporter('jshint-stylish'));
 });
+
+gulp.task('index', function () {
+
+
+    var sources = gulp.src([
+            './dist/**/*.js',
+            '!./dist/**/*.min.js',
+            './dist/**/*.css',
+            '!./dist/**/*.min.css']
+    );
+    if (argv.env === "prod") {
+        sources = gulp.src(['./dist/**/*.min.js', './dist/**/*.min.css']);
+    }
+
+    return gulp.src(opt.INDEX)
+        .pipe(inject(sources, {
+            ignorePath: 'dist',
+            addRootSlash: false
+        }))
+        .pipe(gulp.dest(opt.ROOT_DIST));
+
+});
+
 
 gulp.task('default', function () {
     gulp.watch([opt.VIEW_SOURCE, opt.TEMPLATE_SOURCE], ['templateCache']);

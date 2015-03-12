@@ -11,7 +11,8 @@ angular.module('app', ['ngRoute', 'ngAnimate', 'ui.router']);
 
 // Load all my files in index.js
 require('./');
-
-angular.bootstrap(document, ['app']);
+angular.element(document).ready(function () {
+    angular.bootstrap(document, ['app']);
+});
 
 

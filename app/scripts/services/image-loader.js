@@ -84,8 +84,7 @@ function ImageLoader($q, asyncLoop, maxImages, optim) {
     }
 
     function loader(paths, i) {
-        var defer = $q.defer();
-        var self = this,
+        var defer = $q.defer(),
             img = new Image();
 
         img.src = paths[i];

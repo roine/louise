@@ -1,16 +1,15 @@
 <div class="fixed-menu content">
-	<header options="vm.options"></header>
-
+	<header options="::vm.options"></header>
 	<div class="row project-wrapper" data-equalizer>
 		<div class="project-list large-10 columns anim" ng-show="vm.projects" data-equalizer-watch>
-			<div ng-repeat="project in vm.projects" class="project">
+			<div ng-repeat="project in ::vm.projects" class="project">
 				<a ui-sref="projet({projectSlug:project.slug})">
 					<div class="project-title">{{::project.title}}</div>
 					<div class="project-summary">{{::project.summary}}</div>
 				</a>
 			</div>
 		</div>
-		<div class="etc large-2 columns anim" ng-show="vm.projects" data-equalizer-watch>
+		<div class="etc large-2 columns anim" ng-if="vm.projects" data-equalizer-watch>
 			<div class="right">
 				<ul>
 					<li><a href="http://www.le-magneto.com/">magneto</a></li>

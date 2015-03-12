@@ -1,12 +1,12 @@
 <div class="slider-wrapper">
 
-	<div id="project-slider" class="project-slider" ng-show="images">
-		<div ng-repeat="image in images">
-			<img ng-src="{{image}}" alt=""/>
+	<div id="project-slider" class="project-slider" ng-if="images">
+		<div ng-repeat="image in ::images">
+			<img ng-src="{{::image}}" alt=""/>
 		</div>
 	</div>
 
-	<div class="no-images" ng-show="!images">
+	<div class="no-images" ng-if="!images">
 		On dirait que ce project n'a pas d'images
 	</div>
 	<a class="close project-close" ui-sref="home"></a>
