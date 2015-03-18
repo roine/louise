@@ -1,4 +1,8 @@
-module.exports = /*@ngInject*/ function (imageLoaderProvider) {
-    imageLoaderProvider.maxImage(5);
-    imageLoaderProvider.useOptim(true);
-};
+/*@ngInject*/
+function ProviderSetting(imageLoaderProvider) {
+    imageLoaderProvider.totalImages = 5;
+    imageLoaderProvider.useOptim = true;
+}
+
+
+module.exports = ProviderSetting;

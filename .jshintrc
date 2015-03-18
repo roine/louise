@@ -3,5 +3,6 @@
         "angular": true,
         "Parse": true
     },
-    "browserify": true
+    "browserify": true,
+    "esnext": true
 }

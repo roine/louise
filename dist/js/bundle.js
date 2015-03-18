@@ -1,5 +1,7 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-require('angular');
+"use strict";
+
+require("angular");
 
 /*@ngInject*/
 function HomeCtrl(parse) {
@@ -20,15 +22,16 @@ HomeCtrl.$inject = ["parse"];
 module.exports = HomeCtrl;
 
 },{"angular":22}],2:[function(require,module,exports){
-require('angular');
-angular.module('app')
-    .controller('HomeCtrl',require('./home'))
-    .controller('ProjectCtrl', require('./project'));
+"use strict";
 
+require("angular");
+angular.module("app").controller("HomeCtrl", require("./home")).controller("ProjectCtrl", require("./project"));
 
 },{"./home":1,"./project":3,"angular":22}],3:[function(require,module,exports){
-require('angular');
-require('./../services');
+"use strict";
+
+require("angular");
+require("./../services");
 
 /*@ngInject*/
 function ProjectCtrl(images, project, options) {
@@ -42,55 +45,57 @@ function ProjectCtrl(images, project, options) {
 ProjectCtrl.$inject = ["images", "project", "options"];
 
 ProjectCtrl.resolve = {
-    images: /*@ngInject*/ ["imageLoader", "$stateParams", function (imageLoader, $stateParams) {
+    images: /*@ngInject*/["imageLoader", "$stateParams", function images(imageLoader, $stateParams) {
         return imageLoader.init($stateParams.projectSlug);
     }],
-    project: /*@ngInject*/ ["parse", "$stateParams", function (parse, $stateParams) {
+    project: /*@ngInject*/["parse", "$stateParams", function project(parse, $stateParams) {
         return parse.findBySlug($stateParams.projectSlug);
     }],
-    options: /*@ngInject*/ ["parse", "$timeout", function (parse, $timeout) {
+    options: /*@ngInject*/["parse", "$timeout", function options(parse, $timeout) {
         return parse.getOptions();
     }]
 };
 
 module.exports = ProjectCtrl;
+
 },{"./../services":16,"angular":22}],4:[function(require,module,exports){
 /*@ngInject*/
+"use strict";
+
 function HeaderDirective() {
     return {
-        templateUrl: 'templates/header.html',
+        templateUrl: "templates/header.html",
         scope: {
             options: "="
         },
-        link: function () {
-        }
+        link: function link() {}
     };
 }
 
 module.exports = HeaderDirective;
 
 },{}],5:[function(require,module,exports){
-require('angular');
-angular.module('app')
-    .directive('slickCarousel', require('./slick-carousel'))
-    .directive('loadingIndicator', require('./loading-indicator'))
-    .directive('header', require('./header'));
+"use strict";
 
+require("angular");
+angular.module("app").directive("slickCarousel", require("./slick-carousel")).directive("loadingIndicator", require("./loading-indicator")).directive("header", require("./header"));
 
 },{"./header":4,"./loading-indicator":6,"./slick-carousel":7,"angular":22}],6:[function(require,module,exports){
 /*@ngInject*/
+"use strict";
+
 function LoadingIndicatorDirective($rootScope, $timeout) {
     return {
-        restrict: 'E',
-        template: '<div class="loading anim" ng-show="loading && showLoading"><div class="loading-content" ng-transclude></div></div>',
+        restrict: "E",
+        template: "<div class=\"loading anim\" ng-show=\"loading && showLoading\"><div class=\"loading-content\" ng-transclude></div></div>",
         replace: true,
         transclude: true,
-        link: function (scope, elem, attr) {
+        link: function link(scope, elem, attr) {
 
             scope.loading = false;
             scope.showLoading = false;
 
-            $rootScope.$on('$stateChangeStart', function () {
+            $rootScope.$on("$stateChangeStart", function () {
                 scope.loading = true;
                 scope.showLoading = false;
                 $timeout(function () {
@@ -98,40 +103,37 @@ function LoadingIndicatorDirective($rootScope, $timeout) {
                 }, 500);
             });
 
-            $rootScope.$on('$stateChangeSuccess', function () {
+            $rootScope.$on("$stateChangeSuccess", function () {
                 scope.loading = false;
             });
         }
     };
 }
-LoadingIndicatorDirective.$inject = ["$rootScope", "$timeout"];
 
 module.exports = LoadingIndicatorDirective;
+
 },{}],7:[function(require,module,exports){
-require('angular');
-require('slick-carousel');
-var $ = require('jquery');
+"use strict";
+
+require("angular");
+require("slick-carousel");
+var $ = require("jquery");
 
 /*@ngInject*/
 function SlickCarouselDirective($timeout) {
     return {
-        restrict: 'E',
+        restrict: "E",
         replace: true,
         scope: {
             images: "="
         },
-        templateUrl: 'templates/slick-carousel.html',
-        link: function (scope, element, attrs) {
+        templateUrl: "templates/slick-carousel.html",
+        link: function link(scope, element, attrs) {
             var initialized = false;
 
             function initialize() {
                 var options = [];
-                var acceptedOptions = [
-                    'dots',
-                    'autoplay',
-                    'autoplaySpeed',
-                    'speed'
-                ];
+                var acceptedOptions = ["dots", "autoplay", "autoplaySpeed", "speed"];
 
                 angular.forEach(attrs, function (value, attr) {
                     if (~acceptedOptions.indexOf(attr)) {
@@ -142,103 +144,111 @@ function SlickCarouselDirective($timeout) {
                 options = angular.extend(options, attrs.options);
 
                 $timeout(function () {
-                    $(element).find('#project-slider').slick(options);
+                    $(element).find("#project-slider").slick(options);
                 });
             }
 
             if (!initialized) {
-                scope.$watch('images', function (newVal, oldVal) {
+                scope.$watch("images", function (newVal, oldVal) {
                     if (angular.isDefined(newVal) && !initialized) {
                         initialize();
                         initialized = true;
                     }
                 });
             }
-
         }
     };
 }
 SlickCarouselDirective.$inject = ["$timeout"];
 
 module.exports = SlickCarouselDirective;
+
 },{"angular":22,"jquery":24,"slick-carousel":49}],8:[function(require,module,exports){
-angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("templates/header.html","<div class=\"head anim\" ng-show=\"options\">\n	<h3 class=\"head-title\">{{::options.firstname}} {{::options.lastname}}</h3>\n\n	<div class=\"head-job\">{{::options.job}}</div>\n	<div class=\"head-phone\">{{::options.phone}}</div>\n	<div class=\"head-email\"><a ng-href=\"mailto:{{::options.email}}\" ng-if=\"options.email\">e-mail</a></div>\n	<div class=\"head-about\">&agrave; propos</div>\n</div>");
-$templateCache.put("templates/slick-carousel.html","<div class=\"slider-wrapper\">\n\n	<div id=\"project-slider\" class=\"project-slider\" ng-if=\"images\">\n		<div ng-repeat=\"image in ::images\">\n			<img ng-src=\"{{::image}}\" alt=\"\"/>\n		</div>\n	</div>\n\n	<div class=\"no-images\" ng-if=\"!images\">\n		On dirait que ce project n\'a pas d\'images\n	</div>\n	<a class=\"close project-close\" ui-sref=\"home\"></a>\n\n</div>");}]);
+"use strict";
+
+angular.module("app").run(["$templateCache", function ($templateCache) {
+  $templateCache.put("templates/header.html", "<div class=\"head anim\" ng-show=\"options\">\n\t<h3 class=\"head-title\">{{::options.firstname}} {{::options.lastname}}</h3>\n\n\t<div class=\"head-job\">{{::options.job}}</div>\n\t<div class=\"head-phone\">{{::options.phone}}</div>\n\t<div class=\"head-email\"><a ng-href=\"mailto:{{::options.email}}\" ng-if=\"options.email\">e-mail</a></div>\n\t<div class=\"head-about\">&agrave; propos</div>\n</div>");
+  $templateCache.put("templates/slick-carousel.html", "<div class=\"slider-wrapper\">\n\n\t<div id=\"project-slider\" class=\"project-slider\" ng-if=\"images\">\n\t\t<div ng-repeat=\"image in ::images\">\n\t\t\t<img ng-src=\"{{::image}}\" alt=\"\"/>\n\t\t</div>\n\t</div>\n\n\t<div class=\"no-images\" ng-if=\"!images\">\n\t\tOn dirait que ce project n'a pas d'images\n\t</div>\n\t<a class=\"close project-close\" ui-sref=\"home\"></a>\n\n</div>");
+}]);
+
 },{}],9:[function(require,module,exports){
-require('angular');
-angular.module('app')
-    .config(require('./provider-settings'))
-    .config(require('./routes'));
+"use strict";
 
-require('./views/templates');
-require('./services');
-require('./controllers');
-require('./directives');
-require('./directives/templates/templates');
+require("angular");
+angular.module("app").config(require("./provider-settings")).config(require("./routes"));
 
-
-
+require("./views/templates");
+require("./services");
+require("./controllers");
+require("./directives");
+require("./directives/templates/templates");
 
 },{"./controllers":2,"./directives":5,"./directives/templates/templates":8,"./provider-settings":11,"./routes":12,"./services":16,"./views/templates":18,"angular":22}],10:[function(require,module,exports){
-'use strict';
+"use strict";
 
 // Libraries
-require('angular');
-require('angular-route');
-require('angular-animate');
-require('jquery');
-require('angular-ui-router');
+require("angular");
+require("angular-route");
+require("angular-animate");
+require("jquery");
+require("angular-ui-router");
 
-angular.module('app', ['ngRoute', 'ngAnimate', 'ui.router']);
+angular.module("app", ["ngRoute", "ngAnimate", "ui.router"]);
 
 // Load all my files in index.js
-require('./');
+require("./");
 angular.element(document).ready(function () {
-    angular.bootstrap(document, ['app']);
+    angular.bootstrap(document, ["app"]);
 });
 
-
-
 },{"./":9,"angular":22,"angular-animate":19,"angular-route":20,"angular-ui-router":21,"jquery":24}],11:[function(require,module,exports){
-module.exports = /*@ngInject*/ ["imageLoaderProvider", function (imageLoaderProvider) {
-    imageLoaderProvider.maxImage(5);
-    imageLoaderProvider.useOptim(true);
-}];
+/*@ngInject*/
+"use strict";
+
+function ProviderSetting(imageLoaderProvider) {
+    imageLoaderProvider.totalImages = 5;
+    imageLoaderProvider.useOptim = true;
+}
+
+module.exports = ProviderSetting;
+
 },{}],12:[function(require,module,exports){
-require('angular');
-var ProjectCtrl = require('./controllers/project');
+"use strict";
+
+require("angular");
+var ProjectCtrl = require("./controllers/project");
 /*@ngInject*/
 function Routes($locationProvider, $stateProvider, $urlRouterProvider) {
-    $locationProvider.hashPrefix('!');
+    $locationProvider.hashPrefix("!");
 
-    $stateProvider
-        .state('home', {
-            url: '/',
-            templateUrl: 'views/home.html',
-            controller: 'HomeCtrl',
-            controllerAs: 'vm'
-        })
-        .state('projet', {
-            url: '/projet/:projectSlug',
-            templateUrl: 'views/project.html',
-            controller: 'ProjectCtrl',
-            controllerAs: 'vm',
-            resolve: ProjectCtrl.resolve
-        });
+    $stateProvider.state("home", {
+        url: "/",
+        templateUrl: "views/home.html",
+        controller: "HomeCtrl",
+        controllerAs: "vm"
+    }).state("projet", {
+        url: "/projet/:projectSlug",
+        templateUrl: "views/project.html",
+        controller: "ProjectCtrl",
+        controllerAs: "vm",
+        resolve: ProjectCtrl.resolve
+    });
 
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise("/");
 }
 Routes.$inject = ["$locationProvider", "$stateProvider", "$urlRouterProvider"];
 
 module.exports = Routes;
 
 },{"./controllers/project":3,"angular":22}],13:[function(require,module,exports){
+"use strict";
+
 function AsyncLoop() {
     return function (iterations, func, callback) {
         var index = 0;
         var done = false;
         var loop = {
-            next: function () {
+            next: function next() {
                 if (done) {
                     return;
                 }
@@ -246,18 +256,17 @@ function AsyncLoop() {
                 if (index < iterations) {
                     index++;
                     func(loop);
-
                 } else {
                     done = true;
                     callback();
                 }
             },
 
-            iteration: function () {
+            iteration: function iteration() {
                 return index - 1;
             },
 
-            break: function () {
+            "break": function _break() {
                 done = true;
                 callback();
             }
@@ -267,49 +276,73 @@ function AsyncLoop() {
     };
 }
 
-
 module.exports = AsyncLoop;
+
 },{}],14:[function(require,module,exports){
 /*@ngInject*/
+"use strict";
+
 function CacheRequestsService($cacheFactory) {
-    return $cacheFactory('requests');
+    return $cacheFactory("requests");
 }
-CacheRequestsService.$inject = ["$cacheFactory"];
 
 module.exports = {
     requests: CacheRequestsService
 };
+
 },{}],15:[function(require,module,exports){
-require('angular');
-require('./async-loop');
+"use strict";
 
-/*@ngInject*/
-function ImageLoaderService() {
-    var maxImages = 10;
-    // whether to use the optimized image
-    var optim = false;
+var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-    this.maxImage = maxImage;
-    this.useOptim = useOptim;
-    this.$get = $get;
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
-    function maxImage(max) {
-        if (!angular.isNumber(max)) {
-            return;
+require("angular");
+require("./async-loop");
+
+// tweak to use private
+var _totalImages = new WeakMap();
+var _useOptim = new WeakMap();
+
+var ImageLoaderService = (function () {
+    function ImageLoaderService() {
+        _classCallCheck(this, ImageLoaderService);
+
+        _totalImages.set(this, 10);
+        _useOptim.set(this, false);
+    }
+
+    _createClass(ImageLoaderService, {
+        totalImages: {
+            set: function (max) {
+                if (!angular.isNumber(max)) return;
+                _totalImages.set(this, max);
+            },
+            get: function () {
+                return _totalImages.get(this);
+            }
+        },
+        useOptim: {
+            set: function (bool) {
+                _useOptim.set(this, !!bool);
+            },
+            get: function () {
+                return _useOptim.get(this);
+            }
+        },
+        $get: {
+
+            /*@ngInject*/
+
+            value: ["$q", "asyncLoop", function $get($q, asyncLoop) {
+                return new ImageLoader($q, asyncLoop, _totalImages.get(this), _useOptim.get(this));
+            }]
         }
-        maxImages = max;
-    }
+    });
 
-    function useOptim(bool) {
-        optim = !!bool;
-    }
+    return ImageLoaderService;
+})();
 
-    /*@ngInject*/
-    function $get($q, asyncLoop) {
-        return new ImageLoader($q, asyncLoop, maxImages, optim);
-    }
-    $get.$inject = ["$q", "asyncLoop"];
-}
 /**
  *
  * @param $q
@@ -317,93 +350,111 @@ function ImageLoaderService() {
  * @param optim wehether to use a optimized version of the images
  * @constructor
  */
-function ImageLoader($q, asyncLoop, maxImages, optim) {
-    "use strict";
+var promise = new WeakMap();
+var asyncLoop = new WeakMap();
+var maxImages = new WeakMap();
+var useOptim = new WeakMap();
 
-    var images = {},
-        project = "";
+var ImageLoader = (function () {
+    function ImageLoader($qService, asyncLoopService, maxImagesParam, useOptimParam) {
+        _classCallCheck(this, ImageLoader);
 
-    this.images = images;
-    this.project = project;
-    this.init = init;
-    this.loader = loader;
-
-    function init(projectParam) {
-        var path = 'images/projects/' + projectParam + '/';
-        if (optim) {
-            path = 'images/projects-optim/' + projectParam + '/';
-        }
-        var defer = $q.defer();
-        var imagePaths = [];
-
-        project = projectParam;
-
-        // if the images are already loaded, return the cached images
-        if (images[project]) {
-            defer.resolve(images[project]);
-            return defer.promise;
-        }
-
-        images[project] = [];
-
-        for (var i = 1; i <= maxImages; i++) {
-            imagePaths.push(path + i + '.png');
-        }
-
-        asyncLoop(maxImages, function (loop) {
-            loader(imagePaths, loop.iteration()).then(function () {
-                loop.next();
-            }, function () {
-                loop.break();
-            });
-        }, function () {
-            defer.resolve(images[project]);
-            // not sure this is useful
-            return images[project];
-        });
-
-        return defer.promise;
-
+        this.project = "";
+        this.images = {};
+        promise.set(this, $qService);
+        asyncLoop.set(this, asyncLoopService);
+        maxImages.set(this, maxImagesParam);
+        useOptim.set(this, useOptimParam);
     }
 
-    function loader(paths, i) {
-        var defer = $q.defer(),
-            img = new Image();
+    _createClass(ImageLoader, {
+        init: {
+            value: function init(projectParam) {
+                var _this = this;
 
-        img.src = paths[i];
+                var path = "images/projects/" + projectParam + "/";
+                if (useOptim.get(this)) {
+                    path = "images/projects-optim/" + projectParam + "/";
+                }
 
-        img.onload = function () {
-            images[project].push(paths[i]);
-            defer.resolve();
-        };
+                var $q = promise.get(this);
+                var defer = $q.defer();
+                var imagePaths = [];
 
-        img.onerror = function () {
-            defer.reject();
-        };
-        return defer.promise;
-    }
+                this.project = projectParam;
 
-}
+                // if the images are already loaded, return the cached images
+                if (this.images[this.project]) {
+                    defer.resolve(this.images[this.project]);
+                    return defer.promise;
+                }
 
+                this.images[this.project] = [];
+
+                for (var i = 1; i <= maxImages.get(this); i++) {
+                    imagePaths.push(path + i + ".png");
+                }
+
+                var aLoop = asyncLoop.get(this);
+                aLoop(maxImages.get(this), function (loop) {
+                    _this.loader(imagePaths, loop.iteration()).then(function () {
+                        loop.next();
+                    }, function () {
+                        loop["break"]();
+                    });
+                }, function () {
+                    defer.resolve(_this.images[_this.project]);
+                    // not sure this is useful
+                    return _this.images[_this.project];
+                });
+
+                return defer.promise;
+            }
+        },
+        loader: {
+            value: function loader(paths, i) {
+                var _this = this;
+
+                var $q = promise.get(this);
+                var defer = $q.defer(),
+                    img = new Image();
+
+                img.src = paths[i];
+
+                img.onload = function () {
+                    _this.images[_this.project].push(paths[i]);
+                    defer.resolve();
+                };
+
+                img.onerror = function () {
+                    defer.reject();
+                };
+                return defer.promise;
+            }
+        }
+    });
+
+    return ImageLoader;
+})();
 
 module.exports = ImageLoaderService;
-},{"./async-loop":13,"angular":22}],16:[function(require,module,exports){
-require('angular');
-angular.module('app')
-    .factory('parse', require('./parse'))
-    .factory('requestsCache', require('./cache').requests)
-    .provider('imageLoader', require('./image-loader'))
-    .factory('asyncLoop', require('./async-loop'));
 
+},{"./async-loop":13,"angular":22}],16:[function(require,module,exports){
+"use strict";
+
+require("angular");
+angular.module("app").factory("parse", require("./parse")).factory("requestsCache", require("./cache").requests).provider("imageLoader", require("./image-loader")).factory("asyncLoop", require("./async-loop"));
 
 },{"./async-loop":13,"./cache":14,"./image-loader":15,"./parse":17,"angular":22}],17:[function(require,module,exports){
-var Parse = require('parse-browserify');
-require('angular');
+"use strict";
+
+var Parse = require("parse-browserify");
+require("angular");
 
 /** @module parse */
 /*@ngInject*/
 function ParseService($q, $cacheFactory, requestsCache) {
-    'use strict';
+    "use strict";
     var projects = [];
 
     var _public = {
@@ -432,7 +483,7 @@ function ParseService($q, $cacheFactory, requestsCache) {
      * @returns {Collection}
      */
     function query(className) {
-        var Collection = Parse.Collection.extend({model: className});
+        var Collection = Parse.Collection.extend({ model: className });
         return new Collection();
     }
 
@@ -442,7 +493,7 @@ function ParseService($q, $cacheFactory, requestsCache) {
      */
     function getOptions() {
         var defer = $q.defer();
-        var cachedOptions = requestsCache.get('options');
+        var cachedOptions = requestsCache.get("options");
 
         // if cached get locally...
         if (cachedOptions) {
@@ -450,20 +501,19 @@ function ParseService($q, $cacheFactory, requestsCache) {
             return defer.promise;
         }
         // else get on server
-        query('options').fetch({
-            success: function (response) {
+        query("options").fetch({
+            success: function success(response) {
                 var cleanObj = {};
                 angular.forEach(response, function (obj, key) {
-                    cleanObj[obj.get('key')] = obj.get('value');
+                    cleanObj[obj.get("key")] = obj.get("value");
                 });
-                requestsCache.put('options', cleanObj);
+                requestsCache.put("options", cleanObj);
                 defer.resolve(cleanObj);
             },
-            error: function (errors) {
+            error: function error(errors) {
                 defer.reject(errors);
             }
         });
-
 
         return defer.promise;
     }
@@ -474,31 +524,31 @@ function ParseService($q, $cacheFactory, requestsCache) {
      */
     function getProjects() {
         var defer = $q.defer();
-        var cachedProjects = requestsCache.get('Projects');
+        var cachedProjects = requestsCache.get("Projects");
 
         // if cached get locally...
         if (cachedProjects) {
             defer.resolve(cachedProjects);
             return defer.promise;
         }
-        query('Projects').fetch({
-            success: function (response) {
+        query("Projects").fetch({
+            success: function success(response) {
                 angular.forEach(response, function (obj, key) {
                     var cleanObj = {
-                        title: obj.get('title'),
-                        summary: obj.get('summary'),
-                        description: obj.get('description'),
-                        information: obj.get('information'),
-                        collaborators: obj.get('collaborators'),
-                        slug: obj.get('slug'),
+                        title: obj.get("title"),
+                        summary: obj.get("summary"),
+                        description: obj.get("description"),
+                        information: obj.get("information"),
+                        collaborators: obj.get("collaborators"),
+                        slug: obj.get("slug"),
                         id: obj.id
                     };
                     projects.push(cleanObj);
                 });
-                requestsCache.put('Projects', projects);
+                requestsCache.put("Projects", projects);
                 defer.resolve(projects);
             },
-            error: function (errors) {
+            error: function error(errors) {
                 defer.reject(errors);
             }
         });
@@ -511,25 +561,25 @@ function ParseService($q, $cacheFactory, requestsCache) {
     function getProject(params) {
         var defer = $q.defer(),
             key = Object.keys(params)[0],
-            acceptedKeys = ['slug', 'id'];
+            acceptedKeys = ["slug", "id"];
 
-        if (!~acceptedKeys.indexOf(key)) {
-            throw "You can only use one of these keys to find a project: " + acceptedKeys.join(', ');
+        if (! ~acceptedKeys.indexOf(key)) {
+            throw "You can only use one of these keys to find a project: " + acceptedKeys.join(", ");
         }
         var Projects = Parse.Object.extend("Projects");
         var query = new Parse.Query(Projects);
         query.equalTo(key, params[key]);
         query.find({
-            success: function (response) {
+            success: function success(response) {
                 var project = {};
                 angular.forEach(response, function (obj, key) {
                     project = {
-                        title: obj.get('title'),
-                        summary: obj.get('summary'),
-                        description: obj.get('description'),
-                        information: obj.get('information'),
-                        collaborators: obj.get('collaborators'),
-                        slug: obj.get('slug'),
+                        title: obj.get("title"),
+                        summary: obj.get("summary"),
+                        description: obj.get("description"),
+                        information: obj.get("information"),
+                        collaborators: obj.get("collaborators"),
+                        slug: obj.get("slug"),
                         id: obj.id
                     };
                 });
@@ -548,18 +598,18 @@ function ParseService($q, $cacheFactory, requestsCache) {
     function findBy(type, where) {
         var defer = $q.defer();
         if (!type) {
-            return false;
+            defer.reject("type is required");
+            return defer.promise;
         }
 
-        var projects = requestsCache.get('Projects');
+        var projects = requestsCache.get("Projects");
 
         // if no project already fetched then fetch this specific project
         if (!projects) {
             var project = {};
             project[type] = where;
             return getProject(project);
-        }
-        else {
+        } else {
             angular.forEach(projects, function (project) {
                 if (project[type] === where) {
                     defer.resolve(project);
@@ -576,16 +626,21 @@ function ParseService($q, $cacheFactory, requestsCache) {
      * @param {string} slug
      */
     function findBySlug(slug) {
-        return findBy('slug', slug);
+        return findBy("slug", slug);
     }
-
 }
 ParseService.$inject = ["$q", "$cacheFactory", "requestsCache"];
 
 module.exports = ParseService;
+
 },{"angular":22,"parse-browserify":48}],18:[function(require,module,exports){
-angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("views/home.html","<div class=\"fixed-menu content\">\n	<header options=\"::vm.options\"></header>\n	<div class=\"row project-wrapper\" data-equalizer>\n		<div class=\"project-list large-10 columns anim\" ng-show=\"vm.projects\" data-equalizer-watch>\n			<div ng-repeat=\"project in ::vm.projects\" class=\"project\">\n				<a ui-sref=\"projet({projectSlug:project.slug})\">\n					<div class=\"project-title\">{{::project.title}}</div>\n					<div class=\"project-summary\">{{::project.summary}}</div>\n				</a>\n			</div>\n		</div>\n		<div class=\"etc large-2 columns anim\" ng-if=\"vm.projects\" data-equalizer-watch>\n			<div class=\"right\">\n				<ul>\n					<li><a href=\"http://www.le-magneto.com/\">magneto</a></li>\n					<li><a href=\"http://www.f-o-r-g-e.com/\">F.O.R.G.E</a></li>\n					<li><a href=\"http://www.mystique-plugin.com/\">Mystique</a></li>\n				</ul>\n				<div>portfolio.pdf</div>\n			</div>\n		</div>\n	</div>\n\n</div>\n");
-$templateCache.put("views/project.html","<div class=\"content\">\n	<header options=\"::vm.options\"></header>\n	<slick-carousel images=\"::vm.images\" dots=\"true\" autoplay=\"true\" autoplay-speed=\"4000\" speed=\"800\"></slick-carousel>\n\n	<div class=\"footer row\">\n		<div class=\"info large-10 columns\">\n			<div class=\"large-3 columns\">\n				<h5>{{::vm.project.title}}</h5>\n\n				<div>{{::vm.project.summary}}</div>\n			</div>\n			<div class=\"large-3 columns\">\n				<h5>Informations</h5>\n\n				<div>\n					{{::vm.project.information}}\n				</div>\n			</div>\n			<div class=\"large-3 columns end\">\n				<h5>Collaborateurs</h5>\n\n				<div>\n					{{::vm.project.collaborators}}\n				</div>\n			</div>\n		</div>\n\n		<div class=\"etc large-2 anim columns\">\n			<div class=\"right\">\n				<ul>\n					<li><a href=\"http://www.le-magneto.com/\">magneto</a></li>\n					<li><a href=\"http://www.f-o-r-g-e.com/\">F.O.R.G.E</a></li>\n					<li><a href=\"http://www.mystique-plugin.com/\">Mystique</a></li>\n				</ul>\n				<div>portfolio.pdf</div>\n			</div>\n		</div>\n	</div>\n</div>\n\n");}]);
+"use strict";
+
+angular.module("app").run(["$templateCache", function ($templateCache) {
+  $templateCache.put("views/home.html", "<div class=\"fixed-menu content\">\n\t<header options=\"::vm.options\"></header>\n\t<div class=\"row project-wrapper\" data-equalizer>\n\t\t<div class=\"project-list large-10 columns anim\" ng-show=\"vm.projects\" data-equalizer-watch>\n\t\t\t<div ng-repeat=\"project in ::vm.projects\" class=\"project\">\n\t\t\t\t<a ui-sref=\"projet({projectSlug:project.slug})\">\n\t\t\t\t\t<div class=\"project-title\">{{::project.title}}</div>\n\t\t\t\t\t<div class=\"project-summary\">{{::project.summary}}</div>\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"etc large-2 columns anim\" ng-if=\"vm.projects\" data-equalizer-watch>\n\t\t\t<div class=\"right\">\n\t\t\t\t<ul>\n\t\t\t\t\t<li><a href=\"http://www.le-magneto.com/\">magneto</a></li>\n\t\t\t\t\t<li><a href=\"http://www.f-o-r-g-e.com/\">F.O.R.G.E</a></li>\n\t\t\t\t\t<li><a href=\"http://www.mystique-plugin.com/\">Mystique</a></li>\n\t\t\t\t</ul>\n\t\t\t\t<div>portfolio.pdf</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\n</div>\n");
+  $templateCache.put("views/project.html", "<div class=\"content\">\n\t<header options=\"::vm.options\"></header>\n\t<slick-carousel images=\"::vm.images\" dots=\"true\" autoplay=\"true\" autoplay-speed=\"4000\" speed=\"800\"></slick-carousel>\n\n\t<div class=\"footer row\">\n\t\t<div class=\"info large-10 columns\">\n\t\t\t<div class=\"large-3 columns\">\n\t\t\t\t<h5>{{::vm.project.title}}</h5>\n\n\t\t\t\t<div>{{::vm.project.summary}}</div>\n\t\t\t</div>\n\t\t\t<div class=\"large-3 columns\">\n\t\t\t\t<h5>Informations</h5>\n\n\t\t\t\t<div>\n\t\t\t\t\t{{::vm.project.information}}\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"large-3 columns end\">\n\t\t\t\t<h5>Collaborateurs</h5>\n\n\t\t\t\t<div>\n\t\t\t\t\t{{::vm.project.collaborators}}\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div class=\"etc large-2 anim columns\">\n\t\t\t<div class=\"right\">\n\t\t\t\t<ul>\n\t\t\t\t\t<li><a href=\"http://www.le-magneto.com/\">magneto</a></li>\n\t\t\t\t\t<li><a href=\"http://www.f-o-r-g-e.com/\">F.O.R.G.E</a></li>\n\t\t\t\t\t<li><a href=\"http://www.mystique-plugin.com/\">Mystique</a></li>\n\t\t\t\t</ul>\n\t\t\t\t<div>portfolio.pdf</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n\n");
+}]);
+
 },{}],19:[function(require,module,exports){
 /**
  * @license AngularJS v1.3.13

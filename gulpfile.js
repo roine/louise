@@ -5,6 +5,7 @@ var gulp = require('gulp'),
     source = require('vinyl-source-stream'),
     buffer = require('vinyl-buffer'),
     browserifyAnnotate = require('browserify-ngannotate'),
+    babelify = require('babelify'),
     uglifyify = require('uglifyify'),
     streamify = require('gulp-streamify'),
 
@@ -54,6 +55,7 @@ gulp.task('browserify', function () {
 
     var browserified = transform(function (filename) {
         var b = browserify(filename);
+        b.transform(babelify);
         b.transform(browserifyAnnotate);
 
         return b.bundle();

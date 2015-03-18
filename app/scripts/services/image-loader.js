@@ -1,32 +1,38 @@
 require('angular');
 require('./async-loop');
 
-/*@ngInject*/
-function ImageLoaderService() {
-    var maxImages = 10;
-    // whether to use the optimized image
-    var optim = false;
-
-    this.maxImage = maxImage;
-    this.useOptim = useOptim;
-    this.$get = $get;
-
-    function maxImage(max) {
-        if (!angular.isNumber(max)) {
-            return;
-        }
-        maxImages = max;
+// tweak to use private
+var _totalImages = new WeakMap();
+var _useOptim = new WeakMap();
+class ImageLoaderService {
+    constructor() {
+        _totalImages.set(this, 10);
+        _useOptim.set(this, false);
     }
 
-    function useOptim(bool) {
-        optim = !!bool;
+    set totalImages(max) {
+        if (!angular.isNumber(max)) return;
+        _totalImages.set(this, max);
+    }
+
+    get totalImages() {
+        return _totalImages.get(this);
+    }
+
+    set useOptim(bool) {
+        _useOptim.set(this, !!bool);
+    }
+
+    get useOptim() {
+        return _useOptim.get(this);
     }
 
     /*@ngInject*/
-    function $get($q, asyncLoop) {
-        return new ImageLoader($q, asyncLoop, maxImages, optim);
+    $get($q, asyncLoop) {
+        return new ImageLoader($q, asyncLoop, _totalImages.get(this), _useOptim.get(this));
     }
 }
+
 /**
  *
  * @param $q
@@ -34,67 +40,75 @@ function ImageLoaderService() {
  * @param optim wehether to use a optimized version of the images
  * @constructor
  */
-function ImageLoader($q, asyncLoop, maxImages, optim) {
-    "use strict";
+var promise = new WeakMap();
+var asyncLoop = new WeakMap();
+var maxImages = new WeakMap();
+var useOptim = new WeakMap();
+class ImageLoader {
+    constructor($qService, asyncLoopService, maxImagesParam, useOptimParam) {
+        this.project = "";
+        this.images = {};
+        promise.set(this, $qService);
+        asyncLoop.set(this, asyncLoopService);
+        maxImages.set(this, maxImagesParam);
+        useOptim.set(this, useOptimParam);
+    }
 
-    var images = {},
-        project = "";
-
-    this.images = images;
-    this.project = project;
-    this.init = init;
-    this.loader = loader;
-
-    function init(projectParam) {
-        var path = 'images/projects/' + projectParam + '/';
-        if (optim) {
+    init(projectParam) {
+        let path = 'images/projects/' + projectParam + '/';
+        if (useOptim.get(this)) {
             path = 'images/projects-optim/' + projectParam + '/';
         }
+
+        var $q = promise.get(this);
         var defer = $q.defer();
         var imagePaths = [];
 
-        project = projectParam;
+        this.project = projectParam;
 
         // if the images are already loaded, return the cached images
-        if (images[project]) {
-            defer.resolve(images[project]);
+        if (this.images[this.project]) {
+            defer.resolve(this.images[this.project]);
             return defer.promise;
         }
 
-        images[project] = [];
+        this.images[this.project] = [];
 
-        for (var i = 1; i <= maxImages; i++) {
+        for (let i = 1; i <= maxImages.get(this); i++) {
             imagePaths.push(path + i + '.png');
         }
 
-        asyncLoop(maxImages, function (loop) {
-            loader(imagePaths, loop.iteration()).then(function () {
-                loop.next();
-            }, function () {
-                loop.break();
-            });
-        }, function () {
-            defer.resolve(images[project]);
+        var aLoop = asyncLoop.get(this);
+        aLoop(maxImages.get(this), (loop) => {
+            this.loader(imagePaths, loop.iteration())
+                .then(() => {
+                    loop.next();
+                }, function () {
+                    loop.break();
+                });
+        }, () => {
+            defer.resolve(this.images[this.project]);
             // not sure this is useful
-            return images[project];
+            return this.images[this.project];
         });
 
         return defer.promise;
 
     }
 
-    function loader(paths, i) {
+    loader(paths, i) {
+        var $q = promise.get(this);
         var defer = $q.defer(),
             img = new Image();
 
         img.src = paths[i];
 
-        img.onload = function () {
-            images[project].push(paths[i]);
+        img.onload = () => {
+            this.images[this.project].push(paths[i]);
             defer.resolve();
         };
 
-        img.onerror = function () {
+        img.onerror = () => {
             defer.reject();
         };
         return defer.promise;

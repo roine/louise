@@ -149,7 +149,8 @@ function ParseService($q, $cacheFactory, requestsCache) {
     function findBy(type, where) {
         var defer = $q.defer();
         if (!type) {
-            return false;
+            defer.reject('type is required');
+            return defer.promise;
         }
 
         var projects = requestsCache.get('Projects');
