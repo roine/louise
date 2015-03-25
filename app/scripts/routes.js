@@ -20,7 +20,7 @@ function Routes($locationProvider, $stateProvider, $urlRouterProvider) {
             templateUrl: 'views/project.html',
             controller: 'ProjectCtrl',
             controllerAs: 'vm',
-            resolve: ProjectCtrl.resolve
+            resolve: ProjectCtrl.resolve()
         });
 
     $urlRouterProvider.otherwise('/');

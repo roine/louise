@@ -1,62 +1,85 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
 
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
 require("angular");
 require("./../services/parse");
 
+var HomeCtrl =
 /*@ngInject*/
-function HomeCtrl(parse) {
+["parse", function HomeCtrl(parse) {
+    var _this = this;
 
-    var vm = this;
-    vm.page = "home-page";
+    _classCallCheck(this, HomeCtrl);
 
+    this.page = "home-page";
     parse.getOptions().then(function (options) {
-        vm.options = options;
+        _this.options = options;
     });
 
     parse.getProjects().then(function (projects) {
-        vm.projects = projects;
+        _this.projects = projects;
     });
-}
+}];
 HomeCtrl.$inject = ["parse"];
 
-module.exports = HomeCtrl;
+angular.module("app").controller("HomeCtrl", HomeCtrl);
 
 },{"./../services/parse":17,"angular":22}],2:[function(require,module,exports){
 "use strict";
 
-require("angular");
-angular.module("app").controller("HomeCtrl", require("./home")).controller("ProjectCtrl", require("./project"));
+require("./home");
+require("./project");
 
-},{"./home":1,"./project":3,"angular":22}],3:[function(require,module,exports){
+},{"./home":1,"./project":3}],3:[function(require,module,exports){
 "use strict";
+
+var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
 require("angular");
 require("./../services/image-loader");
 require("./../services/parse");
 
-/*@ngInject*/
-function ProjectCtrl(images, project, options) {
-    var vm = this;
-    vm.page = "project-page";
+var ProjectCtrl = (function () {
+    /*@ngInject*/
 
-    vm.project = project;
-    vm.images = images;
-    vm.options = options;
-}
-ProjectCtrl.$inject = ["images", "project", "options"];
+    function ProjectCtrl(project, images, options) {
+        _classCallCheck(this, ProjectCtrl);
 
-ProjectCtrl.resolve = {
-    images: /*@ngInject*/["imageLoader", "$stateParams", function images(imageLoader, $stateParams) {
-        return imageLoader.init($stateParams.projectSlug);
-    }],
-    project: /*@ngInject*/["parse", "$stateParams", function project(parse, $stateParams) {
-        return parse.findBySlug($stateParams.projectSlug);
-    }],
-    options: /*@ngInject*/["parse", "$timeout", function options(parse, $timeout) {
-        return parse.getOptions();
-    }]
-};
+        this.page = "project-page";
+
+        this.project = project;
+        this.images = images;
+        this.options = options;
+    }
+    ProjectCtrl.$inject = ["project", "images", "options"];
+    ProjectCtrl.$inject = ["project", "images", "options"];
+
+    _createClass(ProjectCtrl, null, {
+        resolve: {
+            value: function resolve() {
+                return {
+                    images: /*@ngInject*/["imageLoader", "$stateParams", function images(imageLoader, $stateParams) {
+                        return imageLoader.init($stateParams.projectSlug);
+                    }],
+                    project: /*@ngInject*/["parse", "$stateParams", function project(parse, $stateParams) {
+                        return parse.findBySlug($stateParams.projectSlug);
+                    }],
+                    options: /*@ngInject*/["parse", "$timeout", function options(parse, $timeout) {
+                        return parse.getOptions();
+                    }]
+                };
+            }
+        }
+    });
+
+    return ProjectCtrl;
+})();
+
+angular.module("app").controller("ProjectCtrl", ProjectCtrl);
 
 module.exports = ProjectCtrl;
 
@@ -244,7 +267,7 @@ function Routes($locationProvider, $stateProvider, $urlRouterProvider) {
         templateUrl: "views/project.html",
         controller: "ProjectCtrl",
         controllerAs: "vm",
-        resolve: ProjectCtrl.resolve
+        resolve: ProjectCtrl.resolve()
     });
 
     $urlRouterProvider.otherwise("/");

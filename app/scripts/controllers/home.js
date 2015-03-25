@@ -1,19 +1,22 @@
 require('angular');
 require('./../services/parse');
 
-/*@ngInject*/
-function HomeCtrl(parse) {
+class HomeCtrl {
+    /*@ngInject*/
+    constructor(parse) {
 
-    var vm = this;
-    vm.page = "home-page";
+        this.page = 'home-page';
+        parse.getOptions().then((options) => {
+            this.options = options;
+        });
 
-    parse.getOptions().then(function (options) {
-        vm.options = options;
-    });
-
-    parse.getProjects().then(function (projects) {
-        vm.projects = projects;
-    });
+        parse.getProjects().then((projects) => {
+            this.projects = projects;
+        });
+    }
 }
 
-module.exports = HomeCtrl;
+angular.module('app')
+    .controller('HomeCtrl', HomeCtrl);
+
+

@@ -1,5 +1,3 @@
-require('angular');
-angular.module('app')
-    .controller('HomeCtrl',require('./home'))
-    .controller('ProjectCtrl', require('./project'));
+require('./home');
+require('./project');
 
