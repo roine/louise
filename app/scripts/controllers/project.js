@@ -1,5 +1,6 @@
 require('angular');
-require('./../services');
+require('./../services/image-loader');
+require('./../services/parse');
 
 /*@ngInject*/
 function ProjectCtrl(images, project, options) {

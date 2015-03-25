@@ -1,6 +1,7 @@
 var Parse = require('parse-browserify');
 require('angular');
 require('./cache');
+
 angular.module('app')
     .factory('parse', ParseService);
 

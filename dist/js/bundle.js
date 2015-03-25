@@ -2,6 +2,7 @@
 "use strict";
 
 require("angular");
+require("./../services/parse");
 
 /*@ngInject*/
 function HomeCtrl(parse) {
@@ -21,7 +22,7 @@ HomeCtrl.$inject = ["parse"];
 
 module.exports = HomeCtrl;
 
-},{"angular":22}],2:[function(require,module,exports){
+},{"./../services/parse":17,"angular":22}],2:[function(require,module,exports){
 "use strict";
 
 require("angular");
@@ -31,7 +32,8 @@ angular.module("app").controller("HomeCtrl", require("./home")).controller("Proj
 "use strict";
 
 require("angular");
-require("./../services");
+require("./../services/image-loader");
+require("./../services/parse");
 
 /*@ngInject*/
 function ProjectCtrl(images, project, options) {
@@ -58,7 +60,7 @@ ProjectCtrl.resolve = {
 
 module.exports = ProjectCtrl;
 
-},{"./../services":16,"angular":22}],4:[function(require,module,exports){
+},{"./../services/image-loader":15,"./../services/parse":17,"angular":22}],4:[function(require,module,exports){
 "use strict";
 
 require("angular");
@@ -195,7 +197,6 @@ require("./directives/templates/templates");
 require("angular");
 require("angular-route");
 require("angular-animate");
-require("jquery");
 require("angular-ui-router");
 
 angular.module("app", ["ngRoute", "ngAnimate", "ui.router"]);
@@ -206,10 +207,11 @@ angular.element(document).ready(function () {
     angular.bootstrap(document, ["app"]);
 });
 
-},{"./":9,"angular":22,"angular-animate":19,"angular-route":20,"angular-ui-router":21,"jquery":24}],11:[function(require,module,exports){
+},{"./":9,"angular":22,"angular-animate":19,"angular-route":20,"angular-ui-router":21}],11:[function(require,module,exports){
 "use strict";
 
 require("angular");
+require("./services/image-loader");
 
 angular.module("app").config(ProviderSetting);
 
@@ -220,7 +222,7 @@ function ProviderSetting(imageLoaderProvider) {
 }
 ProviderSetting.$inject = ["imageLoaderProvider"];
 
-},{"angular":22}],12:[function(require,module,exports){
+},{"./services/image-loader":15,"angular":22}],12:[function(require,module,exports){
 "use strict";
 
 require("angular");
@@ -463,6 +465,7 @@ require("./async-loop");
 var Parse = require("parse-browserify");
 require("angular");
 require("./cache");
+
 angular.module("app").factory("parse", ParseService);
 
 /*@ngInject*/

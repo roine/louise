@@ -1,4 +1,5 @@
 require('angular');
+require('./services/image-loader');
 
 angular.module('app')
     .config(ProviderSetting);

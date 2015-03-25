@@ -4,7 +4,6 @@
 require('angular');
 require('angular-route');
 require('angular-animate');
-require('jquery');
 require('angular-ui-router');
 
 angular.module('app', ['ngRoute', 'ngAnimate', 'ui.router']);

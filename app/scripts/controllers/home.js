@@ -1,4 +1,5 @@
 require('angular');
+require('./../services/parse');
 
 /*@ngInject*/
 function HomeCtrl(parse) {
