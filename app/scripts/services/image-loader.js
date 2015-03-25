@@ -1,6 +1,7 @@
 require('angular');
 require('./async-loop');
 
+
 // tweak to use private
 var _totalImages = new WeakMap();
 var _useOptim = new WeakMap();
@@ -115,6 +116,5 @@ class ImageLoader {
     }
 
 }
-
-
-module.exports = ImageLoaderService;
+angular.module('app')
+    .provider('imageLoader', ImageLoaderService);

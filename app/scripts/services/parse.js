@@ -1,7 +1,9 @@
 var Parse = require('parse-browserify');
 require('angular');
+require('./cache');
+angular.module('app')
+    .factory('parse', ParseService);
 
-/** @module parse */
 /*@ngInject*/
 function ParseService($q, $cacheFactory, requestsCache) {
     'use strict';
@@ -182,5 +184,3 @@ function ParseService($q, $cacheFactory, requestsCache) {
     }
 
 }
-
-module.exports = ParseService;

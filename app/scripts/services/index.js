@@ -1,7 +1,6 @@
-require('angular');
-angular.module('app')
-    .factory('parse', require('./parse'))
-    .factory('requestsCache', require('./cache').requests)
-    .provider('imageLoader', require('./image-loader'))
-    .factory('asyncLoop', require('./async-loop'));
+// require all the service when calling require('./services')
+require('./cache');
+require('./parse');
+require('./image-loader');
+require('./async-loop');
 

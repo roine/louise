@@ -59,9 +59,13 @@ ProjectCtrl.resolve = {
 module.exports = ProjectCtrl;
 
 },{"./../services":16,"angular":22}],4:[function(require,module,exports){
-/*@ngInject*/
 "use strict";
 
+require("angular");
+
+angular.module("app").directive("header", HeaderDirective);
+
+/*@ngInject*/
 function HeaderDirective() {
     return {
         templateUrl: "templates/header.html",
@@ -72,18 +76,20 @@ function HeaderDirective() {
     };
 }
 
-module.exports = HeaderDirective;
+},{"angular":22}],5:[function(require,module,exports){
+"use strict";
 
-},{}],5:[function(require,module,exports){
+require("./loading-indicator");
+require("./slick-carousel");
+require("./header");
+
+},{"./header":4,"./loading-indicator":6,"./slick-carousel":7}],6:[function(require,module,exports){
 "use strict";
 
 require("angular");
-angular.module("app").directive("slickCarousel", require("./slick-carousel")).directive("loadingIndicator", require("./loading-indicator")).directive("header", require("./header"));
+angular.module("app").directive("loadingIndicator", LoadingIndicatorDirective);
 
-},{"./header":4,"./loading-indicator":6,"./slick-carousel":7,"angular":22}],6:[function(require,module,exports){
 /*@ngInject*/
-"use strict";
-
 function LoadingIndicatorDirective($rootScope, $timeout) {
     return {
         restrict: "E",
@@ -109,15 +115,16 @@ function LoadingIndicatorDirective($rootScope, $timeout) {
         }
     };
 }
+LoadingIndicatorDirective.$inject = ["$rootScope", "$timeout"];
 
-module.exports = LoadingIndicatorDirective;
-
-},{}],7:[function(require,module,exports){
+},{"angular":22}],7:[function(require,module,exports){
 "use strict";
 
 require("angular");
 require("slick-carousel");
 var $ = require("jquery");
+
+angular.module("app").directive("slickCarousel", SlickCarouselDirective);
 
 /*@ngInject*/
 function SlickCarouselDirective($timeout) {
@@ -161,8 +168,6 @@ function SlickCarouselDirective($timeout) {
 }
 SlickCarouselDirective.$inject = ["$timeout"];
 
-module.exports = SlickCarouselDirective;
-
 },{"angular":22,"jquery":24,"slick-carousel":49}],8:[function(require,module,exports){
 "use strict";
 
@@ -174,8 +179,8 @@ angular.module("app").run(["$templateCache", function ($templateCache) {
 },{}],9:[function(require,module,exports){
 "use strict";
 
-require("angular");
-angular.module("app").config(require("./provider-settings")).config(require("./routes"));
+require("./routes");
+require("./provider-settings");
 
 require("./views/templates");
 require("./services");
@@ -183,7 +188,7 @@ require("./controllers");
 require("./directives");
 require("./directives/templates/templates");
 
-},{"./controllers":2,"./directives":5,"./directives/templates/templates":8,"./provider-settings":11,"./routes":12,"./services":16,"./views/templates":18,"angular":22}],10:[function(require,module,exports){
+},{"./controllers":2,"./directives":5,"./directives/templates/templates":8,"./provider-settings":11,"./routes":12,"./services":16,"./views/templates":18}],10:[function(require,module,exports){
 "use strict";
 
 // Libraries
@@ -202,21 +207,27 @@ angular.element(document).ready(function () {
 });
 
 },{"./":9,"angular":22,"angular-animate":19,"angular-route":20,"angular-ui-router":21,"jquery":24}],11:[function(require,module,exports){
-/*@ngInject*/
 "use strict";
 
+require("angular");
+
+angular.module("app").config(ProviderSetting);
+
+/*@ngInject*/
 function ProviderSetting(imageLoaderProvider) {
     imageLoaderProvider.totalImages = 5;
     imageLoaderProvider.useOptim = true;
 }
+ProviderSetting.$inject = ["imageLoaderProvider"];
 
-module.exports = ProviderSetting;
-
-},{}],12:[function(require,module,exports){
+},{"angular":22}],12:[function(require,module,exports){
 "use strict";
 
 require("angular");
 var ProjectCtrl = require("./controllers/project");
+
+angular.module("app").config(Routes);
+
 /*@ngInject*/
 function Routes($locationProvider, $stateProvider, $urlRouterProvider) {
     $locationProvider.hashPrefix("!");
@@ -238,10 +249,10 @@ function Routes($locationProvider, $stateProvider, $urlRouterProvider) {
 }
 Routes.$inject = ["$locationProvider", "$stateProvider", "$urlRouterProvider"];
 
-module.exports = Routes;
-
 },{"./controllers/project":3,"angular":22}],13:[function(require,module,exports){
 "use strict";
+
+angular.module("app").factory("asyncLoop", AsyncLoop);
 
 function AsyncLoop() {
     return function (iterations, func, callback) {
@@ -276,21 +287,19 @@ function AsyncLoop() {
     };
 }
 
-module.exports = AsyncLoop;
-
 },{}],14:[function(require,module,exports){
-/*@ngInject*/
 "use strict";
 
+require("angular");
+angular.module("app").factory("requestsCache", CacheRequestsService);
+
+/*@ngInject*/
 function CacheRequestsService($cacheFactory) {
     return $cacheFactory("requests");
 }
+CacheRequestsService.$inject = ["$cacheFactory"];
 
-module.exports = {
-    requests: CacheRequestsService
-};
-
-},{}],15:[function(require,module,exports){
+},{"angular":22}],15:[function(require,module,exports){
 "use strict";
 
 var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -437,21 +446,25 @@ var ImageLoader = (function () {
     return ImageLoader;
 })();
 
-module.exports = ImageLoaderService;
+angular.module("app").provider("imageLoader", ImageLoaderService);
 
 },{"./async-loop":13,"angular":22}],16:[function(require,module,exports){
+// require all the service when calling require('./services')
 "use strict";
 
-require("angular");
-angular.module("app").factory("parse", require("./parse")).factory("requestsCache", require("./cache").requests).provider("imageLoader", require("./image-loader")).factory("asyncLoop", require("./async-loop"));
+require("./cache");
+require("./parse");
+require("./image-loader");
+require("./async-loop");
 
-},{"./async-loop":13,"./cache":14,"./image-loader":15,"./parse":17,"angular":22}],17:[function(require,module,exports){
+},{"./async-loop":13,"./cache":14,"./image-loader":15,"./parse":17}],17:[function(require,module,exports){
 "use strict";
 
 var Parse = require("parse-browserify");
 require("angular");
+require("./cache");
+angular.module("app").factory("parse", ParseService);
 
-/** @module parse */
 /*@ngInject*/
 function ParseService($q, $cacheFactory, requestsCache) {
     "use strict";
@@ -631,9 +644,7 @@ function ParseService($q, $cacheFactory, requestsCache) {
 }
 ParseService.$inject = ["$q", "$cacheFactory", "requestsCache"];
 
-module.exports = ParseService;
-
-},{"angular":22,"parse-browserify":48}],18:[function(require,module,exports){
+},{"./cache":14,"angular":22,"parse-browserify":48}],18:[function(require,module,exports){
 "use strict";
 
 angular.module("app").run(["$templateCache", function ($templateCache) {

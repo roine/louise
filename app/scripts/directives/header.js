@@ -1,3 +1,8 @@
+require('angular');
+
+angular.module('app')
+    .directive('header', HeaderDirective);
+
 /*@ngInject*/
 function HeaderDirective() {
     return {
@@ -10,4 +15,3 @@ function HeaderDirective() {
     };
 }
 
-module.exports = HeaderDirective;

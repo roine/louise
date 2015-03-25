@@ -2,6 +2,9 @@ require('angular');
 require('slick-carousel');
 var $ = require('jquery');
 
+angular.module('app')
+    .directive('slickCarousel', SlickCarouselDirective);
+
 /*@ngInject*/
 function SlickCarouselDirective($timeout) {
     return {
@@ -48,5 +51,3 @@ function SlickCarouselDirective($timeout) {
         }
     };
 }
-
-module.exports = SlickCarouselDirective;

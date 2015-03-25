@@ -1,3 +1,5 @@
+angular.module('app').factory('asyncLoop', AsyncLoop);
+
 function AsyncLoop() {
     return function (iterations, func, callback) {
         var index = 0;
@@ -31,6 +33,3 @@ function AsyncLoop() {
         return loop;
     };
 }
-
-
-module.exports = AsyncLoop;

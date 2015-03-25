@@ -1,3 +1,7 @@
+require('angular');
+angular.module('app')
+    .directive('loadingIndicator', LoadingIndicatorDirective);
+
 /*@ngInject*/
 function LoadingIndicatorDirective($rootScope, $timeout) {
     return {
@@ -24,5 +28,3 @@ function LoadingIndicatorDirective($rootScope, $timeout) {
         }
     };
 }
-
-module.exports = LoadingIndicatorDirective;

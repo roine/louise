@@ -1,7 +1,5 @@
-require('angular');
-angular.module('app')
-    .config(require('./provider-settings'))
-    .config(require('./routes'));
+require('./routes');
+require('./provider-settings');
 
 require('./views/templates');
 require('./services');

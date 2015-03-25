@@ -1,6 +1,3 @@
-require('angular');
-angular.module('app')
-    .directive('slickCarousel', require('./slick-carousel'))
-    .directive('loadingIndicator', require('./loading-indicator'))
-    .directive('header', require('./header'));
-
+require('./loading-indicator');
+require('./slick-carousel');
+require('./header');
